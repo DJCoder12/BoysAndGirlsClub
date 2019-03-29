@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "106060296759",
+    "firebase_url": "https://boys-and-girls-club-events.firebaseio.com",
+    "project_id": "boys-and-girls-club-events",
+    "storage_bucket": "boys-and-girls-club-events.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106060296759:android:00fa0b5500784018",
+        "android_client_info": {
+          "package_name": "com.example.boysandgirlsclubevents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106060296759-l5g4rh4lh2u7psjp839b2oja6af8t597.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boysandgirlsclubevents",
+            "certificate_hash": "104fac3e7ca0430412c6efc799f2b071278b2d90"
+          }
+        },
+        {
+          "client_id": "106060296759-d489aq3ajcvqmm4jtar8j93e0f5igs8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtVV1m3aJ-01Qgi_4H1uJvPFyv__GGGnc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106060296759-d489aq3ajcvqmm4jtar8j93e0f5igs8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
