@@ -51,10 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void register() {
-        // TODO: Should users be allowed to register through the app? Or other mechanism?
-    }
-
     public boolean validateInput() {
         // Get email and password as strings.
         String email = mEmailField.getText().toString();
