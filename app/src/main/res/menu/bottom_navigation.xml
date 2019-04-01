@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_calendar"
+        android:title="@string/calendar"
+        android:icon="@drawable/ic_calendar"/>
+    <item
+        android:id="@+id/nav_announcements"
+        android:title="@string/announcements"
+        android:icon="@drawable/ic_chat_bubble"/>
+    <item
+        android:id="@+id/nav_members_of_the_month"
+        android:title="@string/members_of_the_month"
+        android:icon="@drawable/ic_face"/>
+
+</menu>
