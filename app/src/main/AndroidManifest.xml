@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddEventsActivity"></activity>
+        <activity android:name=".AddEventsActivity"
+            android:label="@string/title_add_events_activity">
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_login_activity"></activity>
-        <activity android:name=".AddEventsActivity"
-            android:label="@string/title_add_event_activity"></activity>
         <activity
             android:name=".NavigationActivity"
             android:label="@string/app_name"
