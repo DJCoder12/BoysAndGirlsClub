@@ -87,6 +87,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
 
+        // Clear password field.
+        mPasswordField.setText("");
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
