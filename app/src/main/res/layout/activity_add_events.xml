@@ -48,6 +48,8 @@
         android:ems="10"
         android:inputType="time"
         android:text="@string/hint_start_time"
+        android:onClick="showTimePicker"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_location"
         app:layout_constraintStart_toEndOf="@id/editText_startDate" />
