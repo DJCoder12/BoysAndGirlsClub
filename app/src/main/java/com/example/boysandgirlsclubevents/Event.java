@@ -8,18 +8,22 @@ class Event {
     String Date;
     String Age;
     File Icon;
+    String Location;
 
-    public Event(String title, String date, String age, File icon){
+    public Event(String title, String date, String age, String location, File icon){
         Title = title;
         Date = date;
         Age = age;
+        Location = location;
         Icon = icon;
     }
 
-    public Event(String title, String date, String age){
+    public Event(String title, String date, String age, String location){
         Title = title;
         Date = date;
         Age = age;
+        Location = location;
+
     }
 
 
@@ -37,6 +41,10 @@ class Event {
 
     protected void setIcon(File newIcon){
         this.Icon = newIcon;
+    }
+
+    protected void setLocation(String newLocation){
+        this.Location = newLocation;
     }
 
 }
