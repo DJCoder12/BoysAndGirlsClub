@@ -15,6 +15,7 @@
     <!-- Strings related to login -->
     <string name="title_login_activity">Sign In</string>
     <string name="button_login">Login</string>
+    <string name="button_logout">Log Out</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
 

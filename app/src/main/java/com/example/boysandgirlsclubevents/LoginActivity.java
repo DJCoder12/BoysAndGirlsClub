@@ -1,5 +1,6 @@
 package com.example.boysandgirlsclubevents;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,13 +21,12 @@ public class LoginActivity extends AppCompatActivity {
 
     // Firebase Authentication.
     private FirebaseAuth mAuth;
-
+    private FirebaseUser mUser;
 
     // Activity UI elements.
     private EditText mEmailField;
     private EditText mPasswordField;
     private Button mLoginButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         // Get Firebase instance.
         mAuth = FirebaseAuth.getInstance();
 
-        // Wire up the button.
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        // Ensure that UI reflects current status.
+        mUser = mAuth.getCurrentUser();
+        updateUI();
     }
 
     public boolean validateInput() {
@@ -71,7 +67,16 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    public void login() {
+    public void login(View v) {
+        // Log out if currently logged in.
+        if (mUser != null) {
+            mAuth.signOut();
+            mUser = null;
+            updateUI();
+            return;
+        }
+
+        // Validate input.
         if (!validateInput()) {
             return;
         }
@@ -79,9 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         // Get email and password as strings.
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
-
-        // Clear the password field.
-        mPasswordField.setText("");
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -96,7 +98,34 @@ public class LoginActivity extends AppCompatActivity {
                                     "Login failed. Check your credentials.",
                                     Toast.LENGTH_SHORT).show();
                         }
+                        mUser = mAuth.getCurrentUser();
+                        updateUI();
                     }
                 });
+    }
+
+    private void updateUI() {
+        if (mUser == null) {
+            // Enable both fields.
+            mEmailField.setEnabled(true);
+            mPasswordField.setEnabled(true);
+
+            // Clear both fields.
+            mEmailField.setText("");
+            mPasswordField.setText("");
+
+            // Update login button text.
+            mLoginButton.setText(getResources().getString(R.string.button_login));
+        } else {
+            // Disable both fields.
+            mEmailField.setEnabled(false);
+            mPasswordField.setEnabled(false);
+
+            // Show the current user's email.
+            mEmailField.setText(mUser.getEmail());
+
+            // Update login button text.
+            mLoginButton.setText(getResources().getString(R.string.button_logout));
+        }
     }
 }
