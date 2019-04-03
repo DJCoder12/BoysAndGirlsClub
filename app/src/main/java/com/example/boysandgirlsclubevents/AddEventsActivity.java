@@ -9,12 +9,17 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.security.spec.InvalidParameterSpecException;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class AddEventsActivity extends AppCompatActivity {
@@ -29,6 +34,12 @@ public class AddEventsActivity extends AppCompatActivity {
     private EditText mStartDateField;
     private EditText mStartTimeField;
     private EditText mEndTimeField;
+
+    // Formats based on locales.
+    public static java.text.DateFormat mDateFormat =
+            java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM);
+    public static java.text.DateFormat mTimeFormat =
+            java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,51 @@ public class AddEventsActivity extends AppCompatActivity {
         df.show(getSupportFragmentManager(), "Date Picker");
     }
 
+    public boolean validateTimeDifference() {
+        // Get formatted dates.
+        String startDateFormatted = mStartDateField.getText().toString();
+        String endDateFormatted = mEndDateField.getText().toString();
+
+        // Validation.
+        try {
+            if (mDateFormat.parse(startDateFormatted).getTime() >
+                    mDateFormat.parse(endDateFormatted).getTime()) {
+                return false;
+            }
+        } catch (ParseException pe) {
+            return false;
+        }
+
+        return true;
+    }
+
+    //
+    // NOTE: this code is temporary and will be useful for future integration.
+    //
+    public void parseDateTimes(View v) {
+        // Get the formatted string from the field.
+        String startDateFormatted = mStartDateField.getText().toString();
+
+        if (startDateFormatted.isEmpty()) {
+            Toast.makeText(this, "Please supply a start date.", Toast.LENGTH_SHORT).show();
+        }
+
+        // Parse date field.
+        Date d;
+        try {
+            d = mDateFormat.parse(startDateFormatted);
+        } catch (ParseException pe) {
+            Log.d(TAG, "Failed to parse exception.");
+            return;
+        }
+
+        // Verify that date is parsable.
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(d);
+        Log.d(TAG, String.format("Date given: %d/%d/%d", startDate.get(Calendar.YEAR),
+                startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH)));
+    }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         public static String viewId = "editTextId";
@@ -106,12 +162,11 @@ public class AddEventsActivity extends AppCompatActivity {
             EditText et = getActivity().findViewById(id);
 
             // Get the time in the correct format.
-            java.text.DateFormat f = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM);
             Calendar c = new GregorianCalendar(year, month, dayOfMonth,
                     0, 0);
 
             // Update the EditText to reflect the date chosen.
-            et.setText(f.format(c.getTime()));
+            et.setText(mDateFormat.format(c.getTime()));
         }
     }
 
@@ -150,12 +205,11 @@ public class AddEventsActivity extends AppCompatActivity {
             EditText et = getActivity().findViewById(id);
 
             // Get the time in the correct format.
-            java.text.DateFormat f = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT);
             Calendar c = new GregorianCalendar(0, 0, 0,
                     hourOfDay, minute);
 
             // Update the EditText to reflect the time chosen.
-            et.setText(f.format(c.getTime()));
+            et.setText(mTimeFormat.format(c.getTime()));
         }
     }
 }
