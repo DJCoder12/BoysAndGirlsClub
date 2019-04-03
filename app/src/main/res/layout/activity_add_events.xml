@@ -8,12 +8,12 @@
 
     <EditText
         android:id="@+id/editText_title"
-        android:layout_width="300dp"
+        android:layout_width="380dp"
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/hint_title"
-        app:layout_constraintVertical_bias="0.2"
+        android:hint="@string/hint_title"
+        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,11 +21,11 @@
 
     <EditText
         android:id="@+id/editText_location"
-        android:layout_width="300dp"
+        android:layout_width="380dp"
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/hint_location"
+        android:hint="@string/hint_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_title" />
@@ -36,20 +36,24 @@
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="date"
-        android:text="@string/hint_start_date"
+        android:hint="@string/hint_start_date"
+        android:onClick="showDatePicker"
+        android:focusable="false"
+        android:gravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_location"
         app:layout_constraintEnd_toStartOf="@id/editText_startTime" />
 
     <EditText
         android:id="@+id/editText_startTime"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="time"
-        android:text="@string/hint_start_time"
+        android:hint="@string/hint_start_time"
         android:onClick="showTimePicker"
         android:focusable="false"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_location"
         app:layout_constraintStart_toEndOf="@id/editText_startDate" />
@@ -60,47 +64,48 @@
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="date"
-        android:text="@string/hint_end_date"
+        android:hint="@string/hint_end_date"
+        android:onClick="showDatePicker"
+        android:focusable="false"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/editText_startDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/editText_endTime" />
 
     <EditText
         android:id="@+id/editText_endTime"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="time"
-        android:text="@string/hint_end_time"
+        android:hint="@string/hint_end_time"
+        android:onClick="showTimePicker"
+        android:focusable="false"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/editText_startTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/editText_endDate" />
 
     <EditText
         android:id="@+id/editText_description"
-        android:layout_width="wrap_content"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:text="@string/hint_description"
+        android:hint="@string/hint_description"
+        android:lines="8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_endDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_endDate" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Button"
-        android:onClick="onClickTest"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/button_submit"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_description" />
-
 
 </android.support.constraint.ConstraintLayout>

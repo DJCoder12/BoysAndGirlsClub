@@ -1,6 +1,7 @@
 package com.example.boysandgirlsclubevents;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
@@ -44,37 +46,93 @@ public class AddEventsActivity extends AppCompatActivity {
     }
 
     public void showTimePicker(View v) {
-         DialogFragment df = new TimePickerFragment();
+        // Create an instance of the TimePickerFragment subclass.
+        DialogFragment df = new TimePickerFragment();
 
-         // Tell the fragment what is the ID of the view to modify.
-         Bundle b = new Bundle();
-         b.putInt(TimePickerFragment.viewId, v.getId());
-         df.setArguments(b);
+        // Tell the fragment what view to modify.
+        Bundle b = new Bundle();
+        b.putInt(TimePickerFragment.viewId, v.getId());
+        df.setArguments(b);
 
-         df.show(getSupportFragmentManager(), "Time Picker");
+        // Show the dialog.
+        df.show(getSupportFragmentManager(), "Time Picker");
+    }
+
+    public void showDatePicker(View v) {
+        // Create an instance of DatePickerFragment subclass.
+        DialogFragment df = new DatePickerFragment();
+
+        // Tell the fragment what view to modify.
+        Bundle b = new Bundle();
+        b.putInt(TimePickerFragment.viewId, v.getId());
+        df.setArguments(b);
+
+        // Show the dialog.
+        df.show(getSupportFragmentManager(), "Date Picker");
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+        public static String viewId = "editTextId";
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date values in the picker.
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            // Get the arguments passed to the date picker.
+            Bundle b = this.getArguments();
+            if (b == null) {
+                return;
+            }
+
+            // Get the id of the EditText to update.
+            Integer id = b.getInt(viewId);
+
+            // Get the parent activity and validate.
+            Activity parentActivity = getActivity();
+            if (parentActivity == null) {
+                return;
+            }
+            EditText et = getActivity().findViewById(id);
+
+            // Get the time in the correct format.
+            java.text.DateFormat f = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM);
+            Calendar c = new GregorianCalendar(year, month, dayOfMonth,
+                    0, 0);
+
+            // Update the EditText to reflect the date chosen.
+            et.setText(f.format(c.getTime()));
+        }
     }
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
-        public static String viewId = "edittextId";
+        public static String viewId = "editTextId";
 
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Use the current date and time values in the picker.
+            // Use the current time values in the picker.
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
 
-            return new TimePickerDialog(getActivity(), this, hour, minute,
+            return new TimePickerDialog(getActivity(), this, hour, 0,
                     DateFormat.is24HourFormat(getActivity()));
         }
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
             // Get the arguments passed to the time picker.
             Bundle b = this.getArguments();
             if (b == null) {
@@ -92,12 +150,12 @@ public class AddEventsActivity extends AppCompatActivity {
             EditText et = getActivity().findViewById(id);
 
             // Get the time in the correct format.
-            java.text.DateFormat f = DateFormat.getTimeFormat(getContext());
+            java.text.DateFormat f = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT);
             Calendar c = new GregorianCalendar(0, 0, 0,
-                    hourOfDay, minute, 0);
+                    hourOfDay, minute);
 
             // Update the EditText to reflect the time chosen.
-            et.setText(f.format(c));
+            et.setText(f.format(c.getTime()));
         }
     }
 }
