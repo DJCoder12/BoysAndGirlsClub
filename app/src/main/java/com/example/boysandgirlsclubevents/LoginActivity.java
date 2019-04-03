@@ -3,6 +3,7 @@ package com.example.boysandgirlsclubevents;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,11 +51,32 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void register() {
-        // TODO: Should users be allowed to register through the app? Or other mechanism?
+    public boolean validateInput() {
+        // Get email and password as strings.
+        String email = mEmailField.getText().toString();
+        String password = mPasswordField.getText().toString();
+
+        // Ensure that input is not empty.
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Username and/or password cannot be blank.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Ensure that email is a valid email.
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter a valid email.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void login() {
+        if (!validateInput()) {
+            return;
+        }
+
+        // Get email and password as strings.
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
 
