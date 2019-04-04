@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,11 +175,25 @@ public class NavigationActivity extends AppCompatActivity
         mFragments.add(memberOfMonthFragment);
     }
 
+    private Fragment getFragment(int index)
+    {
+        //CalendarFragment must be reloaded every time to avoid blank view pager
+        if (index == 0)
+        {
+            return new CalendarFragment();
+        }
+
+        else
+        {
+            return mFragments.get(index);
+        }
+    }
+
     private void showFragment(int pos, String tag)
     {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_fragmentHolder_main, mFragments.get(pos), tag)
+                .replace(R.id.frame_fragmentHolder_main, getFragment(pos), tag)
                 .commit();
     }
 }

@@ -1,17 +1,23 @@
-package com.example.boysandgirlsclubevents;
+package com.example.boysandgirlsclubevents.Calendar;
 
-import com.google.android.gms.common.util.Strings;
+import android.util.Log;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
-public class ClubCalendar {
+public class ClubCalendar
+{
+    private final static String TAG = "ClubCalendar";
+    private static Calendar mCalendar;
 
-
+    public ClubCalendar()
+    {
+        mCalendar = Calendar.getInstance();
+        mCalendar.setLenient(false);
+    }
 
     HashMap<String, HashMap > years = new HashMap<String, HashMap>();
     HashMap<String, ArrayList> monthsOfYear = new HashMap<String, ArrayList>();
@@ -76,6 +82,17 @@ public class ClubCalendar {
         ArrayList<Event> monthEvents = monthsOfYear.get(month);
         monthEvents.remove(event);
 
+    }
+
+    public int getCurrentDate()
+    {
+
+        return mCalendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getCurrentDaysInMonth()
+    {
+        return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
 }
