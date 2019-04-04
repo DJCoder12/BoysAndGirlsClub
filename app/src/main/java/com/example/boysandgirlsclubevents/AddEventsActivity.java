@@ -9,18 +9,17 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.security.spec.InvalidParameterSpecException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class AddEventsActivity extends AppCompatActivity {
 
@@ -86,47 +85,50 @@ public class AddEventsActivity extends AppCompatActivity {
         // Get formatted dates.
         String startDateFormatted = mStartDateField.getText().toString();
         String endDateFormatted = mEndDateField.getText().toString();
+        String startTimeFormatted = mStartTimeField.getText().toString();
+        String endTimeFormatted = mEndTimeField.getText().toString();
 
-        // Validation.
+        // Parse the dates and times.
+        Date startDate, endDate, startTime, endTime;
         try {
-            if (mDateFormat.parse(startDateFormatted).getTime() >
-                    mDateFormat.parse(endDateFormatted).getTime()) {
-                return false;
-            }
+            startDate = mDateFormat.parse(startDateFormatted);
+            endDate = mDateFormat.parse(endDateFormatted);
+            startTime = mTimeFormat.parse(startTimeFormatted);
+            endTime = mTimeFormat.parse(endTimeFormatted);
         } catch (ParseException pe) {
             return false;
         }
 
-        return true;
+        // Create the offset value to convert from UTC to local.
+        TimeZone tz = mDateFormat.getTimeZone();
+        int offset = tz.getRawOffset();
+
+        // Create calendars for comparison.
+        Date start = new Date();
+        start.setTime(startTime.getTime() + startDate.getTime() + offset);
+        Date end = new Date();
+        end.setTime(endTime.getTime() + endDate.getTime() + offset);
+
+        // Return result of comparison.
+        return end.getTime() > start.getTime();
     }
 
-    //
-    // NOTE: this code is temporary and will be useful for future integration.
-    //
-    public void parseDateTimes(View v) {
-        // Get the formatted string from the field.
-        String startDateFormatted = mStartDateField.getText().toString();
+    public void submit(View v) {
+        if (!validateTimeDifference()) {
+            Toast.makeText(this, "End date/time must be after start date/time.", Toast.LENGTH_SHORT).show();
 
-        if (startDateFormatted.isEmpty()) {
-            Toast.makeText(this, "Please supply a start date.", Toast.LENGTH_SHORT).show();
+            // Clear the fields.
+            mStartDateField.setText("");
+            mStartTimeField.setText("");
+            mEndDateField.setText("");
+            mEndTimeField.setText("");
+        } else {
+            // TODO: implement logic for this.
+            Toast.makeText(this, "New event created successfully.", Toast.LENGTH_SHORT).show();
         }
-
-        // Parse date field.
-        Date d;
-        try {
-            d = mDateFormat.parse(startDateFormatted);
-        } catch (ParseException pe) {
-            Log.d(TAG, "Failed to parse exception.");
-            return;
-        }
-
-        // Verify that date is parsable.
-        Calendar startDate = Calendar.getInstance();
-        startDate.setTime(d);
-        Log.d(TAG, String.format("Date given: %d/%d/%d", startDate.get(Calendar.YEAR),
-                startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH)));
     }
 
+    // Subclass for creating the DatePicker dialog.
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         public static String viewId = "editTextId";
@@ -170,6 +172,7 @@ public class AddEventsActivity extends AppCompatActivity {
         }
     }
 
+    // Subclass for creating the TimePicker dialog.
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
