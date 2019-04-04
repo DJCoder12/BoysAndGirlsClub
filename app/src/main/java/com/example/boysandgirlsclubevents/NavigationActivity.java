@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
+import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,7 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_action_bar, menu);
         return true;
     }
 
@@ -132,24 +133,22 @@ public class NavigationActivity extends AppCompatActivity
     {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        CalendarFragment calendarFragment = (CalendarFragment) mFragments.get(0);
 
         if (id == R.id.nav_log_in)
         {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
         else if (id == R.id.nav_ann_street)
         {
 
 
         }
-
         else if (id == R.id.nav_water_street)
         {
 
         }
-
         else if (id == R.id.nav_lemon_street)
         {
 
@@ -157,6 +156,21 @@ public class NavigationActivity extends AppCompatActivity
         else if (id == R.id.nav_columbia)
         {
 
+        }
+        else if (id == R.id.nav_view_daily)
+        {
+            CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Daily);
+            showFragment(0, CalendarFragment.TAG);
+        }
+        else if (id == R.id.nav_view_weekly)
+        {
+            CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Weekly);
+            showFragment(0, CalendarFragment.TAG);
+        }
+        else if (id == R.id.nav_view_monthly)
+        {
+            CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Monthly);
+            showFragment(0, CalendarFragment.TAG);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

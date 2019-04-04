@@ -7,14 +7,23 @@
     <string name="announcements">Announcements</string>
     <string name="members_of_the_month">MotM</string>
 
-    <!-- Location Drawer -->
+    <!-- Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Boys and Girls Club Events</string>
+    <string name="locations_title">Locations</string>
+    <string name="views_title">Views</string>
+    <string name="water_street">Water Street</string>
+    <string name="lemon_street">Lemon Street</string>
+    <string name="columbia">Columbia</string>
+    <string name="ann_street">Ann Street</string>
+    <string name="view_daily">Daily</string>
+    <string name="view_weekly">Weekly</string>
+    <string name="view_monthly">Monthly</string>
 
     <!-- Strings related to login -->
     <string name="title_login_activity">Sign In</string>
-    <string name="button_login">Login</string>
+    <string name="button_login">Sign In</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
 

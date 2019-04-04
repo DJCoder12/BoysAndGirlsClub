@@ -16,7 +16,6 @@ public class CalendarDailyFragment extends Fragment
     private static final String TAG = "CalendarDailyFragment";
     private static final String DATE_KEY = "date";
     private static final String MONTH_KEY = "month";
-
     private int mDate;
 
     private TextView mDateText;

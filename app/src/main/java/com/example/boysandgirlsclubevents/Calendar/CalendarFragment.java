@@ -1,9 +1,7 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -12,23 +10,13 @@ import android.view.ViewGroup;
 
 import com.example.boysandgirlsclubevents.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CalendarFragment extends Fragment
 {
     public static String TAG = "CalendarFragment";
-    private Map<String, Fragment> fragmentMap = new HashMap<>();
-    enum CalendarType
-    {
-        Daily,
-        Weekly,
-        Monthly
-    }
-
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
     private ClubCalendar mClubCalendar;
+
+    private FragmentStatePagerAdapter mPagerAdapter;
+    private ViewPager mPager;
 
     public CalendarFragment()
     {
@@ -47,8 +35,6 @@ public class CalendarFragment extends Fragment
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        buildFragmentMap();
-        showCalendarType(fragmentMap.get(CalendarType.Daily.name()), CalendarType.Daily.name());
         setUpPager(view);
         return view;
     }
@@ -56,46 +42,55 @@ public class CalendarFragment extends Fragment
     private void setUpPager(View view)
     {
         mPager = view.findViewById(R.id.vp_calendar);
-        mPagerAdapter = new PagerAdapter(getFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        CalendarSettings.CalendarType curCalendarType = CalendarSettings.getCalendarType();
 
-        //The pager is 0 indexed so to convert to index, subtract 1
-        mPager.setCurrentItem(mClubCalendar.getCurrentDate() - 1, true);
+        if (curCalendarType == CalendarSettings.CalendarType.Daily)
+        {
+            showDailyCalendar();
+        }
+        else if (curCalendarType == CalendarSettings.CalendarType.Weekly)
+        {
+            showWeeklyCalendar();
+        }
+        else if (curCalendarType == CalendarSettings.CalendarType.Monthly)
+        {
+            showMonthlyCalendar();
+        }
     }
 
-    private void buildFragmentMap()
+    private void showDailyCalendar()
     {
-        fragmentMap.put(CalendarType.Daily.name(), new CalendarDailyFragment());
-        fragmentMap.put(CalendarType.Weekly.name(), new CalendarWeeklyFragment());
-        fragmentMap.put(CalendarType.Monthly.name(), new CalendarMonthlyFragment());
+        mPagerAdapter = new DailyPagerAdapter(getFragmentManager(), mClubCalendar);
+
+        if (mPager != null)
+        {
+            mPager.setAdapter(mPagerAdapter);
+
+            //The pager is 0 indexed so to convert to index, subtract 1
+            mPager.setCurrentItem(mClubCalendar.getCurrentDate() - 1, true);
+        }
     }
 
-    private void showCalendarType(Fragment fragment, String tag)
+    private void showWeeklyCalendar()
     {
-        /*getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_calendar, fragment, tag)
-                .commit();*/
+        mPagerAdapter = new WeeklyPagerAdapter(getFragmentManager(), mClubCalendar);
+
+        if (mPager != null)
+        {
+            mPager.setAdapter(mPagerAdapter);
+        }
+        //TODO: Init current item
     }
 
-    private class PagerAdapter extends FragmentStatePagerAdapter
+    private void showMonthlyCalendar()
     {
-        public PagerAdapter(FragmentManager fragmentManager)
+        mPagerAdapter = new MonthlyPagerAdapter(getFragmentManager(), mClubCalendar);
+
+        if (mPager != null)
         {
-            super(fragmentManager);
+            mPager.setAdapter(mPagerAdapter);
         }
 
-        @Override
-        public Fragment getItem(int position)
-        {
-            //The pager is 0 indexed so to convert to date, add 1
-            return CalendarDailyFragment.newInstance(position + 1, "April");
-        }
-
-        @Override
-        public int getCount()
-        {
-            return mClubCalendar.getCurrentDaysInMonth();
-        }
+        //TODO: Init current item
     }
 }

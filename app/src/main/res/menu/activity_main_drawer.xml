@@ -4,26 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="Locations">
+    <item android:title="@string/views_title">
+        <menu>
+            <item
+                android:id="@+id/nav_view_daily"
+                android:title="@string/view_daily"/>
+            <item
+                android:id="@+id/nav_view_weekly"
+                android:title="@string/view_weekly"/>
+            <item
+                android:id="@+id/nav_view_monthly"
+                android:title="@string/view_monthly"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/locations_title">
         <menu>
             <item
                 android:id="@+id/nav_water_street"
-                android:title="Water Street" />
+                android:title="@string/water_street" />
             <item
                 android:id="@+id/nav_lemon_street"
-                android:title="Lemon Street" />
+                android:title="@string/lemon_street" />
             <item
                 android:id="@+id/nav_columbia"
-                android:title="Columbia" />
+                android:title="@string/columbia" />
             <item
                 android:id="@+id/nav_ann_street"
-                android:title="Ann Street" />
+                android:title="@string/ann_street" />
         </menu>
     </item>
 
     <item
         android:id="@+id/nav_log_in"
         android:icon="@drawable/ic_menu_log_in"
-        android:title="Log In" />
+        android:title="@string/title_login_activity" />
 
 </menu>
