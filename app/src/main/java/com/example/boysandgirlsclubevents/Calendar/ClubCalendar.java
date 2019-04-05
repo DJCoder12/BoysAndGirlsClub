@@ -7,16 +7,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ClubCalendar
 {
     private final static String TAG = "ClubCalendar";
-    private static Calendar mCalendar;
 
     public ClubCalendar()
     {
-        mCalendar = Calendar.getInstance();
-        mCalendar.setLenient(false);
+
     }
 
     HashMap<String, HashMap > years = new HashMap<String, HashMap>();
@@ -84,15 +83,41 @@ public class ClubCalendar
 
     }
 
+    public int getCurrentYearCode()
+    {
+        return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public int getCurrentMonthCode()
+    {
+        return Calendar.getInstance().get(Calendar.MONTH);
+    }
+
     public int getCurrentDate()
     {
-
-        return mCalendar.get(Calendar.DAY_OF_MONTH);
+        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 
     public int getCurrentDaysInMonth()
     {
-        return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        return Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    public String getCurrentMonth()
+    {
+        return Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+    }
+
+    public String getCurrentDayOfWeek()
+    {
+        return Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
+    }
+
+    public String getDayOfWeek(int year, int month, int date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, date);
+        return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
     }
 
 }

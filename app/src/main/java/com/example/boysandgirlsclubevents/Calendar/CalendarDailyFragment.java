@@ -16,15 +16,20 @@ public class CalendarDailyFragment extends Fragment
     private static final String TAG = "CalendarDailyFragment";
     private static final String DATE_KEY = "date";
     private static final String MONTH_KEY = "month";
+    private static final String DAY_KEY = "day";
+
     private int mDate;
+    private String mDay;
 
     private TextView mDateText;
+    private TextView mDayText;
 
-    public static CalendarDailyFragment newInstance(int date, String month)
+    public static CalendarDailyFragment newInstance(int date, String month, String dayOfWeek)
     {
         Bundle args = new Bundle();
         args.putInt(DATE_KEY, date);
         args.putString(MONTH_KEY, month);
+        args.putString(DAY_KEY, dayOfWeek);
 
         CalendarDailyFragment fragment = new CalendarDailyFragment();
         fragment.setArguments(args);
@@ -34,9 +39,11 @@ public class CalendarDailyFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
+        Bundle args = getArguments();
+        if (args != null)
         {
-            mDate = getArguments().getInt(DATE_KEY);
+            mDate = args.getInt(DATE_KEY);
+            mDay = args.getString(DAY_KEY);
         }
     }
 
@@ -52,6 +59,8 @@ public class CalendarDailyFragment extends Fragment
     private void setUpDate(View view)
     {
         mDateText = view.findViewById(R.id.tv_date_daily);
+        mDayText = view.findViewById(R.id.tv_day_daily);
         mDateText.setText(String.valueOf(mDate));
+        mDayText.setText(String.valueOf(mDay));
     }
 }

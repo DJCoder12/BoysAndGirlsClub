@@ -78,8 +78,9 @@ public class CalendarFragment extends Fragment
         if (mPager != null)
         {
             mPager.setAdapter(mPagerAdapter);
+            //TODO: Init current item
         }
-        //TODO: Init current item
+
     }
 
     private void showMonthlyCalendar()
@@ -89,8 +90,7 @@ public class CalendarFragment extends Fragment
         if (mPager != null)
         {
             mPager.setAdapter(mPagerAdapter);
+            //TODO: Init current item
         }
-
-        //TODO: Init current item
     }
 }
