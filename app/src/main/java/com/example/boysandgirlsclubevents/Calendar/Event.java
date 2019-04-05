@@ -2,49 +2,62 @@ package com.example.boysandgirlsclubevents.Calendar;
 
 import java.io.File;
 
-class Event {
+public class Event {
 
-    String Title;
-    String Date;
-    String Age;
-    File Icon;
-    String Location;
+    private String mTitle;
+    private String mDate;
+    private String mAge;
+    private File mIcon;
+    private ClubLocation mClubLocation;
 
-    public Event(String title, String date, String age, String location, File icon){
-        Title = title;
-        Date = date;
-        Age = age;
-        Location = location;
-        Icon = icon;
+    public enum ClubLocation
+    {
+        WaterStreet,
+        LemonStreet,
+        AnnStreet,
+        Columbia
     }
 
-    public Event(String title, String date, String age, String location){
-        Title = title;
-        Date = date;
-        Age = age;
-        Location = location;
-
+    public Event(String title, String date, String age, ClubLocation clubLocation, File icon)
+    {
+        mTitle = title;
+        mDate = date;
+        mAge = age;
+        mClubLocation = clubLocation;
+        mIcon = icon;
     }
 
-
-    protected void setTitle(String newTitle){
-        this.Title = newTitle;
+    public Event(String title, String date, String age, ClubLocation clubLocation)
+    {
+        mTitle = title;
+        mDate = date;
+        mAge = age;
+        mClubLocation = clubLocation;
     }
 
-    protected void setDate(String newDate){
-        this.Date = newDate;
+    public void setTitle(String newTitle){
+        this.mTitle = newTitle;
     }
 
-    protected void setAge(String newAge){
-        this.Age = newAge;
+    public void setDate(String newDate){
+        this.mDate = newDate;
     }
 
-    protected void setIcon(File newIcon){
-        this.Icon = newIcon;
+    public void setAge(String newAge){
+        this.mAge = newAge;
     }
 
-    protected void setLocation(String newLocation){
-        this.Location = newLocation;
+    public void setIcon(File newIcon){
+        this.mIcon = newIcon;
+    }
+
+    public void setLocation(ClubLocation newClubLocation){
+        this.mClubLocation = newClubLocation;
+    }
+
+    public String getTitle()
+    {
+        return mTitle;
     }
 
 }

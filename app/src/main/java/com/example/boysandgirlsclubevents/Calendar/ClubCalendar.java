@@ -1,11 +1,8 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -36,7 +33,7 @@ public class ClubCalendar
 
 
     //Creates an event object and adds the event to the month ArrayList. Also sets up monthsOfYear if first time being used
-    protected void addEvent(String Title, String Date, String Age, String Location, File Icon, String year, String month){
+    protected void addEvent(String Title, String Date, String Age, Event.ClubLocation Location, File Icon, String year, String month){
         Event newEvent = new Event(Title, Date, Age, Location, Icon);
         if (monthsOfYear.isEmpty()){
             monthsOfYear.put("January", events);
@@ -63,7 +60,7 @@ public class ClubCalendar
 
     }
     //Gets the event of interest and alters the values for each event field based on what the user passes.
-    protected void editEvent(Event event, String Title, String Date, String Age, String Location, File Icon, String month, String year){
+    protected void editEvent(Event event, String Title, String Date, String Age, Event.ClubLocation Location, File Icon, String month, String year){
         HashMap yearOfInterest = years.get(year);
         ArrayList<Event> monthEvents = monthsOfYear.get(month);
         int indexOfEvent = monthEvents.indexOf(event);

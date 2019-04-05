@@ -1,8 +1,10 @@
-package com.example.boysandgirlsclubevents.Calendar;
+package com.example.boysandgirlsclubevents.Calendar.DailyView;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 
 public class DailyPagerAdapter extends FragmentStatePagerAdapter
 {
@@ -21,7 +23,7 @@ public class DailyPagerAdapter extends FragmentStatePagerAdapter
         int date = position + 1;
         int yearCode = mClubCalendar.getCurrentYearCode();
         int monthCode = mClubCalendar.getCurrentMonthCode();
-        
+
         return CalendarDailyFragment.newInstance
                 (date,
                 mClubCalendar.getCurrentMonth(),

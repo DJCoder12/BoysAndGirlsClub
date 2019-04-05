@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.boysandgirlsclubevents.Calendar.DailyView.DailyPagerAdapter;
+import com.example.boysandgirlsclubevents.Calendar.MonthlyView.MonthlyPagerAdapter;
+import com.example.boysandgirlsclubevents.Calendar.WeeklyView.WeeklyPagerAdapter;
 import com.example.boysandgirlsclubevents.R;
 
 public class CalendarFragment extends Fragment

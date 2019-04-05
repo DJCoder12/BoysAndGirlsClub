@@ -1,8 +1,10 @@
-package com.example.boysandgirlsclubevents.Calendar;
+package com.example.boysandgirlsclubevents.Calendar.WeeklyView;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 
 public class WeeklyPagerAdapter extends FragmentStatePagerAdapter
 {
