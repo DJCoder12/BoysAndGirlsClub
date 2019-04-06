@@ -15,6 +15,7 @@ import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.example.boysandgirlsclubevents.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CalendarDailyFragment extends Fragment
@@ -30,7 +31,7 @@ public class CalendarDailyFragment extends Fragment
 
     private TextView mDateText;
     private TextView mDayText;
-    private RecyclerView mEventsRecylerView;
+    private RecyclerView mEventsRecyclerView;
 
     public static CalendarDailyFragment newInstance(int date, String month, String dayOfWeek)
     {
@@ -76,18 +77,18 @@ public class CalendarDailyFragment extends Fragment
     private void setUpEventsRecyclerView(View view)
     {
         mEvents = new ArrayList<>();
-        //String title, String date, String age, Location location
-        Event event1 = new Event("Basketball", "4/5", "8-14", Event.ClubLocation.AnnStreet);
-        Event event2 = new Event("Bake off", "4/5", "5-16", Event.ClubLocation.Columbia);
-        Event event3 = new Event("Rollerskating", "4/5", "8-13", Event.ClubLocation.WaterStreet);
+        //String title, String age, ClubLocation clubLocation, Calendar startTime, int duration
+        Event event1 = new Event("Basketball", "8-14", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football);
+        Event event2 = new Event("Leadership", "5-16", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch);
+        Event event3 = new Event("Study Help", "8-13", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework);
         mEvents.add(event1);
         mEvents.add(event2);
         mEvents.add(event3);
 
-        mEventsRecylerView = view.findViewById(R.id.rv_events_daily);
+        mEventsRecyclerView = view.findViewById(R.id.rv_events_daily);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mEventsRecylerView.setLayoutManager(layoutManager);
+        mEventsRecyclerView.setLayoutManager(layoutManager);
         DailyViewAdapter dailyViewAdapter = new DailyViewAdapter(mEvents);
-        mEventsRecylerView.setAdapter(dailyViewAdapter);
+        mEventsRecyclerView.setAdapter(dailyViewAdapter);
     }
 }

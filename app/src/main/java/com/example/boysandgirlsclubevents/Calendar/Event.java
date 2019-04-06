@@ -1,13 +1,23 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
-import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-public class Event {
-
+public class Event
+{
+    private final String STR_DATE_FORMAT = "h:mm a";
+    private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
+    
     private String mTitle;
-    private String mDate;
     private String mAge;
-    private File mIcon;
+    private int mIcon;
+    private int mDuration; //Measured in minutes
+    private Date mStartTime;
+    private Date mEndTime;
+
     private ClubLocation mClubLocation;
 
     public enum ClubLocation
@@ -18,36 +28,27 @@ public class Event {
         Columbia
     }
 
-    public Event(String title, String date, String age, ClubLocation clubLocation, File icon)
+    public Event(String title, String age, ClubLocation clubLocation, Calendar startTime, int duration, int icon)
     {
         mTitle = title;
-        mDate = date;
         mAge = age;
         mClubLocation = clubLocation;
+        mDuration = duration;
+        mStartTime = startTime.getTime();
+        startTime.add(Calendar.MINUTE, duration);
+        mEndTime = startTime.getTime();
         mIcon = icon;
-    }
-
-    public Event(String title, String date, String age, ClubLocation clubLocation)
-    {
-        mTitle = title;
-        mDate = date;
-        mAge = age;
-        mClubLocation = clubLocation;
     }
 
     public void setTitle(String newTitle){
         this.mTitle = newTitle;
     }
 
-    public void setDate(String newDate){
-        this.mDate = newDate;
-    }
-
     public void setAge(String newAge){
         this.mAge = newAge;
     }
 
-    public void setIcon(File newIcon){
+    public void setIcon(int newIcon){
         this.mIcon = newIcon;
     }
 
@@ -58,6 +59,21 @@ public class Event {
     public String getTitle()
     {
         return mTitle;
+    }
+
+    public int getIcon()
+    {
+        return mIcon;
+    }
+
+    public String getStartTimeString()
+    {
+        return DATE_FORMAT.format(mStartTime);
+    }
+
+    public String getEndTimeString()
+    {
+        return DATE_FORMAT.format(mEndTime);
     }
 
 }

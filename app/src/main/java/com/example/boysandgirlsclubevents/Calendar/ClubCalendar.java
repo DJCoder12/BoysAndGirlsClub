@@ -30,12 +30,12 @@ public class ClubCalendar
     ArrayList<Event> events10 = new ArrayList<Event>();
     ArrayList<Event> events11 = new ArrayList<Event>();
 
-
-
     //Creates an event object and adds the event to the month ArrayList. Also sets up monthsOfYear if first time being used
-    protected void addEvent(String Title, String Date, String Age, Event.ClubLocation Location, File Icon, String year, String month){
-        Event newEvent = new Event(Title, Date, Age, Location, Icon);
-        if (monthsOfYear.isEmpty()){
+    /*protected void addEvent(String Title, String Age, Event.ClubLocation Location, int Icon, String year, String month)
+    {
+        Event newEvent = new Event(Title, Age, Location, Icon);
+        if (monthsOfYear.isEmpty())
+        {
             monthsOfYear.put("January", events);
             monthsOfYear.put("February", events1);
             monthsOfYear.put("March", events2);
@@ -56,18 +56,16 @@ public class ClubCalendar
 
         ArrayList eventsOftheMonth = monthsOfYear.get(month);
         eventsOftheMonth.add(newEvent);
+    }*/
 
-
-    }
     //Gets the event of interest and alters the values for each event field based on what the user passes.
-    protected void editEvent(Event event, String Title, String Date, String Age, Event.ClubLocation Location, File Icon, String month, String year){
+    /*protected void editEvent(Event event, String Title, String Date, String Age, Event.ClubLocation Location, int Icon, String month, String year){
         HashMap yearOfInterest = years.get(year);
         ArrayList<Event> monthEvents = monthsOfYear.get(month);
         int indexOfEvent = monthEvents.indexOf(event);
         Event eventToEdit = monthEvents.get(indexOfEvent);
         eventToEdit.setTitle(Title);
         eventToEdit.setIcon(Icon);
-        eventToEdit.setDate(Date);
         eventToEdit.setAge(Age);
         eventToEdit.setLocation(Location);
     }
@@ -78,7 +76,7 @@ public class ClubCalendar
         ArrayList<Event> monthEvents = monthsOfYear.get(month);
         monthEvents.remove(event);
 
-    }
+    }*/
 
     public int getCurrentYearCode()
     {
