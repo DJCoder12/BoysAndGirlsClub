@@ -1,5 +1,6 @@
 package com.example.boysandgirlsclubevents.Calendar.DailyView;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.List;
 public class DailyViewAdapter extends RecyclerView.Adapter<DailyViewAdapter.ViewHolder>
 {
     private List<Event> mDataSet;
+    private Context mContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -34,9 +36,10 @@ public class DailyViewAdapter extends RecyclerView.Adapter<DailyViewAdapter.View
         }
     }
 
-    public DailyViewAdapter(List<Event> dataSet)
+    public DailyViewAdapter(List<Event> dataSet, Context context)
     {
         mDataSet = dataSet;
+        mContext = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -56,7 +59,12 @@ public class DailyViewAdapter extends RecyclerView.Adapter<DailyViewAdapter.View
         //get event at this position and populate with event specific data
         Event curEvent = mDataSet.get(position);
         holder.titleText.setText(curEvent.getTitle());
-        holder.timeText.setText(curEvent.getStartTimeString() + " to " + curEvent.getEndTimeString());
+
+        String timeString = mContext.getResources().getString(
+                        R.string.view_daily_time,
+                        curEvent.getStartTimeString(),
+                        curEvent.getEndTimeString());
+        holder.timeText.setText(timeString);
 
         //Load the image using glide, a library
         Glide.with(holder.baseView)

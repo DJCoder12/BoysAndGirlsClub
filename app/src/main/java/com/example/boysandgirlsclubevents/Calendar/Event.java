@@ -10,7 +10,7 @@ public class Event
 {
     private final String STR_DATE_FORMAT = "h:mm a";
     private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
-    
+
     private String mTitle;
     private String mAge;
     private int mIcon;

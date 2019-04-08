@@ -26,6 +26,7 @@ public class DailyPagerAdapter extends FragmentStatePagerAdapter
 
         return CalendarDailyFragment.newInstance
                 (date,
+                mClubCalendar.getCurrentYear(),
                 mClubCalendar.getCurrentMonth(),
                 mClubCalendar.getDayOfWeek(yearCode, monthCode, date));
     }
