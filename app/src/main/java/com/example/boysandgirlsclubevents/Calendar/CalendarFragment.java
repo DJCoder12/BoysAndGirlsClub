@@ -7,19 +7,27 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.boysandgirlsclubevents.Calendar.DailyView.DailyPagerAdapter;
 import com.example.boysandgirlsclubevents.Calendar.MonthlyView.MonthlyPagerAdapter;
 import com.example.boysandgirlsclubevents.Calendar.WeeklyView.WeeklyPagerAdapter;
 import com.example.boysandgirlsclubevents.R;
 
+import java.util.Calendar;
+
 public class CalendarFragment extends Fragment
 {
     public static String TAG = "CalendarFragment";
-    private ClubCalendar mClubCalendar;
+    private final ClubCalendar mClubCalendar = new ClubCalendar();
+    private CalendarLogic logic;
 
     private FragmentStatePagerAdapter mPagerAdapter;
     private ViewPager mPager;
+    private TextView mMonthText;
+    private ImageButton mPrev;
+    private ImageButton mNext;
 
     public CalendarFragment()
     {
@@ -30,7 +38,7 @@ public class CalendarFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mClubCalendar = new ClubCalendar();
+        logic = new CalendarLogic(this, mClubCalendar);
     }
 
     @Override
@@ -39,42 +47,37 @@ public class CalendarFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         setUpPager(view);
+        setUpMonthSwitcher(view);
+        logic.handleInitialView();
         return view;
     }
 
     private void setUpPager(View view)
     {
         mPager = view.findViewById(R.id.vp_calendar);
-        CalendarSettings.CalendarType curCalendarType = CalendarSettings.getCalendarType();
-
-        if (curCalendarType == CalendarSettings.CalendarType.Daily)
-        {
-            showDailyCalendar();
-        }
-        else if (curCalendarType == CalendarSettings.CalendarType.Weekly)
-        {
-            showWeeklyCalendar();
-        }
-        else if (curCalendarType == CalendarSettings.CalendarType.Monthly)
-        {
-            showMonthlyCalendar();
-        }
     }
 
-    private void showDailyCalendar()
+    private void setUpMonthSwitcher(View view)
+    {
+        mMonthText = view.findViewById(R.id.tv_monthTitle_calendar);
+        mPrev = view.findViewById(R.id.ib_prevMonth_calendar);
+        mNext = view.findViewById(R.id.ib_nextMonth_calendar);
+        mPrev.setOnClickListener(prevListener);
+        mNext.setOnClickListener(nextListener);
+        showMonthTitle(mClubCalendar.getMonth());
+    }
+
+    public void showDailyCalendar()
     {
         mPagerAdapter = new DailyPagerAdapter(getFragmentManager(), mClubCalendar);
 
         if (mPager != null)
         {
             mPager.setAdapter(mPagerAdapter);
-
-            //The pager is 0 indexed so to convert to index, subtract 1
-            mPager.setCurrentItem(mClubCalendar.getCurrentDate() - 1, true);
         }
     }
 
-    private void showWeeklyCalendar()
+    public void showWeeklyCalendar()
     {
         mPagerAdapter = new WeeklyPagerAdapter(getFragmentManager(), mClubCalendar);
 
@@ -86,7 +89,7 @@ public class CalendarFragment extends Fragment
 
     }
 
-    private void showMonthlyCalendar()
+    public void showMonthlyCalendar()
     {
         mPagerAdapter = new MonthlyPagerAdapter(getFragmentManager(), mClubCalendar);
 
@@ -96,4 +99,54 @@ public class CalendarFragment extends Fragment
             //TODO: Init current item
         }
     }
+
+    public void showCurrentDay()
+    {
+        //The pager is 0 indexed so to convert to index, subtract 1
+        mPager.setCurrentItem(mClubCalendar.getDate() - 1, true);
+    }
+
+    public void showFirstDay()
+    {
+        mPager.setCurrentItem(0, true);
+    }
+
+    public void showMonthTitle(String title)
+    {
+        mMonthText.setText(title);
+    }
+
+    public void onPrevMonth(View view)
+    {
+
+    }
+
+    public void onNextMonth(View view)
+    {
+
+    }
+
+    public void updateAdapter()
+    {
+        mPager.setAdapter(mPagerAdapter);
+        mPagerAdapter.notifyDataSetChanged();
+    }
+
+    private View.OnClickListener prevListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            logic.handlePrevClick();
+        }
+    };
+
+    private View.OnClickListener nextListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            logic.handleNextClick();
+        }
+    };
 }

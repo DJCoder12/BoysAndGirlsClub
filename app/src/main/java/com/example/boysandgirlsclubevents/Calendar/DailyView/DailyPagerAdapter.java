@@ -21,19 +21,18 @@ public class DailyPagerAdapter extends FragmentStatePagerAdapter
     {
         //The pager is 0 indexed so to convert to date, add 1
         int date = position + 1;
-        int yearCode = mClubCalendar.getCurrentYearCode();
-        int monthCode = mClubCalendar.getCurrentMonthCode();
+        mClubCalendar.setDate(date);
 
         return CalendarDailyFragment.newInstance
                 (date,
-                mClubCalendar.getCurrentYear(),
-                mClubCalendar.getCurrentMonth(),
-                mClubCalendar.getDayOfWeek(yearCode, monthCode, date));
+                mClubCalendar.getYear(),
+                mClubCalendar.getMonth(),
+                mClubCalendar.getDayOfWeek());
     }
 
     @Override
     public int getCount()
     {
-        return mClubCalendar.getCurrentDaysInMonth();
+        return mClubCalendar.getDaysInMonth();
     }
 }

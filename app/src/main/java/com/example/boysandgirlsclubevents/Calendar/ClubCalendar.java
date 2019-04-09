@@ -17,6 +17,7 @@ public class ClubCalendar
         initEvents();
     }
 
+    private static Calendar mCalendar = Calendar.getInstance();
     private static HashMap<String, HashMap<String, HashMap<String, List<Event>>>> mYears = new HashMap<>();
 
     //TODO: Delete when this is connected to the db
@@ -99,51 +100,112 @@ public class ClubCalendar
     public static List<Event> getEventsForDay(String year, String month, String date)
     {
         HashMap<String, HashMap<String, List<Event>>> curYear = mYears.get(year);
+        if (curYear == null)
+        {
+            return null;
+        }
+
         HashMap<String, List<Event>> curMonth = curYear.get(month);
+        if (curMonth == null)
+        {
+            return null;
+        }
+
         List<Event> events = curMonth.get(date);
         return events;
     }
 
-    public int getCurrentYear()
+    public static int getCurrentYear()
     {
         return Calendar.getInstance().get(Calendar.YEAR);
     }
 
-    public int getCurrentYearCode()
+    public int getYear()
+    {
+        return mCalendar.get(Calendar.YEAR);
+    }
+
+    public static int getCurrentYearCode()
     {
         return Calendar.getInstance().get(Calendar.YEAR);
     }
 
-    public int getCurrentMonthCode()
+    public int getYearCode()
+    {
+        return mCalendar.get(Calendar.YEAR);
+    }
+
+
+    public static int getCurrentMonthCode()
     {
         return Calendar.getInstance().get(Calendar.MONTH);
     }
 
-    public int getCurrentDate()
+    public int getMonthCode()
+    {
+        return mCalendar.get(Calendar.MONTH);
+    }
+
+    public static int getCurrentDate()
     {
         return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 
-    public int getCurrentDaysInMonth()
+    public int getDate()
+    {
+        return mCalendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static int getCurrentDaysInMonth()
     {
         return Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
-    public String getCurrentMonth()
+    public int getDaysInMonth()
+    {
+        return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String getCurrentMonth()
     {
         return Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
     }
 
-    public String getCurrentDayOfWeek()
+    public String getMonth()
+    {
+        return mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+    }
+
+    public static String getCurrentDayOfWeek()
     {
         return Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
     }
 
-    public String getDayOfWeek(int year, int month, int date)
+    public static String getDayOfWeek(int year, int month, int date)
     {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, date);
         return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
+    }
+
+    public String getDayOfWeek()
+    {
+        return mCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
+    }
+
+    public void prevMonth()
+    {
+        mCalendar.add(Calendar.MONTH, -1);
+    }
+
+    public void nextMonth()
+    {
+        mCalendar.add(Calendar.MONTH, 1);
+    }
+
+    public void setDate(int date)
+    {
+        mCalendar.set(Calendar.DATE, date);
     }
 
 }
