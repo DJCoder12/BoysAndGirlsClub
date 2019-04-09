@@ -74,6 +74,7 @@ public class CalendarFragment extends Fragment
         if (mPager != null)
         {
             mPager.setAdapter(mPagerAdapter);
+            mPagerAdapter.notifyDataSetChanged();
         }
     }
 
@@ -84,7 +85,7 @@ public class CalendarFragment extends Fragment
         if (mPager != null)
         {
             mPager.setAdapter(mPagerAdapter);
-            //TODO: Init current item
+            mPagerAdapter.notifyDataSetChanged();
         }
 
     }
@@ -96,7 +97,7 @@ public class CalendarFragment extends Fragment
         if (mPager != null)
         {
             mPager.setAdapter(mPagerAdapter);
-            //TODO: Init current item
+            mPagerAdapter.notifyDataSetChanged();
         }
     }
 
