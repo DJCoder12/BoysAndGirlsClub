@@ -10,19 +10,17 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/image"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/bgc_logo"
         />
 
 
     <TextView
+        android:id="@+id/announcement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/announcement"
-        android:text = "stuff"
+        android:layout_marginLeft="34dp"
         android:layout_toRightOf="@+id/image"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
-        />
+        android:text="This is a sample announcment" />
 
 
 </RelativeLayout>

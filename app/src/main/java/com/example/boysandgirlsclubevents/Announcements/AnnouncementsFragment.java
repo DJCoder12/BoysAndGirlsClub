@@ -35,7 +35,6 @@ public class AnnouncementsFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setContentView(R.layout.fragment_announcements);
         Log.d(TAG, "SSS onCreate: started.");
         initImageBitmaps();
         Log.d(TAG, "initImage passed.");
@@ -44,28 +43,28 @@ public class AnnouncementsFragment extends Fragment
     private void initImageBitmaps() {
         Log.d(TAG, "SSS initImageBitmaps: preparing bitmaps");
 
-        statements.add("This is a sample announcement");
+        statements.add("This is a sample announcement1");
+        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
+
+        statements.add("This is a sample announcement2");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
         statements.add("This is a sample announcement");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
-        statements.add("This is a sample announcement");
+        statements.add("This is a sample announcement3");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
-        statements.add("This is a sample announcement");
+        statements.add("This is a sample announcement4");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
-        statements.add("This is a sample announcement");
+        statements.add("This is a sample announcement5");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
-        statements.add("This is a sample announcement");
+        statements.add("This is a sample announcement6");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
-        statements.add("This is a sample announcement");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement");
+        statements.add("This is a sample announcement7");
         imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
 
         Log.d(TAG, " SSS initImages added.");
