@@ -27,7 +27,9 @@ public class CalendarMonthlyFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.calendar_monthly_view, container, false);
-        return view;
+        ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.calendar_monthly_view, container, false);
+        View v = inflater.inflate(R.layout.calendar_monthly_date_item, vg, true);
+        vg.addView(v);
+        return vg;
     }
 }
