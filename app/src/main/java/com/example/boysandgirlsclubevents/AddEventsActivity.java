@@ -15,10 +15,14 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class AddEventsActivity extends AppCompatActivity {
@@ -39,6 +43,9 @@ public class AddEventsActivity extends AppCompatActivity {
             java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM);
     public static java.text.DateFormat mTimeFormat =
             java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT);
+
+    // TODO: Database access.
+    private FirebaseFirestore mFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +88,20 @@ public class AddEventsActivity extends AppCompatActivity {
         df.show(getSupportFragmentManager(), "Date Picker");
     }
 
-    public boolean validateTimeDifference() {
+    private boolean emptyFieldExists() {
+        return mTitleField.getText().toString().isEmpty() ||
+                mLocationField.getText().toString().isEmpty() ||
+                mStartDateField.getText().toString().isEmpty() ||
+                mStartTimeField.getText().toString().isEmpty() ||
+                mEndDateField.getText().toString().isEmpty() ||
+                mEndTimeField.getText().toString().isEmpty();
+    }
+
+    public boolean isValidTimeDifference() {
         // Get formatted dates.
         String startDateFormatted = mStartDateField.getText().toString();
         String endDateFormatted = mEndDateField.getText().toString();
-        String startTimeFormatted = mStartTimeField.getText().toString();
-        String endTimeFormatted = mEndTimeField.getText().toString();
+        String startTimeFormatted = mStartTimeField.getText().toString(); String endTimeFormatted = mEndTimeField.getText().toString();
 
         // Parse the dates and times.
         Date startDate, endDate, startTime, endTime;
@@ -114,7 +129,7 @@ public class AddEventsActivity extends AppCompatActivity {
     }
 
     public void submit(View v) {
-        if (!validateTimeDifference()) {
+        if (!isValidTimeDifference() || !emptyFieldExists()) {
             Toast.makeText(this, "End date/time must be after start date/time.", Toast.LENGTH_SHORT).show();
 
             // Clear the fields.
@@ -126,6 +141,13 @@ public class AddEventsActivity extends AppCompatActivity {
             // TODO: implement logic for this.
             Toast.makeText(this, "New event created successfully.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void sendToFirestore() {
+        Map<String, Object> event = new HashMap<>();
+
+        mFirestore.collection("events").document("gv397gn8GCnjaAa0O7EA")
+            .collection("years");
     }
 
     // Subclass for creating the DatePicker dialog.
