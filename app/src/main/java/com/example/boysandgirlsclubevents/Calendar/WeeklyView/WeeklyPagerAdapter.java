@@ -19,7 +19,7 @@ public class WeeklyPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        return CalendarWeeklyFragment.newInstance(position, "April");
+        return CalendarWeeklyFragment.newInstance(position, mClubCalendar.getMonth());
     }
 
     @Override
