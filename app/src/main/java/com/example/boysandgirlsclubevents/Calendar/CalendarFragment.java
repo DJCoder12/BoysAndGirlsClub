@@ -15,8 +15,6 @@ import com.example.boysandgirlsclubevents.Calendar.MonthlyView.MonthlyPagerAdapt
 import com.example.boysandgirlsclubevents.Calendar.WeeklyView.WeeklyPagerAdapter;
 import com.example.boysandgirlsclubevents.R;
 
-import java.util.Calendar;
-
 public class CalendarFragment extends Fragment
 {
     public static String TAG = "CalendarFragment";

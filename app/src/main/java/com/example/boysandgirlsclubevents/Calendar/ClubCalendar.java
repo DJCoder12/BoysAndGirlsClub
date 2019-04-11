@@ -109,22 +109,27 @@ public class ClubCalendar
 
     public static List<Event> getEventsForDay(LocalDate date)
     {
-        HashMap<String, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
-
-        if (curYear == null)
+        if (date != null)
         {
-            return null;
+            HashMap<String, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
+
+            if (curYear == null)
+            {
+                return null;
+            }
+
+            HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonth().getDisplayName(TextStyle.FULL, Locale.US));
+
+            if (curMonth == null)
+            {
+                return null;
+            }
+
+            List<Event> events = curMonth.get(date.getDayOfMonth());
+            return events;
         }
 
-        HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonth().getDisplayName(TextStyle.FULL, Locale.US));
-
-        if (curMonth == null)
-        {
-            return null;
-        }
-
-        List<Event> events = curMonth.get(date.getDayOfMonth());
-        return events;
+        return null;
     }
 
     public int getDate()
