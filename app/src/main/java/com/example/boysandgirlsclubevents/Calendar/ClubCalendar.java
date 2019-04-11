@@ -2,6 +2,8 @@ package com.example.boysandgirlsclubevents.Calendar;
 
 import com.example.boysandgirlsclubevents.R;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -12,13 +14,22 @@ public class ClubCalendar
 {
     private final static String TAG = "ClubCalendar";
 
+    public static final String SUN_ABRV = "Sun";
+    public static final String MON_ABRV = "Mon";
+    public static final String TUE_ABRV = "Tue";
+    public static final String WED_ABRV = "Wed";
+    public static final String THU_ABRV = "Thu";
+    public static final String FRI_ABRV = "Fri";
+    public static final String SAT_ABRV = "Sat";
+
+    private static Calendar mCalendar = Calendar.getInstance();
+    public static LocalDate mLocalDate = LocalDate.now();
+    private static HashMap<String, HashMap<String, HashMap<String, List<Event>>>> mYears = new HashMap<>();
+
     public ClubCalendar()
     {
         initEvents();
     }
-
-    private static Calendar mCalendar = Calendar.getInstance();
-    private static HashMap<String, HashMap<String, HashMap<String, List<Event>>>> mYears = new HashMap<>();
 
     //TODO: Delete when this is connected to the db
     private void initEvents()
@@ -120,6 +131,11 @@ public class ClubCalendar
         return Calendar.getInstance().get(Calendar.YEAR);
     }
 
+    public static Calendar getBaseCalendar()
+    {
+        return mCalendar;
+    }
+
     public int getYear()
     {
         return mCalendar.get(Calendar.YEAR);
@@ -156,6 +172,18 @@ public class ClubCalendar
         return mCalendar.get(Calendar.DAY_OF_MONTH);
     }
 
+    public int getWeek()
+    {
+        return mCalendar.get(Calendar.WEEK_OF_MONTH);
+    }
+
+    public int getFirstDateInWeek(int weekOfYear)
+    {
+        mCalendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        return getDate();
+    }
+
     public static int getCurrentDaysInMonth()
     {
         return Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -164,6 +192,16 @@ public class ClubCalendar
     public int getDaysInMonth()
     {
         return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getWeeksInMonth()
+    {
+        return mCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
+    }
+
+    public int getWeekOfYear()
+    {
+        return mCalendar.get(Calendar.WEEK_OF_YEAR);
     }
 
     public static String getCurrentMonth()
@@ -208,4 +246,13 @@ public class ClubCalendar
         mCalendar.set(Calendar.DATE, date);
     }
 
+    public void setWeekOfMonth(int week)
+    {
+        mCalendar.set(Calendar.WEEK_OF_MONTH, week);
+    }
+
+    public void setToFirstDayOfWeek()
+    {
+        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+    }
 }

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/day_sun_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -16,7 +16,7 @@
 
     <include
         android:id="@+id/day_mon_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -24,7 +24,7 @@
 
     <include
         android:id="@+id/day_tue_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -32,7 +32,7 @@
 
     <include
         android:id="@+id/day_wed_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -40,7 +40,7 @@
 
     <include
         android:id="@+id/day_thu_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -48,7 +48,7 @@
 
     <include
         android:id="@+id/day_fri_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -56,7 +56,7 @@
 
     <include
         android:id="@+id/day_sat_weekly"
-        layout="@layout/calendar_daily_view"
+        layout="@layout/calendar_daily_view_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
