@@ -5,26 +5,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
+import com.example.boysandgirlsclubevents.Calendar.DailyView.EventAdapter;
 import com.example.boysandgirlsclubevents.R;
 
 import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class CalendarWeeklyFragment extends Fragment
 {
-    private final static String FIRST_DATE_KEY = "first date";
-    private final static String MONTH_KEY = "month";
-    private final static String YEAR_KEY = "year";
-
     private LocalDate mFirstDate;
 
     private ConstraintLayout mSun;
@@ -109,6 +107,21 @@ public class CalendarWeeklyFragment extends Fragment
         {
             TextView dateText = dayLayout.findViewById(R.id.tv_date_daily);
             dateText.setText(String.valueOf(dates[index]));
+            index++;
+        }
+    }
+
+    public void showEvents()
+    {
+        int index = 0;
+        for (ConstraintLayout dayLayout : mDays)
+        {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            RecyclerView recyclerView = dayLayout.findViewById(R.id.rv_events_daily);
+            recyclerView.setLayoutManager(layoutManager);
+            EventAdapter eventAdapter = new EventAdapter
+                    (mLogic.getEventList(index), EventAdapter.Size.medium, this.getContext());
+            recyclerView.setAdapter(eventAdapter);
             index++;
         }
     }

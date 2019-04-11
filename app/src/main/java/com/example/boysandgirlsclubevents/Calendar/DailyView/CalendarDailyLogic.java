@@ -25,19 +25,25 @@ public class CalendarDailyLogic
 
     public void handleLoadingEvents()
     {
-        mEvents = ClubCalendar.getEventsForDay(mDate);
-
-        //Set events to an empty list to avoid errors
-        if (mEvents == null)
+        if (mDate != null)
         {
-            mEvents = new ArrayList<>();
-        }
+            mEvents = ClubCalendar.getEventsForDay(mDate);
 
-        mDailyView.showEvents(mEvents);
+            //Set events to an empty list to avoid errors
+            if (mEvents == null)
+            {
+                mEvents = new ArrayList<>();
+            }
+
+            mDailyView.showEvents(mEvents);
+        }
     }
 
     public void handleDate()
     {
-        mDailyView.showDate(mDate.getDayOfMonth(), mDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
+        if (mDate != null)
+        {
+            mDailyView.showDate(mDate.getDayOfMonth(), mDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
+        }
     }
 }

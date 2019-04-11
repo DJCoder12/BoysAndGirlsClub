@@ -15,8 +15,6 @@ import com.example.boysandgirlsclubevents.Calendar.MonthlyView.MonthlyPagerAdapt
 import com.example.boysandgirlsclubevents.Calendar.WeeklyView.WeeklyPagerAdapter;
 import com.example.boysandgirlsclubevents.R;
 
-import java.util.Calendar;
-
 public class CalendarFragment extends Fragment
 {
     public static String TAG = "CalendarFragment";
@@ -101,15 +99,14 @@ public class CalendarFragment extends Fragment
         }
     }
 
-    public void showCurrentDay()
+    public void showDay(int date)
     {
-        //The pager is 0 indexed so to convert to index, subtract 1
-        mPager.setCurrentItem(mClubCalendar.getDate() - 1, true);
+        mPager.setCurrentItem(date);
     }
 
-    public void showFirstDay()
+    public void showWeek(int week)
     {
-        mPager.setCurrentItem(0, true);
+        mPager.setCurrentItem(week);
     }
 
     public void showMonthTitle(String title)

@@ -81,7 +81,7 @@ public class CalendarDailyFragment extends Fragment
     {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mEventsRecyclerView.setLayoutManager(layoutManager);
-        DailyViewAdapter dailyViewAdapter = new DailyViewAdapter(eventList, this.getContext());
-        mEventsRecyclerView.setAdapter(dailyViewAdapter);
+        EventAdapter eventAdapter = new EventAdapter(eventList, EventAdapter.Size.large, this.getContext());
+        mEventsRecyclerView.setAdapter(eventAdapter);
     }
 }
