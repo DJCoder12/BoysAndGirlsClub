@@ -3,31 +3,29 @@ package com.example.boysandgirlsclubevents.Calendar.DailyView;
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 import com.example.boysandgirlsclubevents.Calendar.Event;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.TextStyle;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CalendarDailyLogic
 {
-    private String mYear;
-    private String mMonth;
-    private String mDay;
-    private int mDate;
+    private LocalDate mDate;
 
     private CalendarDailyFragment mDailyView;
     private List<Event> mEvents = new ArrayList<>();
 
-    public CalendarDailyLogic(CalendarDailyFragment dailyView, String year, String month, String day, int date)
+    public CalendarDailyLogic(CalendarDailyFragment dailyView, LocalDate date)
     {
         mDailyView = dailyView;
-        mYear = year;
-        mMonth = month;
-        mDay = day;
         mDate = date;
     }
 
     public void handleLoadingEvents()
     {
-        mEvents = ClubCalendar.getEventsForDay(mYear, mMonth, String.valueOf(mDate));
+        mEvents = ClubCalendar.getEventsForDay(mDate);
 
         //Set events to an empty list to avoid errors
         if (mEvents == null)
@@ -40,6 +38,6 @@ public class CalendarDailyLogic
 
     public void handleDate()
     {
-        mDailyView.showDate(mDate, mDay);
+        mDailyView.showDate(mDate.getDayOfMonth(), mDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
     }
 }
