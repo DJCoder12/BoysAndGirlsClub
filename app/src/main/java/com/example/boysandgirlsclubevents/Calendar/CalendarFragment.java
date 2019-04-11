@@ -117,16 +117,6 @@ public class CalendarFragment extends Fragment
         mMonthText.setText(title);
     }
 
-    public void onPrevMonth(View view)
-    {
-
-    }
-
-    public void onNextMonth(View view)
-    {
-
-    }
-
     public void updateAdapter()
     {
         mPager.setAdapter(mPagerAdapter);

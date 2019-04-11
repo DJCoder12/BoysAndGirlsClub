@@ -151,11 +151,11 @@ public class ClubCalendar
 
     public void prevMonth()
     {
-        mLocalDate.minusMonths(1);
+        mLocalDate = mLocalDate.minusMonths(1);
     }
 
     public void nextMonth()
     {
-        mLocalDate.plusMonths(1);
+        mLocalDate = mLocalDate.plusMonths(1);
     }
 }
