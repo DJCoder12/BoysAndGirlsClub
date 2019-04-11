@@ -32,6 +32,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
         public View baseView;
         public TextView titleText;
         public TextView timeText;
+        public TextView ageText;
         public ImageView iconImage;
 
         public ViewHolder(View view)
@@ -40,6 +41,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
             baseView = view;
             titleText = view.findViewById(R.id.tv_title_eventItem);
             timeText = view.findViewById(R.id.tv_time_eventItem);
+            ageText = view.findViewById(R.id.tv_ageGroup_eventItem);
             iconImage = view.findViewById(R.id.iv_icon_eventItem);
         }
     }
@@ -92,6 +94,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
                     curEvent.getStartTimeString(),
                     curEvent.getEndTimeString());
             holder.timeText.setText(timeString);
+
+            if (mSize == Size.large)
+            {
+                String ageString = mContext.getResources().getString(
+                        R.string.event_age_group,
+                        curEvent.getLowerAge(),
+                        curEvent.getUpperAge());
+                holder.ageText.setText(ageString);
+            }
 
             //Load the image using glide, a library
             Glide.with(holder.baseView)

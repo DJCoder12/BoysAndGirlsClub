@@ -12,7 +12,8 @@ public class Event
     private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
 
     private String mTitle;
-    private String mAge;
+    private int mLowerAge;
+    private int mUpperAge;
     private int mIcon;
     private int mDuration; //Measured in minutes
     private Date mStartTime;
@@ -28,10 +29,9 @@ public class Event
         Columbia
     }
 
-    public Event(String title, String age, ClubLocation clubLocation, Calendar startTime, int duration, int icon)
+    public Event(String title, ClubLocation clubLocation, Calendar startTime, int duration, int icon)
     {
         mTitle = title;
-        mAge = age;
         mClubLocation = clubLocation;
         mDuration = duration;
         mStartTime = startTime.getTime();
@@ -40,20 +40,31 @@ public class Event
         mIcon = icon;
     }
 
-    public void setTitle(String newTitle){
+    public Event setTitle(String newTitle)
+    {
         this.mTitle = newTitle;
+        return this;
     }
 
-    public void setAge(String newAge){
-        this.mAge = newAge;
+    public Event setLowerAge(int newAge){
+        this.mLowerAge = newAge;
+        return this;
     }
 
-    public void setIcon(int newIcon){
+    public Event setUpperAge(int newAge){
+        this.mUpperAge = newAge;
+        return this;
+    }
+
+    public Event setIcon(int newIcon){
         this.mIcon = newIcon;
+        return this;
     }
 
-    public void setLocation(ClubLocation newClubLocation){
+    public Event setLocation(ClubLocation newClubLocation)
+    {
         this.mClubLocation = newClubLocation;
+        return this;
     }
 
     public String getTitle()
@@ -76,4 +87,13 @@ public class Event
         return DATE_FORMAT.format(mEndTime);
     }
 
+    public int getLowerAge()
+    {
+        return mLowerAge;
+    }
+
+    public int getUpperAge()
+    {
+        return mUpperAge;
+    }
 }
