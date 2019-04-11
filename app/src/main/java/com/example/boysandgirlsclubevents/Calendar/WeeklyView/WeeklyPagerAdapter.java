@@ -10,36 +10,26 @@ import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.YearMonth;
 import org.threeten.bp.temporal.TemporalAdjusters;
-import org.threeten.bp.temporal.TemporalField;
-import org.threeten.bp.temporal.WeekFields;
-
-import java.util.Locale;
 
 public class WeeklyPagerAdapter extends FragmentStatePagerAdapter
 {
     private ClubCalendar mClubCalendar;
-    private int mNumWeeks;
 
     public WeeklyPagerAdapter(FragmentManager fragmentManager, ClubCalendar clubCalendar)
     {
         super(fragmentManager);
         mClubCalendar = clubCalendar;
-        mNumWeeks = mClubCalendar.getWeeksInMonth();
     }
 
     @Override
     public Fragment getItem(int position)
     {
-        //Get start day of week
-        TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
-
         //Get first date in month
-        YearMonth yearMonth =  YearMonth.now();
+        YearMonth yearMonth =  YearMonth.from(ClubCalendar.mLocalDate);
         LocalDate firstDate = yearMonth.atDay(1);
 
         //Get first sunday of week
         firstDate = firstDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-       // firstDate = firstDate.with(fieldUS, 1);
 
         //set correct week
         firstDate = firstDate.plusWeeks(position);
@@ -50,6 +40,6 @@ public class WeeklyPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public int getCount()
     {
-        return mNumWeeks;
+        return mClubCalendar.getWeeksInMonth();
     }
 }

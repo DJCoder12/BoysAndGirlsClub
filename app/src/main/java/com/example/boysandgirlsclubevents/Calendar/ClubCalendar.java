@@ -140,8 +140,12 @@ public class ClubCalendar
     public int getWeeksInMonth()
     {
         LocalDate lastDayOfMonth = mLocalDate.withDayOfMonth(mLocalDate.lengthOfMonth());
-        int lastWeekOfMonth = lastDayOfMonth.get(WeekFields.ISO.weekOfMonth());
-        return lastWeekOfMonth;
+        return lastDayOfMonth.get(WeekFields.ISO.weekOfMonth());
+    }
+
+    public int getWeekOfMonth()
+    {
+        return mLocalDate.get(WeekFields.ISO.weekOfMonth());
     }
 
     public String getMonth()
