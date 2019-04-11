@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 
+import org.threeten.bp.LocalDate;
+
 public class DailyPagerAdapter extends FragmentStatePagerAdapter
 {
     private ClubCalendar mClubCalendar;
@@ -21,13 +23,9 @@ public class DailyPagerAdapter extends FragmentStatePagerAdapter
     {
         //The pager is 0 indexed so to convert to date, add 1
         int date = position + 1;
-        mClubCalendar.setDate(date);
+        LocalDate localDate = ClubCalendar.mLocalDate.withDayOfMonth(date);
 
-        return CalendarDailyFragment.newInstance
-                (date,
-                mClubCalendar.getYear(),
-                mClubCalendar.getMonth(),
-                mClubCalendar.getDayOfWeek());
+        return CalendarDailyFragment.newInstance(localDate);
     }
 
     @Override

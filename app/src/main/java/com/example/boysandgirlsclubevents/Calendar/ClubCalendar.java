@@ -3,6 +3,8 @@ package com.example.boysandgirlsclubevents.Calendar;
 import com.example.boysandgirlsclubevents.R;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.TextStyle;
+import org.threeten.bp.temporal.WeekFields;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,9 +24,8 @@ public class ClubCalendar
     public static final String FRI_ABRV = "Fri";
     public static final String SAT_ABRV = "Sat";
 
-    private static Calendar mCalendar = Calendar.getInstance();
     public static LocalDate mLocalDate = LocalDate.now();
-    private static HashMap<String, HashMap<String, HashMap<String, List<Event>>>> mYears = new HashMap<>();
+    private static HashMap<Integer, HashMap<String, HashMap<Integer, List<Event>>>> mYears = new HashMap<>();
 
     public ClubCalendar()
     {
@@ -50,38 +51,36 @@ public class ClubCalendar
         dummyEvents2.add(event3a);
 
         //populate some days with dummy events
-        HashMap<String, List<Event>> april = new HashMap<>();
-        april.put("8", dummyEvents2);
-        april.put("10", dummyEvents1);
+        HashMap<Integer, List<Event>> april = new HashMap<>();
+        april.put(8, dummyEvents2);
+        april.put(10, dummyEvents1);
 
-        HashMap<String, HashMap<String, List<Event>>> y2019 = new HashMap<>();
+        HashMap<String, HashMap<Integer, List<Event>>> y2019 = new HashMap<>();
         y2019.put("April", april);
 
-        mYears.put("2019", y2019);
+        mYears.put(2019, y2019);
     }
 
-    //Creates an event object and adds the event to the month ArrayList. Also sets up mMonths if first time being used
-    /*protected void addEvent(String Title, String Age, Event.ClubLocation Location, int Icon, String year, String month)
+    /*//Creates an event object and adds the event to the month ArrayList. Also sets up mMonths if first time being used
+    protected void addEvent(Event newEvent, LocalDate date)
     {
-        Event newEvent = new Event(Title, Age, Location, Icon);
-        if (mMonths.isEmpty())
-        {
-            mMonths.put("January", events);
-            mMonths.put("February", events1);
-            mMonths.put("March", events2);
-            mMonths.put("April", events3);
-            mMonths.put("May", events4);
-            mMonths.put("June", events5);
-            mMonths.put("July", events6);
-            mMonths.put("August", events7);
-            mMonths.put("September", events8);
-            mMonths.put("October", events9);
-            mMonths.put("November", events10);
-            mMonths.put("December", events11);
-        }
-        if(!mYears.containsKey(year)){
-            mYears.put(year,mMonths);
+        int year = date.getYear();
+        String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.US);
+        int dateOfMonth = date.getDayOfMonth();
 
+        if(!mYears.containsKey(year))
+        {
+            HashMap<Integer, List<Event>> monthMap = new HashMap<>();
+            List<Event> events = new ArrayList<>();
+            events.add(newEvent);
+            monthMap.put(dateOfMonth, events);
+            HashMap<String, HashMap<Integer, List<Event>>> yearMap = new HashMap<>();
+            yearMap.put(month, monthMap);
+            mYears.put(year, yearMap);
+        }
+        else
+        {
+            HashMap<String, HashMap<Integer, List<Event>>> yearMap = mYears.get(year);
         }
 
         ArrayList eventsOftheMonth = mMonths.get(month);
@@ -108,151 +107,55 @@ public class ClubCalendar
 
     }*/
 
-    public static List<Event> getEventsForDay(String year, String month, String date)
+    public static List<Event> getEventsForDay(LocalDate date)
     {
-        HashMap<String, HashMap<String, List<Event>>> curYear = mYears.get(year);
+        HashMap<String, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
+
         if (curYear == null)
         {
             return null;
         }
 
-        HashMap<String, List<Event>> curMonth = curYear.get(month);
+        HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonth().getDisplayName(TextStyle.FULL, Locale.US));
+
         if (curMonth == null)
         {
             return null;
         }
 
-        List<Event> events = curMonth.get(date);
+        List<Event> events = curMonth.get(date.getDayOfMonth());
         return events;
-    }
-
-    public static int getCurrentYear()
-    {
-        return Calendar.getInstance().get(Calendar.YEAR);
-    }
-
-    public static Calendar getBaseCalendar()
-    {
-        return mCalendar;
-    }
-
-    public int getYear()
-    {
-        return mCalendar.get(Calendar.YEAR);
-    }
-
-    public static int getCurrentYearCode()
-    {
-        return Calendar.getInstance().get(Calendar.YEAR);
-    }
-
-    public int getYearCode()
-    {
-        return mCalendar.get(Calendar.YEAR);
-    }
-
-
-    public static int getCurrentMonthCode()
-    {
-        return Calendar.getInstance().get(Calendar.MONTH);
-    }
-
-    public int getMonthCode()
-    {
-        return mCalendar.get(Calendar.MONTH);
-    }
-
-    public static int getCurrentDate()
-    {
-        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 
     public int getDate()
     {
-        return mCalendar.get(Calendar.DAY_OF_MONTH);
-    }
-
-    public int getWeek()
-    {
-        return mCalendar.get(Calendar.WEEK_OF_MONTH);
-    }
-
-    public int getFirstDateInWeek(int weekOfYear)
-    {
-        mCalendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
-        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        return getDate();
-    }
-
-    public static int getCurrentDaysInMonth()
-    {
-        return Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+        return mLocalDate.getDayOfMonth();
     }
 
     public int getDaysInMonth()
     {
-        return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        return mLocalDate.lengthOfMonth();
     }
 
     public int getWeeksInMonth()
     {
-        return mCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
-    }
-
-    public int getWeekOfYear()
-    {
-        return mCalendar.get(Calendar.WEEK_OF_YEAR);
-    }
-
-    public static String getCurrentMonth()
-    {
-        return Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        LocalDate lastDayOfMonth = mLocalDate.withDayOfMonth(mLocalDate.lengthOfMonth());
+        int lastWeekOfMonth = lastDayOfMonth.get(WeekFields.ISO.weekOfMonth());
+        return lastWeekOfMonth;
     }
 
     public String getMonth()
     {
-        return mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
-    }
-
-    public static String getCurrentDayOfWeek()
-    {
-        return Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
-    }
-
-    public static String getDayOfWeek(int year, int month, int date)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.set(year, month, date);
-        return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
-    }
-
-    public String getDayOfWeek()
-    {
-        return mCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
+        return mLocalDate.getMonth().getDisplayName(TextStyle.FULL, Locale.US);
     }
 
     public void prevMonth()
     {
-        mCalendar.add(Calendar.MONTH, -1);
+        mLocalDate.minusMonths(1);
     }
 
     public void nextMonth()
     {
-        mCalendar.add(Calendar.MONTH, 1);
-    }
-
-    public void setDate(int date)
-    {
-        mCalendar.set(Calendar.DATE, date);
-    }
-
-    public void setWeekOfMonth(int week)
-    {
-        mCalendar.set(Calendar.WEEK_OF_MONTH, week);
-    }
-
-    public void setToFirstDayOfWeek()
-    {
-        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        mLocalDate.plusMonths(1);
     }
 }

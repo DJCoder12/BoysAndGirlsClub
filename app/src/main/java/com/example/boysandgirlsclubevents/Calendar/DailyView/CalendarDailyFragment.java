@@ -14,33 +14,25 @@ import android.widget.TextView;
 import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.example.boysandgirlsclubevents.R;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.List;
 
 
 public class CalendarDailyFragment extends Fragment
 {
     private static final String TAG = "CalendarDailyFragment";
-    private static final String DATE_KEY = "date";
-    private static final String MONTH_KEY = "month";
-    private static final String YEAR_KEY = "year";
-    private static final String DAY_KEY = "day";
-
+    private LocalDate mLocalDate;
     private CalendarDailyLogic mLogic;
 
     private TextView mDateText;
     private TextView mDayText;
     private RecyclerView mEventsRecyclerView;
 
-    public static CalendarDailyFragment newInstance(int date, int year, String month, String dayOfWeek)
+    public static CalendarDailyFragment newInstance(LocalDate date)
     {
-        Bundle args = new Bundle();
-        args.putInt(DATE_KEY, date);
-        args.putString(MONTH_KEY, month);
-        args.putString(DAY_KEY, dayOfWeek);
-        args.putString(YEAR_KEY, String.valueOf(year));
-
         CalendarDailyFragment fragment = new CalendarDailyFragment();
-        fragment.setArguments(args);
+        fragment.setCurrentDate(date);
         return fragment;
     }
 
@@ -48,17 +40,7 @@ public class CalendarDailyFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null)
-        {
-            int date = args.getInt(DATE_KEY);
-            String day = args.getString(DAY_KEY);
-            String year = args.getString(YEAR_KEY);
-            String month = args.getString(MONTH_KEY);
-
-
-            mLogic = new CalendarDailyLogic(this, year, month, day, date);
-        }
+        mLogic = new CalendarDailyLogic(this, mLocalDate);
     }
 
     @Nullable
@@ -71,6 +53,11 @@ public class CalendarDailyFragment extends Fragment
         mLogic.handleDate();
         mLogic.handleLoadingEvents();
         return view;
+    }
+
+    private void setCurrentDate(LocalDate localDate)
+    {
+        mLocalDate = localDate;
     }
 
     private void setUpEvents(View view)
