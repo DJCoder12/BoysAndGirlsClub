@@ -86,6 +86,9 @@ public class NavigationActivity extends AppCompatActivity
                 case R.id.nav_members_of_the_month:
                     showFragment(2, MemberMonthFragment.TAG);
                     return true;
+                case R.id.nav_join_club:
+                    showFragment(3, JoinClubFragment.TAG);
+                    return true;
             }
 
             return false;
@@ -185,10 +188,12 @@ public class NavigationActivity extends AppCompatActivity
         Fragment calendarFragment = new CalendarFragment();
         Fragment announcementsFragment = new AnnouncementsFragment();
         Fragment memberOfMonthFragment = new MemberMonthFragment();
+        Fragment joinClubFragment = new JoinClubFragment();
 
         mFragments.add(calendarFragment);
         mFragments.add(announcementsFragment);
         mFragments.add(memberOfMonthFragment);
+        mFragments.add(joinClubFragment);
     }
 
     private Fragment getFragment(int index)
