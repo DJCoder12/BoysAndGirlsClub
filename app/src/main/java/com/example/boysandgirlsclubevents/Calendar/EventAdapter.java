@@ -1,6 +1,7 @@
-package com.example.boysandgirlsclubevents.Calendar.DailyView;
+package com.example.boysandgirlsclubevents.Calendar;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.example.boysandgirlsclubevents.R;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
 {
@@ -108,6 +109,30 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
             Glide.with(holder.baseView)
                     .load(curEvent.getIcon())
                     .into(holder.iconImage);
+
+            Resources res = mContext.getResources();
+
+            switch (curEvent.getColor())
+            {
+                case Red:
+                    holder.baseView.setBackgroundColor(res.getColor(R.color.eventRed));
+                    break;
+                case Green:
+                    holder.baseView.setBackgroundColor(res.getColor(R.color.eventGreen));
+                    break;
+                case Yellow:
+                    holder.baseView.setBackgroundColor(res.getColor(R.color.eventYellow));
+                    break;
+                case Blue:
+                    holder.baseView.setBackgroundColor(res.getColor(R.color.eventBlue));
+                    break;
+                case Orange:
+                    holder.baseView.setBackgroundColor(res.getColor(R.color.eventOrange));
+                    break;
+                case Purple:
+                    holder.baseView.setBackgroundColor(res.getColor(R.color.eventPurple));
+                    break;
+            }
         }
     }
 

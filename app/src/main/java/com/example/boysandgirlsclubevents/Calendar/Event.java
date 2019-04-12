@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class Event
 {
@@ -20,6 +21,7 @@ public class Event
     private Date mEndTime;
 
     private ClubLocation mClubLocation;
+    private Color mColor;
 
     public enum ClubLocation
     {
@@ -27,6 +29,16 @@ public class Event
         LemonStreet,
         AnnStreet,
         Columbia
+    }
+
+    public enum Color
+    {
+        Blue,
+        Red,
+        Green,
+        Yellow,
+        Orange,
+        Purple
     }
 
     public Event(String title, ClubLocation clubLocation, Calendar startTime, int duration, int icon)
@@ -38,6 +50,8 @@ public class Event
         startTime.add(Calendar.MINUTE, duration);
         mEndTime = startTime.getTime();
         mIcon = icon;
+        Color[] colors = Color.values();
+        mColor = colors[new Random().nextInt(colors.length)];
     }
 
     public Event setTitle(String newTitle)
@@ -95,5 +109,10 @@ public class Event
     public int getUpperAge()
     {
         return mUpperAge;
+    }
+
+    public Color getColor()
+    {
+        return mColor;
     }
 }

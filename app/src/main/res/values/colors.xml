@@ -5,6 +5,13 @@
     <color name="colorAccent">#7DFA09</color>
     <color name="colorDetailText">#6D6D6D</color>
 
+    <color name="eventBlue">#1E88E5</color>
+    <color name="eventRed">#E53935</color>
+    <color name="eventGreen">#43A047</color>
+    <color name="eventYellow">#E9BF26</color>
+    <color name="eventOrange">#F4511E</color>
+    <color name="eventPurple">#5E35B1</color>
+
     <color name="today">#4b82ff</color>
     <color name="greyedOut">#c7c7c7</color>
     <color name="white">#FFF</color>

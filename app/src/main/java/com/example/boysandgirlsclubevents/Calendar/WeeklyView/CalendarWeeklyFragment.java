@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
-import com.example.boysandgirlsclubevents.Calendar.DailyView.EventAdapter;
+import com.example.boysandgirlsclubevents.Calendar.EventAdapter;
 import com.example.boysandgirlsclubevents.R;
 
 import org.threeten.bp.LocalDate;
