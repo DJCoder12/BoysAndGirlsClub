@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="390dp"
+    android:layout_height="65dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/dateItemOne"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <include
+        android:id="@+id/dateItemTwo"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintStart_toEndOf="@id/dateItemOne"/>
+
+    <include
+        android:id="@+id/dateItemThree"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintStart_toEndOf="@id/dateItemTwo"/>
+
+    <include
+        android:id="@+id/dateItemFour"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintStart_toEndOf="@id/dateItemThree"/>
+
+    <include
+        android:id="@+id/dateItemFive"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintStart_toEndOf="@id/dateItemFour"/>
+
+    <include
+        android:id="@+id/dateItemSix"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintStart_toEndOf="@id/dateItemFive"/>
+
+    <include
+        android:id="@+id/dateItemSeven"
+        layout="@layout/calendar_monthly_date_item"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintStart_toEndOf="@id/dateItemSix"/>
+
+
+</android.support.constraint.ConstraintLayout>
