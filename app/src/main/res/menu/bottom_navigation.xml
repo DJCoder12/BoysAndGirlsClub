@@ -13,4 +13,9 @@
         android:title="@string/members_of_the_month"
         android:icon="@drawable/ic_face"/>
 
+    <item
+        android:id="@+id/nav_join_club"
+        android:title="Join Club"
+        android:icon="@drawable/ic_info"/>
+
 </menu>

@@ -22,16 +22,16 @@
         <menu>
             <item
                 android:id="@+id/nav_water_street"
-                android:title="@string/water_street" />
+                android:title="@string/location_hill" />
             <item
                 android:id="@+id/nav_lemon_street"
-                android:title="@string/lemon_street" />
+                android:title="@string/location_jack_walker" />
             <item
                 android:id="@+id/nav_columbia"
-                android:title="@string/columbia" />
+                android:title="@string/location_columbia" />
             <item
                 android:id="@+id/nav_ann_street"
-                android:title="@string/ann_street" />
+                android:title="@string/location_southeast" />
         </menu>
     </item>
 

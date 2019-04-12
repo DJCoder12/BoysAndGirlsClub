@@ -37,16 +37,21 @@ public class ClubCalendar
     {
         //Make some events
         List<Event> dummyEvents1 = new ArrayList<>();
-        Event event1 = new Event("Basketball", "8-14", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football);
-        Event event2 = new Event("Leadership", "5-16", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch);
-        Event event3 = new Event("Study Help", "8-13", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework);
+        Event event1 = new Event("Basketball", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
+                .setLowerAge(5).setUpperAge(18);
+        Event event2 = new Event("Leadership", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch)
+                .setLowerAge(13).setUpperAge(18);
+        Event event3 = new Event("Study Help", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
+                .setLowerAge(8).setUpperAge(14);
         dummyEvents1.add(event1);
         dummyEvents1.add(event2);
         dummyEvents1.add(event3);
 
         List<Event> dummyEvents2 = new ArrayList<>();
-        Event event1a = new Event("Football", "8-14", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football);
-        Event event3a = new Event("Tutoring", "8-13", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework);
+        Event event1a = new Event("Football", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
+                .setLowerAge(13).setUpperAge(16);
+        Event event3a = new Event("Tutoring", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
+                .setLowerAge(10).setUpperAge(14);
         dummyEvents2.add(event1a);
         dummyEvents2.add(event3a);
 

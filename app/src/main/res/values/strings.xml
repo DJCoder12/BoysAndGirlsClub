@@ -7,16 +7,18 @@
     <string name="announcements">Announcements</string>
     <string name="members_of_the_month">MotM</string>
 
+    <!-- Club Houses -->
+    <string name="location_hill">Hill Clubhouse</string>
+    <string name="location_jack_walker">Jack Walker Clubhouse</string>
+    <string name="location_columbia">Columbia Clubhouse</string>
+    <string name="location_southeast">Southeast Clubhouse</string>
+
     <!-- Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Boys and Girls Club Events</string>
     <string name="locations_title">Locations</string>
     <string name="views_title">Views</string>
-    <string name="water_street">Water Street</string>
-    <string name="lemon_street">Lemon Street</string>
-    <string name="columbia">Columbia</string>
-    <string name="ann_street">Ann Street</string>
     <string name="view_daily">Daily</string>
     <string name="view_weekly">Weekly</string>
     <string name="view_monthly">Monthly</string>
@@ -43,6 +45,15 @@
     <string name="hint_end_time">End Time</string>
     <string name="button_submit">Submit</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Events -->
+    <string name="event_age_group">Ages: %1d to %2d</string>
+
+    <!-- Join Club -->
+    <string name="joinClub_intro">Membership Application: Membership at Boys &amp; Girls Club of Lancaster is only $1 per year for all children ages 6-18! Download our membership
+        application and return it to a Clubhouse to join the fun!</string>
+    <string name="joinClub_outro">Our Clubhouses are positive places where kids are emotionally and
+        physically safe, surrounded by full-time, trained, caring youth development professionals
+        who are role models and mentors to our members.</string>
+    <string name="joinClub_english_app">English Application</string>
+    <string name="joinClub_spanish_app">Spanish Application</string>
 </resources>
