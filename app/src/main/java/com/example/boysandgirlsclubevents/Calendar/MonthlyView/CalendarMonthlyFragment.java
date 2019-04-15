@@ -56,6 +56,7 @@ public class CalendarMonthlyFragment extends Fragment
         rows.add((ConstraintLayout) v.findViewById(R.id.rowThree));
         rows.add((ConstraintLayout) v.findViewById(R.id.rowFour));
         rows.add((ConstraintLayout) v.findViewById(R.id.rowFive));
+        rows.add((ConstraintLayout) v.findViewById(R.id.rowSix));
         for (int i = 0; i < rows.size(); i++) {
             ConstraintLayout currRow = rows.get(i);
             mCells.add((ConstraintLayout) currRow.findViewById(R.id.dateItemOne));

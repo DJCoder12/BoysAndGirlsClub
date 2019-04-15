@@ -28,7 +28,7 @@ public class MonthlyPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public int getCount()
     {
-        // There are 12 months in a year.
-        return 12;
+        // The paging between different months is handled by something else.
+        return 1;
     }
 }
