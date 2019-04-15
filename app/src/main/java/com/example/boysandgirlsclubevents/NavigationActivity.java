@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.example.boysandgirlsclubevents.Announcements.AnnouncementsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
