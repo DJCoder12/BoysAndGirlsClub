@@ -1,9 +1,7 @@
 package com.example.boysandgirlsclubevents.Announcements;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.boysandgirlsclubevents.R;
-import com.example.boysandgirlsclubevents.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -21,8 +18,9 @@ public class AnnouncementsFragment extends Fragment
 
     public static String TAG = "AnnouncementsFragment";
 
-        private ArrayList<String> statements = new ArrayList<String>();
-        private ArrayList<String> imageUrls = new ArrayList<String>();
+        private ArrayList<Announcement> allAnnouncements = new ArrayList<Announcement>();
+        //private ArrayList<String> imageUrls = new ArrayList<String>();
+        //private Announcement
 
 
     @Override
@@ -42,31 +40,25 @@ public class AnnouncementsFragment extends Fragment
 
     private void initImageBitmaps() {
         Log.d(TAG, "SSS initImageBitmaps: preparing bitmaps");
+        Announcement announcement1 = new Announcement("A1","This is an announcment1", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement2 = new Announcement("A2","This is an announcment2", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement3 = new Announcement("A3","This is an announcment3", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement4 = new Announcement("A4","This is an announcment4", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement5 = new Announcement("A5","This is an announcment5", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement6 = new Announcement("A6","This is an announcment6", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement7 = new Announcement("A7","This is an announcment7", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement8 = new Announcement("A8","This is an announcment8", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
+        Announcement announcement9 = new Announcement("A9","This is an announcment9", "https://radiocms-images.us1.eldarioncloud.com/resize/750/https://storage.googleapis.com/media.mwcradio.com/mimesis/2014-12/09/boys%20and%20girls%20club.png");
 
-        statements.add("This is a sample announcement1");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement2");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement3");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement4");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement5");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement6");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
-        statements.add("This is a sample announcement7");
-        imageUrls.add("https://positivecoach.org/media/805204/bcga.png");
-
+        allAnnouncements.add(announcement1);
+        allAnnouncements.add(announcement2);
+        allAnnouncements.add(announcement3);
+        allAnnouncements.add(announcement4);
+        allAnnouncements.add(announcement5);
+        allAnnouncements.add(announcement6);
+        allAnnouncements.add(announcement7);
+        allAnnouncements.add(announcement8);
+        allAnnouncements.add(announcement9);
         Log.d(TAG, " SSS initImages added.");
 
         initRecyclerView();
@@ -75,7 +67,7 @@ public class AnnouncementsFragment extends Fragment
     private void initRecyclerView() {
         RecyclerView recyclerView = getView().findViewById(R.id.my_recycler_view);
         Log.d(TAG, "SSS VIEW MADE .");
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(statements, imageUrls, getContext());
+        AnnouncementsRecyclerViewAdapter adapter = new AnnouncementsRecyclerViewAdapter(allAnnouncements, getContext());
         recyclerView.setAdapter(adapter);
         Log.d(TAG, "SSS adapter set.");
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

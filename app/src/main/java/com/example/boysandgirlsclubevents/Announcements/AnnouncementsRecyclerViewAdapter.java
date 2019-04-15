@@ -1,4 +1,4 @@
-package com.example.boysandgirlsclubevents;
+package com.example.boysandgirlsclubevents.Announcements;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,21 +12,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.boysandgirlsclubevents.R;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<AnnouncementsRecyclerViewAdapter.ViewHolder>{
     private static final String TAG = "RecyclerView";
-    private  ArrayList<String> appImages = new ArrayList<String>();
-    private ArrayList<String> appAnnouncements = new ArrayList<String>();
+    private  ArrayList<Announcement> allAppAnnouncements = new ArrayList<Announcement>();
     private Context appContext;
 
-    public RecyclerViewAdapter(ArrayList<String> announcements, ArrayList<String> images, Context context){
-        appAnnouncements = announcements;
+    public AnnouncementsRecyclerViewAdapter(ArrayList<Announcement> announcements, Context context){
+        allAppAnnouncements = announcements;
         appContext = context;
-        appImages = images;
     }
     @NonNull
     @Override
@@ -39,42 +38,35 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         Log.d(TAG,"onBindViewHolder: called.");
-        viewHolder.text.setText(appAnnouncements.get(i));
+        viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
+        viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"onClick: clicked on some text");
                 Glide.with(appContext)
                         .asBitmap()
-                        .load(appImages.get(i))
+                        .load(allAppAnnouncements.get(i).getImage())
                         .into(viewHolder.image);
-                viewHolder.text.setText(appAnnouncements.get(i));
-
-                viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG,"onClick:clicked on: "+ appAnnouncements.get(i));
-                        Toast.makeText(appContext, "this is happening", Toast.LENGTH_SHORT).show();
-
+                viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
                     }
                 });
-
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return appAnnouncements.size();
+        return allAppAnnouncements.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CircleImageView image;
         TextView text;
+        TextView title;
         RelativeLayout parentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.announcement);
+            text = itemView.findViewById(R.id.Body);
+            title = itemView.findViewById(R.id.Title);
             parentLayout = itemView.findViewById(R.id.parent_layout);
 
         }

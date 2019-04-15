@@ -8,12 +8,14 @@ public class Announcement
     private String mTitle;
     private String mBody;
     private Timestamp mDate;
+    private String mImage;
 
-    public Announcement(String title, String body)
+    public Announcement(String title, String body, String image)
     {
         mTitle = title;
         mBody = body;
         mDate = Timestamp.now();
+        mImage = image;
     }
 
     public String getBody()
@@ -44,5 +46,13 @@ public class Announcement
     public void setDate(Timestamp date)
     {
         this.mDate = mDate;
+    }
+
+    public String getImage(){
+        return mImage;
+    }
+
+    public void setImage(String newImage){
+        this.mImage = newImage;
     }
 }
