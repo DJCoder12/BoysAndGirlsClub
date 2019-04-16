@@ -35,11 +35,16 @@
     <!-- Add Events Activity -->
     <string name="title_add_events_activity">Add Event</string>
     <string name="hint_title">Title</string>
-    <string name="hint_location">Location</string>
+    <string-array name="clubhouses_selection">
+        <item>Select a location</item>
+        <item>Columbia</item>
+        <item>Hill</item>
+        <item>Jack Walker</item>
+        <item>Southeast</item>
+    </string-array>
     <string name="hint_description">Description</string>
-    <string name="hint_start_date">Start Date</string>
+    <string name="hint_event_date">Event Date</string>
     <string name="hint_start_time">Start Time</string>
-    <string name="hint_end_date">End Date</string>
     <string name="hint_end_time">End Time</string>
     <string name="button_submit">Submit</string>
 
