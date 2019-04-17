@@ -51,6 +51,8 @@
         <item>Jack Walker</item>
         <item>Southeast</item>
     </string-array>
+    <string name="hint_lower_age">Lower Age</string>
+    <string name="hint_upper_age">Upper Age</string>
     <string name="hint_description">Description</string>
     <string name="hint_event_date">Event Date</string>
     <string name="hint_start_time">Start Time</string>

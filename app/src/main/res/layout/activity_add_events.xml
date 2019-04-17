@@ -13,7 +13,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/hint_title"
-        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintVertical_bias="0.15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -72,16 +72,38 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
+        android:id="@+id/edittext_lower_age"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:hint="@string/hint_lower_age"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/editText_startTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/edittext_upper_age" />
+
+    <EditText
+        android:id="@+id/edittext_upper_age"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:hint="@string/hint_upper_age"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/editText_endTime"
+        app:layout_constraintStart_toEndOf="@id/edittext_lower_age"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
         android:id="@+id/editText_description"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine"
         android:hint="@string/hint_description"
-        android:lines="8"
+        android:lines="4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_endTime" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_lower_age" />
 
     <Button
         android:id="@+id/button"
