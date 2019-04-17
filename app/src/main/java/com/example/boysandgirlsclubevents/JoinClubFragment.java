@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
 import com.example.boysandgirlsclubevents.Util.WebUtils;
@@ -13,11 +16,8 @@ import com.example.boysandgirlsclubevents.Util.WebUtils;
 public class JoinClubFragment extends Fragment
 {
     public static final String TAG = "JoinClubFragment";
-    private static final String ENG_MEMBERSHIP_FORM_URL = "http://bgclanc.org/wp-content/uploads/2017/02/Updated-Membership-Application-English-1.pdf";
-    private static final String SPA_MEMBERSHIP_FORM_URL = "http://bgclanc.org/wp-content/uploads/2017/02/Updated-Membership-Application-Spanish-1.pdf";
-
-    private Button engButton;
-    private Button spaButton;
+    private static final String joinURL = "http://bgclanc.org/join/";
+    private WebView mWebView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
@@ -30,28 +30,26 @@ public class JoinClubFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_join_club, container, false);
-        engButton = view.findViewById(R.id.btn_joinEnglish_joinClub);
-        spaButton = view.findViewById(R.id.btn_joinSpanish_joinClub);
-        engButton.setOnClickListener(engListener);
-        spaButton.setOnClickListener(spaListener);
+        initWebView(view);
         return view;
     }
 
-    private View.OnClickListener engListener = new View.OnClickListener()
+    private void initWebView(View view)
     {
-        @Override
-        public void onClick(View view)
-        {
-            WebUtils.openWebURL(ENG_MEMBERSHIP_FORM_URL, JoinClubFragment.this.getContext());
-        }
-    };
+        mWebView = view.findViewById(R.id.wv_joinPage_joinClub);
 
-    private View.OnClickListener spaListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
+        //Turn on javascript
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient()
         {
-            WebUtils.openWebURL(SPA_MEMBERSHIP_FORM_URL, JoinClubFragment.this.getContext());
-        }
-    };
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+        mWebView.loadUrl(joinURL);
+    }
 }

@@ -13,8 +13,8 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
-
+public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>
+{
     public MemberMonth member;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
