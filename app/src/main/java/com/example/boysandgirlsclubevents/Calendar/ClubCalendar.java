@@ -35,35 +35,35 @@ public class ClubCalendar
     //TODO: Delete when this is connected to the db
     private void initEvents()
     {
-        //Make some events
-        List<Event> dummyEvents1 = new ArrayList<>();
-        Event event1 = new Event("Basketball", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
-                .setLowerAge(5).setUpperAge(18);
-        Event event2 = new Event("Leadership", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch)
-                .setLowerAge(13).setUpperAge(18);
-        Event event3 = new Event("Study Help", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
-                .setLowerAge(8).setUpperAge(14);
-        dummyEvents1.add(event1);
-        dummyEvents1.add(event2);
-        dummyEvents1.add(event3);
-
-        List<Event> dummyEvents2 = new ArrayList<>();
-        Event event1a = new Event("Football", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
-                .setLowerAge(13).setUpperAge(16);
-        Event event3a = new Event("Tutoring", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
-                .setLowerAge(10).setUpperAge(14);
-        dummyEvents2.add(event1a);
-        dummyEvents2.add(event3a);
-
-        //populate some days with dummy events
-        HashMap<Integer, List<Event>> april = new HashMap<>();
-        april.put(8, dummyEvents2);
-        april.put(10, dummyEvents1);
-
-        HashMap<String, HashMap<Integer, List<Event>>> y2019 = new HashMap<>();
-        y2019.put("April", april);
-
-        mYears.put(2019, y2019);
+//        //Make some events
+//        List<Event> dummyEvents1 = new ArrayList<>();
+//        Event event1 = new Event("Basketball", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
+//                .setLowerAge(5).setUpperAge(18);
+//        Event event2 = new Event("Leadership", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch)
+//                .setLowerAge(13).setUpperAge(18);
+//        Event event3 = new Event("Study Help", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
+//                .setLowerAge(8).setUpperAge(14);
+//        dummyEvents1.add(event1);
+//        dummyEvents1.add(event2);
+//        dummyEvents1.add(event3);
+//
+//        List<Event> dummyEvents2 = new ArrayList<>();
+//        Event event1a = new Event("Football", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
+//                .setLowerAge(13).setUpperAge(16);
+//        Event event3a = new Event("Tutoring", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
+//                .setLowerAge(10).setUpperAge(14);
+//        dummyEvents2.add(event1a);
+//        dummyEvents2.add(event3a);
+//
+//        //populate some days with dummy events
+//        HashMap<Integer, List<Event>> april = new HashMap<>();
+//        april.put(8, dummyEvents2);
+//        april.put(10, dummyEvents1);
+//
+//        HashMap<String, HashMap<Integer, List<Event>>> y2019 = new HashMap<>();
+//        y2019.put("April", april);
+//
+//        mYears.put(2019, y2019);
     }
 
     /*//Creates an event object and adds the event to the month ArrayList. Also sets up mMonths if first time being used
@@ -171,5 +171,9 @@ public class ClubCalendar
     public void nextMonth()
     {
         mLocalDate = mLocalDate.plusMonths(1);
+    }
+
+    public int getYear() {
+        return mLocalDate.getYear();
     }
 }

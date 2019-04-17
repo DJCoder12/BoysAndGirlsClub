@@ -52,7 +52,7 @@ public class CalendarLogic
     private void handleNewMonth()
     {
         mView.updateAdapter();
-        mView.showMonthTitle(mClubCalendar.getMonth());
+        mView.showMonthTitle(mClubCalendar.getMonth() + ' ' + Integer.toString(mClubCalendar.getYear()));
 
         CalendarSettings.CalendarType curCalendarType = CalendarSettings.getCalendarType();
         if (curCalendarType == CalendarSettings.CalendarType.Daily)

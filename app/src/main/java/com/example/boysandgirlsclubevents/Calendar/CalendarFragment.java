@@ -62,7 +62,7 @@ public class CalendarFragment extends Fragment
         mNext = view.findViewById(R.id.ib_nextMonth_calendar);
         mPrev.setOnClickListener(prevListener);
         mNext.setOnClickListener(nextListener);
-        showMonthTitle(mClubCalendar.getMonth());
+        showMonthTitle(mClubCalendar.getMonth() + ' ' + Integer.toString(mClubCalendar.getYear()));
     }
 
     public void showDailyCalendar()
