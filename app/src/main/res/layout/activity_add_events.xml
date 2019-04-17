@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/edittext_lower_age"
+        android:id="@+id/editText_lowerAge"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:inputType="number"
@@ -80,17 +80,17 @@
         android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/editText_startTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/edittext_upper_age" />
+        app:layout_constraintEnd_toStartOf="@id/editText_upperAge" />
 
     <EditText
-        android:id="@+id/edittext_upper_age"
+        android:id="@+id/editText_upperAge"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:inputType="number"
         android:hint="@string/hint_upper_age"
         android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/editText_endTime"
-        app:layout_constraintStart_toEndOf="@id/edittext_lower_age"
+        app:layout_constraintStart_toEndOf="@id/editText_lowerAge"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
@@ -103,7 +103,7 @@
         android:lines="4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_lower_age" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_lowerAge" />
 
     <Button
         android:id="@+id/button"

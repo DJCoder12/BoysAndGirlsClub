@@ -25,8 +25,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.threeten.bp.YearMonth;
-
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,6 +44,8 @@ public class AddEventsActivity extends AppCompatActivity {
     private EditText mEventDateField;
     private EditText mStartTimeField;
     private EditText mEndTimeField;
+    private EditText mLowerAgeField;
+    private EditText mUpperAgeField;
 
     // Formats based on locales.
     public static java.text.DateFormat mDateFormat =
@@ -75,6 +75,8 @@ public class AddEventsActivity extends AppCompatActivity {
         mEventDateField = findViewById(R.id.editText_eventDate);
         mStartTimeField = findViewById(R.id.editText_startTime);
         mEndTimeField = findViewById(R.id.editText_endTime);
+        mLowerAgeField = findViewById(R.id.editText_lowerAge);
+        mUpperAgeField = findViewById(R.id.editText_upperAge);
 
         // Initialize Firestore.
         mFirestore = FirebaseFirestore.getInstance();
@@ -114,6 +116,13 @@ public class AddEventsActivity extends AppCompatActivity {
                 mEndTimeField.getText().toString().isEmpty();
     }
 
+    public boolean isValidAgeRange() {
+        Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
+        Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
+
+        return upperAge >= lowerAge;
+    }
+
     public boolean isValidTimeDifference() {
         // Get formatted dates.
         String startTimeFormatted = mStartTimeField.getText().toString();
@@ -144,11 +153,18 @@ public class AddEventsActivity extends AppCompatActivity {
 
     public void submit(View v) {
         if (emptyFieldExists()) {
-            Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill out all required fields.", Toast.LENGTH_SHORT).show();
+        } else if (!isValidAgeRange()) {
+            Toast.makeText(this, "Age range is invalid. Upper age must be greater than or equal to lower age.",
+                    Toast.LENGTH_SHORT).show();
+
+            // Clear the invalid fields.
+            mUpperAgeField.setText("");
+            mLowerAgeField.setText("");
         } else if (!isValidTimeDifference()) {
             Toast.makeText(this, "End time must be after start time.", Toast.LENGTH_SHORT).show();
 
-            // Clear the fields.
+            // Clear the invalid fields.
             mStartTimeField.setText("");
             mEndTimeField.setText("");
         } else {
