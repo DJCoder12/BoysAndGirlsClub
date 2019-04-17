@@ -33,6 +33,13 @@
     <string name="view_daily_time">%1$s to %2$s</string>
     <string name="button_logout">Log Out</string>
     <string name="button_new_event">New Event</string>
+    <string name="sun_abrv">Sun</string>
+    <string name="mon_abrv">Mon</string>
+    <string name="tue_abrv">Tue</string>
+    <string name="wed_abrv">Wed</string>
+    <string name="thu_abrv">Thu</string>
+    <string name="fri_abrv">Fri</string>
+    <string name="sat_abrv">Sat</string>
 
     <!-- Add Events Activity -->
     <string name="title_add_events_activity">Add Event</string>
