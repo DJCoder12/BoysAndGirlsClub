@@ -9,13 +9,22 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.threeten.bp.YearMonth;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -31,10 +40,9 @@ public class AddEventsActivity extends AppCompatActivity {
 
     // Activity UI elements.
     private EditText mTitleField;
-    private EditText mLocationField;
+    private Spinner mLocationField;
     private EditText mDescriptionField;
-    private EditText mEndDateField;
-    private EditText mStartDateField;
+    private EditText mEventDateField;
     private EditText mStartTimeField;
     private EditText mEndTimeField;
 
@@ -44,7 +52,7 @@ public class AddEventsActivity extends AppCompatActivity {
     public static java.text.DateFormat mTimeFormat =
             java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT);
 
-    // TODO: Database access.
+    // Database.
     private FirebaseFirestore mFirestore;
 
     @Override
@@ -54,12 +62,21 @@ public class AddEventsActivity extends AppCompatActivity {
 
         // Keep references to views contained in activity.
         mTitleField = findViewById(R.id.editText_title);
+
+        // Populate choices for location spinner by creating an array adapter.
         mLocationField = findViewById(R.id.editText_location);
+        ArrayAdapter<CharSequence> a = ArrayAdapter.createFromResource(this,
+                R.array.clubhouses_selection, android.R.layout.simple_spinner_item);
+        a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mLocationField.setAdapter(a);
+
         mDescriptionField = findViewById(R.id.editText_description);
-        mStartDateField = findViewById(R.id.editText_startDate);
+        mEventDateField = findViewById(R.id.editText_eventDate);
         mStartTimeField = findViewById(R.id.editText_startTime);
-        mEndDateField = findViewById(R.id.editText_endDate);
         mEndTimeField = findViewById(R.id.editText_endTime);
+
+        // Initialize Firestore.
+        mFirestore = FirebaseFirestore.getInstance();
     }
 
     public void showTimePicker(View v) {
@@ -89,25 +106,21 @@ public class AddEventsActivity extends AppCompatActivity {
     }
 
     private boolean emptyFieldExists() {
-        return mTitleField.getText().toString().isEmpty() ||
-                mLocationField.getText().toString().isEmpty() ||
-                mStartDateField.getText().toString().isEmpty() ||
+        return mLocationField.getSelectedItem().toString().equals("Select a location") ||
+                mTitleField.getText().toString().isEmpty() ||
+                mEventDateField.getText().toString().isEmpty() ||
                 mStartTimeField.getText().toString().isEmpty() ||
-                mEndDateField.getText().toString().isEmpty() ||
                 mEndTimeField.getText().toString().isEmpty();
     }
 
     public boolean isValidTimeDifference() {
         // Get formatted dates.
-        String startDateFormatted = mStartDateField.getText().toString();
-        String endDateFormatted = mEndDateField.getText().toString();
-        String startTimeFormatted = mStartTimeField.getText().toString(); String endTimeFormatted = mEndTimeField.getText().toString();
+        String startTimeFormatted = mStartTimeField.getText().toString();
+        String endTimeFormatted = mEndTimeField.getText().toString();
 
         // Parse the dates and times.
-        Date startDate, endDate, startTime, endTime;
+        Date startTime, endTime;
         try {
-            startDate = mDateFormat.parse(startDateFormatted);
-            endDate = mDateFormat.parse(endDateFormatted);
             startTime = mTimeFormat.parse(startTimeFormatted);
             endTime = mTimeFormat.parse(endTimeFormatted);
         } catch (ParseException pe) {
@@ -120,34 +133,94 @@ public class AddEventsActivity extends AppCompatActivity {
 
         // Create calendars for comparison.
         Date start = new Date();
-        start.setTime(startTime.getTime() + startDate.getTime() + offset);
+        start.setTime(startTime.getTime() + offset);
         Date end = new Date();
-        end.setTime(endTime.getTime() + endDate.getTime() + offset);
+        end.setTime(endTime.getTime() + offset);
 
         // Return result of comparison.
         return end.getTime() > start.getTime();
     }
 
     public void submit(View v) {
-        if (!isValidTimeDifference() || !emptyFieldExists()) {
-            Toast.makeText(this, "End date/time must be after start date/time.", Toast.LENGTH_SHORT).show();
+        if (emptyFieldExists()) {
+            Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show();
+        } else if (!isValidTimeDifference()) {
+            Toast.makeText(this, "End time must be after start time.", Toast.LENGTH_SHORT).show();
 
             // Clear the fields.
-            mStartDateField.setText("");
             mStartTimeField.setText("");
-            mEndDateField.setText("");
             mEndTimeField.setText("");
         } else {
-            // TODO: implement logic for this.
-            Toast.makeText(this, "New event created successfully.", Toast.LENGTH_SHORT).show();
+            // Create and send to firestore.
+            sendToFirestore();
         }
     }
 
     private void sendToFirestore() {
-        Map<String, Object> event = new HashMap<>();
+        // Get basic string data from fields.
+        String title = mTitleField.getText().toString();
+        String location = mLocationField.getSelectedItem().toString();
+        String description = mDescriptionField.getText().toString();
+        String dayFormatted = mEventDateField.getText().toString();
+        String startTimeFormatted = mStartTimeField.getText().toString();
+        String endTimeFormatted = mEndTimeField.getText().toString();
 
-        mFirestore.collection("events").document("gv397gn8GCnjaAa0O7EA")
-            .collection("years");
+        // Parse dates into Date objects.
+        Date day, startTime, endTime;
+        try {
+            day = mDateFormat.parse(dayFormatted);
+            startTime = mTimeFormat.parse(startTimeFormatted);
+            endTime = mTimeFormat.parse(endTimeFormatted);
+        } catch (ParseException pe) {
+            Log.d(TAG, "Field parse failed.");
+            return;
+        }
+
+        // Create the offset value to convert from UTC to local.
+        TimeZone tz = mDateFormat.getTimeZone();
+        int offset = tz.getRawOffset();
+
+        // Finally create date objects for use with timestamps.
+        Date startDate = new Date();
+        startDate.setTime(day.getTime() + startTime.getTime() + offset);
+        Date endDate = new Date();
+        endDate.setTime(day.getTime() + endTime.getTime() + offset);
+
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(startDate.getTime());
+
+        // Create event map to send to Firestore.
+        Map<String, Object> event = new HashMap<>();
+        event.put("title", title);
+        event.put("location", location);
+        event.put("description", description);
+        event.put("start_time", new Timestamp(startDate));
+        event.put("end_time", new Timestamp(endDate));
+
+        // Form Firestore set command.
+        String eventType = "non-recurring";
+        String year = Integer.toString(c.get(Calendar.YEAR));
+        String month = Integer.toString(c.get(Calendar.MONTH) + 1);
+
+        // Add to Firestore.
+        mFirestore.collection("events").document(eventType)
+                .collection("years").document(year)
+                .collection("months").document(month)
+                .collection("events").add(event)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Event created successfully.",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to create event.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     // Subclass for creating the DatePicker dialog.
