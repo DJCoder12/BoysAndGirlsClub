@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -165,6 +166,19 @@ public class AddEventsActivity extends AppCompatActivity {
         String startTimeFormatted = mStartTimeField.getText().toString();
         String endTimeFormatted = mEndTimeField.getText().toString();
 
+        // Determine location number.
+        int locNum = -1;
+        switch (location) {
+            case "Columbia": locNum = Event.ClubLocation.Columbia.getLocNum();
+            break;
+            case "Hill": locNum = Event.ClubLocation.Hill.getLocNum();
+            break;
+            case "Jack Walker": locNum = Event.ClubLocation.JackWalker.getLocNum();
+            break;
+            case "Southeast": locNum = Event.ClubLocation.Southeast.getLocNum();
+            break;
+        }
+
         // Parse dates into Date objects.
         Date day, startTime, endTime;
         try {
@@ -192,7 +206,7 @@ public class AddEventsActivity extends AppCompatActivity {
         // Create event map to send to Firestore.
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
-        event.put("location", location);
+        event.put("location", locNum);
         event.put("description", description);
         event.put("start_time", new Timestamp(startDate));
         event.put("end_time", new Timestamp(endDate));

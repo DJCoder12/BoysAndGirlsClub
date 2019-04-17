@@ -25,10 +25,20 @@ public class Event
 
     public enum ClubLocation
     {
-        WaterStreet,
-        LemonStreet,
-        AnnStreet,
-        Columbia
+        Columbia(0),
+        Hill(1),
+        JackWalker(2),
+        Southeast(3);
+
+        private int locNum;
+
+        ClubLocation(int locNum) {
+            this.locNum = locNum;
+        }
+
+        public int getLocNum() {
+            return this.locNum;
+        }
     }
 
     public enum Color
