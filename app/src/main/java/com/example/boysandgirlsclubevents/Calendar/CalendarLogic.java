@@ -84,7 +84,7 @@ public class CalendarLogic
     public void handleShowCurrentWeek()
     {
         //The pager is 0 indexed so to convert to index, subtract 1
-        mView.showWeek(mClubCalendar.getWeekOfMonth() - 1);
+        mView.showWeek(mClubCalendar.getWeekOfMonth());
     }
 
     public void handleShowFirstWeek()
