@@ -4,32 +4,37 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.YearMonth;
+import org.threeten.bp.ZoneId;
 
-import java.util.List;
+import java.util.Map;
 
-public class ClubCalendarNew {
+public class FirestoreCalendar {
 
-    private static ClubCalendarNew theOneAndOnly;
+    private static FirestoreCalendar theOneAndOnly;
     private FirebaseFirestore mFirestore;
 
-    public static ClubCalendarNew getInstance() {
+    public static FirestoreCalendar getInstance() {
         if (theOneAndOnly == null) {
-            theOneAndOnly = new ClubCalendarNew();
+            theOneAndOnly = new FirestoreCalendar();
         }
 
         return theOneAndOnly;
     }
 
-    private ClubCalendarNew() {
+    private FirestoreCalendar() {
         // Initialize Firestore.
         mFirestore = FirebaseFirestore.getInstance();
     }
 
-    public void queryEventsForMonth(YearMonth ym, OnCompleteListener<QuerySnapshot> ocl) {
+    public void queryEventsForYearMonth(YearMonth ym, OnCompleteListener<QuerySnapshot> ocl) {
         String eventType = "non-recurring";
         String year = Integer.toString(ym.getYear());
 
