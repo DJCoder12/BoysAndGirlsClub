@@ -40,7 +40,6 @@ public class AddEventsActivity extends AppCompatActivity {
     // Activity UI elements.
     private EditText mTitleField;
     private Spinner mLocationField;
-    private EditText mDescriptionField;
     private EditText mEventDateField;
     private EditText mStartTimeField;
     private EditText mEndTimeField;
@@ -71,7 +70,6 @@ public class AddEventsActivity extends AppCompatActivity {
         a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mLocationField.setAdapter(a);
 
-        mDescriptionField = findViewById(R.id.editText_description);
         mEventDateField = findViewById(R.id.editText_eventDate);
         mStartTimeField = findViewById(R.id.editText_startTime);
         mEndTimeField = findViewById(R.id.editText_endTime);
@@ -177,7 +175,6 @@ public class AddEventsActivity extends AppCompatActivity {
         // Get basic string data from fields.
         String title = mTitleField.getText().toString();
         String location = mLocationField.getSelectedItem().toString();
-        String description = mDescriptionField.getText().toString();
         String dayFormatted = mEventDateField.getText().toString();
         String startTimeFormatted = mStartTimeField.getText().toString();
         String endTimeFormatted = mEndTimeField.getText().toString();
@@ -225,7 +222,6 @@ public class AddEventsActivity extends AppCompatActivity {
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
         event.put("location", locNum);
-        event.put("description", description);
         event.put("start_time", new Timestamp(startDate));
         event.put("end_time", new Timestamp(endDate));
         event.put("lower_age", lowerAge);

@@ -93,18 +93,6 @@
         app:layout_constraintStart_toEndOf="@id/editText_lowerAge"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/editText_description"
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:hint="@string/hint_description"
-        android:lines="4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_lowerAge" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -114,6 +102,6 @@
         android:onClick="submit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_lowerAge" />
 
 </android.support.constraint.ConstraintLayout>
