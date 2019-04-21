@@ -1,6 +1,7 @@
 package com.example.boysandgirlsclubevents.Calendar.MonthlyView;
 
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
@@ -23,6 +26,7 @@ import org.threeten.bp.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class CalendarMonthlyFragment extends Fragment {
 
@@ -43,11 +47,11 @@ public class CalendarMonthlyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_monthly_view, container, false);
-        mClubCalendar = new ClubCalendar();
+        mClubCalendar = new ClubCalendar(this);
         initCells(view);
         initTitle(view);
-        updateCellNumbers();
-        mClubCalendar.updateViewOnData(this);
+        showCalendarDays();
+        showEvents(mClubCalendar.getEventsForMonth(mYearMonth));
         return view;
     }
 
@@ -93,8 +97,7 @@ public class CalendarMonthlyFragment extends Fragment {
         return mYearMonth.atDay(1).getDayOfWeek().getValue() - 1;
     }
 
-
-    private void updateCellNumbers() {
+    private void showCalendarDays() {
         int offset = getOffset();
 
         // Add one because of zero index.
@@ -138,7 +141,11 @@ public class CalendarMonthlyFragment extends Fragment {
         }
     }
 
-    public void updateEvents(HashMap<Integer, List<Event>> events) {
+    public void showEvents(HashMap<Integer, List<Event>> events) {
+        if (events == null) {
+            return;
+        }
+
         int offset = getOffset();
 
         // Add one because of zero index.
@@ -155,7 +162,33 @@ public class CalendarMonthlyFragment extends Fragment {
             if (actual > 0 && actual < maxDays) {
                 List<Event> eventsOnDay = events.get(actual);
                 if (eventsOnDay != null && !eventsOnDay.isEmpty()) {
-                    cell.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.eventRed)));
+                    Event firstEvent = eventsOnDay.get(0);
+
+                    Resources res = getResources();
+                    switch (firstEvent.getColor()) {
+                        case Red:
+                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventRed)));
+                            break;
+                        case Green:
+                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventGreen)));
+                            break;
+                        case Yellow:
+                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventYellow)));
+                            break;
+                        case Blue:
+                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventBlue)));
+                            break;
+                        case Orange:
+                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventOrange)));
+                            break;
+                        case Purple:
+                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventPurple)));
+                            break;
+                    }
+
+                    ImageView iconIV = cell.findViewById(R.id.imageViewIcon);
+                    Glide.with(cell).load(firstEvent.getIcon()).into(iconIV);
+
                 }
             }
         }
