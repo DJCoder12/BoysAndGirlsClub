@@ -38,9 +38,6 @@ public class ClubCalendar {
 
     private static LocalDate mLocalDate = LocalDate.now();
 
-    private CalendarDailyFragment mConnectedDaily;
-    private CalendarMonthlyFragment mConnectedMonthly;
-
     public static LocalDate getLocalDate()
     {
         return mLocalDate;
@@ -57,10 +54,6 @@ public class ClubCalendar {
     private static FirestoreCalendar mFirestoreCalendar = FirestoreCalendar.getInstance();
 
     public ClubCalendar() {}
-
-    public ClubCalendar(CalendarMonthlyFragment connectedFragment) {
-        mConnectedMonthly = connectedFragment;
-    }
 
     public static List<Event> getEventsForDay(LocalDate date)
     {
