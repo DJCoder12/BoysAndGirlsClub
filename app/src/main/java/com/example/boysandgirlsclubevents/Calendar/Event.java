@@ -1,5 +1,6 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
+import com.example.boysandgirlsclubevents.R;
 import com.google.firebase.Timestamp;
 
 import java.text.DateFormat;
@@ -14,6 +15,7 @@ public class Event
     private final String STR_DATE_FORMAT = "h:mm a";
     private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
 
+    private String mId;
     private String mTitle;
     private String mDescription;
     private int mLowerAge;
@@ -53,9 +55,10 @@ public class Event
         Purple
     }
 
-    public Event(String title, String description, Integer location,
+    public Event(String id, String title, String description, Integer location,
                  Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
                  Integer upperAge) {
+        mId = id;
         mTitle = title;
         mDescription = description;
         mLowerAge = lowerAge;
@@ -75,7 +78,9 @@ public class Event
         mStartTime = new Date(startTimestamp.toDate().getTime());
         mEndTime = new Date(endTimestamp.toDate().getTime());
 
-        // TODO: change color or icon based on something.
+        mIcon = R.drawable.football;
+        Color[] colors = Color.values();
+        mColor = colors[new Random().nextInt(colors.length)];
     }
 
     public Event(String title, ClubLocation clubLocation, Calendar startTime, int icon)
@@ -89,23 +94,32 @@ public class Event
         mColor = colors[new Random().nextInt(colors.length)];
     }
 
+    public Event setId(String id)
+    {
+        this.mId = id;
+        return this;
+    }
+
     public Event setTitle(String newTitle)
     {
         this.mTitle = newTitle;
         return this;
     }
 
-    public Event setLowerAge(int newAge){
+    public Event setLowerAge(int newAge)
+    {
         this.mLowerAge = newAge;
         return this;
     }
 
-    public Event setUpperAge(int newAge){
+    public Event setUpperAge(int newAge)
+    {
         this.mUpperAge = newAge;
         return this;
     }
 
-    public Event setIcon(int newIcon){
+    public Event setIcon(int newIcon)
+    {
         this.mIcon = newIcon;
         return this;
     }
@@ -114,6 +128,22 @@ public class Event
     {
         this.mClubLocation = newClubLocation;
         return this;
+    }
+
+    public Event setDescription(String description)
+    {
+        this.mDescription = description;
+        return this;
+    }
+
+    public String getId()
+    {
+        return mId;
+    }
+
+    public String getDescription()
+    {
+        return mDescription;
     }
 
     public String getTitle()
