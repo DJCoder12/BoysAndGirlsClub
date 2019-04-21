@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="390dp"
+android:layout_height="65dp"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textViewDayOne"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/sun_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+    <TextView
+        android:id="@+id/textViewDayTwo"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/mon_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toEndOf="@id/textViewDayOne"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+    <TextView
+        android:id="@+id/textViewDayThree"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/tue_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toEndOf="@id/textViewDayTwo"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+    <TextView
+        android:id="@+id/textViewDayFour"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/wed_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toEndOf="@id/textViewDayThree"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+    <TextView
+        android:id="@+id/textViewDayFive"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/thu_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toEndOf="@id/textViewDayFour"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+    <TextView
+        android:id="@+id/textViewDaySix"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/fri_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toEndOf="@id/textViewDayFive"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+    <TextView
+        android:id="@+id/textViewDaySeven"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/sat_abrv"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toEndOf="@id/textViewDaySix"
+        app:layout_constraintBottom_toTopOf="@id/rowOne"
+        />
+
+</android.support.constraint.ConstraintLayout>

@@ -25,7 +25,7 @@ public class WeeklyPagerAdapter extends FragmentStatePagerAdapter
     public Fragment getItem(int position)
     {
         //Get first date in month
-        YearMonth yearMonth =  YearMonth.from(ClubCalendar.mLocalDate);
+        YearMonth yearMonth =  YearMonth.from(ClubCalendar.getLocalDate());
         LocalDate firstDate = yearMonth.atDay(1);
 
         //Get first sunday of week

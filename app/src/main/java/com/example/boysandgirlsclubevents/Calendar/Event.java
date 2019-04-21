@@ -1,5 +1,7 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
+import com.google.firebase.Timestamp;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,10 +15,10 @@ public class Event
     private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
 
     private String mTitle;
+    private String mDescription;
     private int mLowerAge;
     private int mUpperAge;
     private int mIcon;
-    private int mDuration; //Measured in minutes
     private Date mStartTime;
     private Date mEndTime;
 
@@ -25,10 +27,20 @@ public class Event
 
     public enum ClubLocation
     {
-        WaterStreet,
-        LemonStreet,
-        AnnStreet,
-        Columbia
+        Columbia(0),
+        Hill(1),
+        JackWalker(2),
+        Southeast(3);
+
+        private int locNum;
+
+        ClubLocation(int locNum) {
+            this.locNum = locNum;
+        }
+
+        public int getLocNum() {
+            return this.locNum;
+        }
     }
 
     public enum Color
@@ -41,13 +53,36 @@ public class Event
         Purple
     }
 
-    public Event(String title, ClubLocation clubLocation, Calendar startTime, int duration, int icon)
+    public Event(String title, String description, Integer location,
+                 Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
+                 Integer upperAge) {
+        mTitle = title;
+        mDescription = description;
+        mLowerAge = lowerAge;
+        mUpperAge = upperAge;
+
+        switch (location) {
+            case (0): mClubLocation = Event.ClubLocation.Columbia;
+                break;
+            case (1): mClubLocation = Event.ClubLocation.Hill;
+                break;
+            case (2): mClubLocation = Event.ClubLocation.JackWalker;
+                break;
+            case (3): mClubLocation = Event.ClubLocation.Southeast;
+                break;
+        }
+
+        mStartTime = new Date(startTimestamp.toDate().getTime());
+        mEndTime = new Date(endTimestamp.toDate().getTime());
+
+        // TODO: change color or icon based on something.
+    }
+
+    public Event(String title, ClubLocation clubLocation, Calendar startTime, int icon)
     {
         mTitle = title;
         mClubLocation = clubLocation;
-        mDuration = duration;
         mStartTime = startTime.getTime();
-        startTime.add(Calendar.MINUTE, duration);
         mEndTime = startTime.getTime();
         mIcon = icon;
         Color[] colors = Color.values();

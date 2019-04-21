@@ -34,40 +34,66 @@ public class CalendarLogic
         else if (curCalendarType == CalendarSettings.CalendarType.Monthly)
         {
             mView.showMonthlyCalendar();
+            handleShowCurrentMonth();
         }
     }
 
     public void handlePrevClick()
     {
-        mClubCalendar.prevMonth();
-        handleNewMonth();
+        CalendarSettings.CalendarType currCalType = CalendarSettings.getCalendarType();
+        if (currCalType == CalendarSettings.CalendarType.Monthly)
+        {
+            mClubCalendar.prevYear();
+            handleNewYear();
+        }
+        else
+        {
+            mClubCalendar.prevMonth();
+            handleNewMonth();
+        }
     }
 
     public void handleNextClick()
     {
-        mClubCalendar.nextMonth();
-        handleNewMonth();
+        CalendarSettings.CalendarType currCalType = CalendarSettings.getCalendarType();
+        if (currCalType == CalendarSettings.CalendarType.Monthly)
+        {
+            mClubCalendar.nextYear();
+            handleNewYear();
+        }
+        else
+        {
+            mClubCalendar.nextMonth();
+            handleNewMonth();
+        }
+    }
+
+    private void handleNewYear()
+    {
+        mView.updateAdapter();
+        mView.showTitle(Integer.toString(mClubCalendar.getYear()));
+        handleShowCurrentMonth();
     }
 
     private void handleNewMonth()
     {
         mView.updateAdapter();
-        mView.showMonthTitle(mClubCalendar.getMonth());
+        mView.showTitle(mClubCalendar.getMonth() + ' ' + Integer.toString(mClubCalendar.getYear()));
 
         CalendarSettings.CalendarType curCalendarType = CalendarSettings.getCalendarType();
         if (curCalendarType == CalendarSettings.CalendarType.Daily)
         {
             handleShowFirstDay();
         }
-        else if (curCalendarType == CalendarSettings.CalendarType.Weekly)
+        if (curCalendarType == CalendarSettings.CalendarType.Weekly)
         {
             handleShowFirstWeek();
         }
-        else if (curCalendarType == CalendarSettings.CalendarType.Monthly)
-        {
-            //handle month logic
-        }
+    }
 
+    public void handleShowCurrentMonth() {
+        // The pager is zero-indexed so convert by subtracting 1.
+        mView.showMonth(mClubCalendar.getMonthValue() - 1);
     }
 
     public void handleShowCurrentDay()
