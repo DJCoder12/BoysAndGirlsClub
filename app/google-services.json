@@ -13,7 +13,28 @@
           "package_name": "com.example.boysandgirlsclubevents"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "106060296759-kjht013joj2l2lfv9l07n12nkb41qtn5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boysandgirlsclubevents",
+            "certificate_hash": "6962be46f5075f0e58de9d190ed09dba0e9a1725"
+          }
+        },
+        {
+          "client_id": "106060296759-f6ncolls51lbdfof343rm1kanih0cls4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boysandgirlsclubevents",
+            "certificate_hash": "01d662e828f6d0c989e28c501c613b4306e74bc2"
+          }
+        },
+        {
+          "client_id": "106060296759-d489aq3ajcvqmm4jtar8j93e0f5igs8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAtVV1m3aJ-01Qgi_4H1uJvPFyv__GGGnc"

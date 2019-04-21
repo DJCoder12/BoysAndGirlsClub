@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
+
 
 public class MemberMonthFragment extends Fragment
 {
@@ -34,8 +34,19 @@ public class MemberMonthFragment extends Fragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        members = new ArrayList<>();
+        for(int i = 1; i <= 4; i++){
+            members.add(new MemberMonth("Person " + i, "Clubhouse " + i));
+        }
 
-        members = MemberMonth.createMembersList(20);
+        FirebaseMemberOfTheMonth fire = new FirebaseMemberOfTheMonth();
+
+        fire.addMemberOfTheMonth(members.get(0));
+        fire.addMemberOfTheMonth(members.get(1));
+        fire.addMemberOfTheMonth(members.get(2));
+        fire.addMemberOfTheMonth(members.get(3));
+
+        //members = MemberMonth.createMembersList(20);
         MemberAdapter memberAdapter = new MemberAdapter(members);
         recyclerView.setAdapter(memberAdapter);
 
