@@ -1,5 +1,7 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
+import android.util.Log;
+
 import com.example.boysandgirlsclubevents.R;
 
 import org.threeten.bp.LocalDate;
@@ -57,8 +59,8 @@ public class ClubCalendar
 
         //populate some days with dummy events
         HashMap<Integer, List<Event>> april = new HashMap<>();
-        april.put(8, dummyEvents2);
-        april.put(10, dummyEvents1);
+        april.put(24, dummyEvents2);
+        april.put(21, dummyEvents1);
 
         HashMap<String, HashMap<Integer, List<Event>>> y2019 = new HashMap<>();
         y2019.put("April", april);
@@ -150,7 +152,10 @@ public class ClubCalendar
     public int getWeeksInMonth()
     {
         LocalDate lastDayOfMonth = mLocalDate.withDayOfMonth(mLocalDate.lengthOfMonth());
-        return lastDayOfMonth.get(WeekFields.ISO.weekOfMonth());
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int weekNumber = lastDayOfMonth.get(weekFields.weekOfMonth());
+        Log.d(TAG, "getWeeksInMonth: " + weekNumber);
+        return weekNumber;
     }
 
     public int getWeekOfMonth()
