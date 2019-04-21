@@ -28,20 +28,10 @@ public class Event
 
     public enum ClubLocation
     {
-        Columbia(0),
-        Hill(1),
-        JackWalker(2),
-        Southeast(3);
-
-        private int locNum;
-
-        ClubLocation(int locNum) {
-            this.locNum = locNum;
-        }
-
-        public int getLocNum() {
-            return this.locNum;
-        }
+        Hill,
+        JackWalker,
+        Southeast,
+        Columbia
     }
 
     public enum Color
@@ -54,7 +44,7 @@ public class Event
         Purple
     }
 
-    public Event(String id, String title, String iconUrl, Integer location,
+    public Event(String id, String title, String iconUrl, String location,
                  Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
                  Integer upperAge) {
         mId = id;
@@ -63,24 +53,48 @@ public class Event
         mUpperAge = upperAge;
 
         switch (location) {
-            case (0): mClubLocation = Event.ClubLocation.Columbia;
+            case ("Columbia"): mClubLocation = Event.ClubLocation.Columbia;
                 break;
-            case (1): mClubLocation = Event.ClubLocation.Hill;
+            case ("Hill"): mClubLocation = Event.ClubLocation.Hill;
                 break;
-            case (2): mClubLocation = Event.ClubLocation.JackWalker;
+            case ("Jack Walker"): mClubLocation = Event.ClubLocation.JackWalker;
                 break;
-            case (3): mClubLocation = Event.ClubLocation.Southeast;
+            case ("Southeast"): mClubLocation = Event.ClubLocation.Southeast;
                 break;
         }
 
         mStartTime = new Date(startTimestamp.toDate().getTime());
         mEndTime = new Date(endTimestamp.toDate().getTime());
-
+        initializeColor();
         mIconUrl = iconUrl;
+    }
 
-        // TODO: Make colors meaningful.
-        Color[] colors = Color.values();
-        mColor = colors[new Random().nextInt(colors.length)];
+    private void initializeColor()
+    {
+        if (4 <= mLowerAge && mLowerAge < 6)
+        {
+            mColor = Color.Purple;
+        }
+        else if(6 <= mLowerAge && mLowerAge < 9)
+        {
+            mColor = Color.Yellow;
+        }
+        else if (9 <= mLowerAge && mLowerAge < 11)
+        {
+            mColor = Color.Blue;
+        }
+        else if (11 <= mLowerAge && mLowerAge < 13)
+        {
+            mColor = Color.Red;
+        }
+        else if (13 <= mLowerAge && mLowerAge < 16)
+        {
+            mColor = Color.Green;
+        }
+        else
+        {
+            mColor = Color.Orange;
+        }
     }
 
     public Event setId(String id)
@@ -167,5 +181,10 @@ public class Event
     public Color getColor()
     {
         return mColor;
+    }
+
+    public ClubLocation getClubLocation()
+    {
+        return mClubLocation;
     }
 }

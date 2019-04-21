@@ -21,16 +21,16 @@
     <item android:title="@string/locations_title">
         <menu>
             <item
-                android:id="@+id/nav_water_street"
+                android:id="@+id/nav_hill_clubhouse"
                 android:title="@string/location_hill" />
             <item
-                android:id="@+id/nav_lemon_street"
+                android:id="@+id/nav_jackWalker_clubhouse"
                 android:title="@string/location_jack_walker" />
             <item
-                android:id="@+id/nav_columbia"
+                android:id="@+id/nav_columbia_clubhouse"
                 android:title="@string/location_columbia" />
             <item
-                android:id="@+id/nav_ann_street"
+                android:id="@+id/nav_southeast_clubhouse"
                 android:title="@string/location_southeast" />
         </menu>
     </item>

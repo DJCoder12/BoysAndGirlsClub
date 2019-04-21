@@ -13,12 +13,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.threeten.bp.Instant;
+import android.util.Log;
+
+import com.example.boysandgirlsclubevents.R;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.YearMonth;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.WeekFields;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -116,7 +120,10 @@ public class ClubCalendar {
     public int getWeeksInMonth()
     {
         LocalDate lastDayOfMonth = mLocalDate.withDayOfMonth(mLocalDate.lengthOfMonth());
-        return lastDayOfMonth.get(WeekFields.ISO.weekOfMonth());
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int weekNumber = lastDayOfMonth.get(weekFields.weekOfMonth());
+        Log.d(TAG, "getWeeksInMonth: " + weekNumber);
+        return weekNumber;
     }
 
     public int getWeekOfMonth()
@@ -172,36 +179,43 @@ public class ClubCalendar {
         mFirestoreCalendar.deleteEvent(ld.getYear(), ld.getMonthValue(), event.getId());
     }
 
-    private static class QueryYMOnCompleteListener implements OnCompleteListener<QuerySnapshot> {
+    private static class QueryYMOnCompleteListener implements OnCompleteListener<QuerySnapshot>
+    {
 
         private YearMonth mYearMonth;
 
         // Activity is used here for callback to update calendar fragment.
         private NavigationActivity mMainActivity;
 
-        QueryYMOnCompleteListener(YearMonth ym, NavigationActivity mainActivity) {
+        QueryYMOnCompleteListener(YearMonth ym, NavigationActivity mainActivity)
+        {
             mYearMonth = ym;
             mMainActivity = mainActivity;
         }
 
         @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        public void onComplete(@NonNull Task<QuerySnapshot> task)
+        {
             int year = mYearMonth.getYear();
             int month = mYearMonth.getMonthValue();
 
-            if (task.isSuccessful()) {
+            if (task.isSuccessful())
+            {
 
-                if (!mYears.containsKey(year)) {
+                if (!mYears.containsKey(year))
+                {
                     mYears.put(year, new HashMap<Integer, HashMap<Integer, List<Event>>>());
                 }
                 HashMap<Integer, HashMap<Integer, List<Event>>> months = mYears.get(year);
 
-                if (!months.containsKey(month)) {
+                if (!months.containsKey(month))
+                {
                     months.put(month, new HashMap<Integer, List<Event>>());
                 }
                 HashMap<Integer, List<Event>> days = months.get(month);
 
-                for (QueryDocumentSnapshot doc : task.getResult()) {
+                for (QueryDocumentSnapshot doc : task.getResult())
+                {
                     doc.getId();
                     Map<String, Object> fields = doc.getData();
 
@@ -210,7 +224,7 @@ public class ClubCalendar {
                     String iconUrl = (String) fields.get("iconUrl");
                     Integer lowerAge = ((Long) fields.get("lower_age")).intValue();
                     Integer upperAge = ((Long) fields.get("upper_age")).intValue();
-                    Integer location = ((Long) fields.get("location")).intValue();
+                    String location = (String) fields.get("location");
                     Timestamp startTimestamp = (Timestamp) fields.get("start_time");
                     Timestamp endTimestamp = (Timestamp) fields.get("end_time");
 
@@ -218,18 +232,22 @@ public class ClubCalendar {
                             .atZone(ZoneId.systemDefault()).toLocalDate().getDayOfMonth();
 
                     List<Event> eventsOnDay = days.get(day);
-                    if (eventsOnDay == null) {
+                    if (eventsOnDay == null)
+                    {
                         eventsOnDay = new LinkedList<>();
                     }
 
                     boolean containsEvent = false;
-                    for (Event event : eventsOnDay) {
-                        if (event.getId().equals(id)) {
+                    for (Event event : eventsOnDay)
+                    {
+                        if (event.getId().equals(id))
+                        {
                             containsEvent = true;
                         }
                     }
 
-                    if (!containsEvent) {
+                    if (!containsEvent)
+                    {
                         eventsOnDay.add(new Event(id, title, iconUrl, location,
                                 startTimestamp, endTimestamp, lowerAge, upperAge));
                     }
@@ -240,5 +258,26 @@ public class ClubCalendar {
                 mMainActivity.showFragment(0, CalendarFragment.TAG);
             }
         }
+    }
+
+    public static List<Event> handleLocationFiltering(List<Event> allEvents)
+    {
+        //Loop though allEvents and only add the events from the current location
+        List<Event> filteredEvents = new ArrayList<>();
+
+        if (allEvents == null)
+        {
+            return filteredEvents;
+        }
+
+        for (Event curEvents : allEvents)
+        {
+            if (curEvents.getClubLocation() == CalendarSettings.getLocation())
+            {
+                filteredEvents.add(curEvents);
+            }
+        }
+
+        return filteredEvents;
     }
 }

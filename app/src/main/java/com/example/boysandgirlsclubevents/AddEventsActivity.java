@@ -187,19 +187,6 @@ public class AddEventsActivity extends AppCompatActivity {
         Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
         Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
 
-        // Determine location number.
-        int locNum = -1;
-        switch (location) {
-            case "Columbia": locNum = Event.ClubLocation.Columbia.getLocNum();
-            break;
-            case "Hill": locNum = Event.ClubLocation.Hill.getLocNum();
-            break;
-            case "Jack Walker": locNum = Event.ClubLocation.JackWalker.getLocNum();
-            break;
-            case "Southeast": locNum = Event.ClubLocation.Southeast.getLocNum();
-            break;
-        }
-
         // Parse dates into Date objects.
         Date day, startTime, endTime;
         try {
@@ -228,7 +215,7 @@ public class AddEventsActivity extends AppCompatActivity {
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
         event.put("iconUrl", iconUrl);
-        event.put("location", locNum);
+        event.put("location", location);
         event.put("start_time", new Timestamp(startDate));
         event.put("end_time", new Timestamp(endDate));
         event.put("lower_age", lowerAge);
