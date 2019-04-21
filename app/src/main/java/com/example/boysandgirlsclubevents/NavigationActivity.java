@@ -13,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
+import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.example.boysandgirlsclubevents.Announcements.AnnouncementsFragment;
 
@@ -130,6 +132,12 @@ public class NavigationActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.action_refresh)
+        {
+            ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
+            Toast.makeText(this, "Refreshing event data...", Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -211,7 +219,7 @@ public class NavigationActivity extends AppCompatActivity
         }
     }
 
-    private void showFragment(int pos, String tag)
+    public void showFragment(int pos, String tag)
     {
         getSupportFragmentManager()
                 .beginTransaction()
