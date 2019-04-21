@@ -1,8 +1,11 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
+import com.example.boysandgirlsclubevents.Calendar.DailyView.CalendarDailyFragment;
 import com.example.boysandgirlsclubevents.Calendar.MonthlyView.CalendarMonthlyFragment;
+import com.example.boysandgirlsclubevents.NavigationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -16,13 +19,9 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.WeekFields;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -39,6 +38,9 @@ public class ClubCalendar {
 
     private static LocalDate mLocalDate = LocalDate.now();
 
+    private CalendarDailyFragment mConnectedDaily;
+    private CalendarMonthlyFragment mConnectedMonthly;
+
     public static LocalDate getLocalDate()
     {
         return mLocalDate;
@@ -52,33 +54,57 @@ public class ClubCalendar {
     // (k, v) = (years, months) -> (k, v) = (months, days) -> (k, v) = (days, events)
     private static HashMap<Integer, HashMap<Integer, HashMap<Integer, List<Event>>>> mYears = new HashMap<>();
 
-    private FirestoreCalendar mFirestoreCalendar;
+    private static FirestoreCalendar mFirestoreCalendar = FirestoreCalendar.getInstance();
 
-    public ClubCalendar() {
-        mFirestoreCalendar = FirestoreCalendar.getInstance();
+    public ClubCalendar() {}
+
+    public ClubCalendar(CalendarMonthlyFragment connectedFragment) {
+        mConnectedMonthly = connectedFragment;
     }
 
     public static List<Event> getEventsForDay(LocalDate date)
     {
-//        if (date != null)
-//        {
-//            HashMap<String, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
-//
-//            if (curYear == null)
-//            {
-//                return null;
-//            }
-//
-//            HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonth().getDisplayName(TextStyle.FULL, Locale.US));
-//
-//            if (curMonth == null)
-//            {
-//                return null;
-//            }
-//
-//            List<Event> events = curMonth.get(date.getDayOfMonth());
-//            return events;
-//        }
+        if (date != null)
+        {
+            HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
+
+            if (curYear == null)
+            {
+                return null;
+            }
+
+            HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonthValue());
+
+            if (curMonth == null)
+            {
+                return null;
+            }
+
+            return curMonth.get(date.getDayOfMonth());
+        }
+        return null;
+    }
+
+    public static HashMap<Integer, List<Event>> getEventsForMonth(YearMonth ym)
+    {
+        if (ym != null)
+        {
+            HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(ym.getYear());
+
+            if (curYear == null)
+            {
+                return null;
+            }
+
+            HashMap<Integer, List<Event>> curMonth = curYear.get(ym.getMonthValue());
+
+            if (curMonth == null)
+            {
+                return null;
+            }
+
+            return curMonth;
+        }
 
         return null;
     }
@@ -138,36 +164,29 @@ public class ClubCalendar {
         return mLocalDate.getYear();
     }
 
-    public void updateViewOnData(CalendarMonthlyFragment cmf) {
-        YearMonth ym = cmf.getYearMonth();
-        Integer year = ym.getYear();
-        Integer month = ym.getMonthValue();
-
-        HashMap<Integer, HashMap<Integer, List<Event>>> months = mYears.get(year);
-        HashMap<Integer, List<Event>> days = null;
-        if (months != null) {
-             days = months.get(month);
-        }
-
-        if (days == null) {
-            mFirestoreCalendar.queryEventsForYearMonth(cmf.getYearMonth(), new MonthlyQueryOnComplete(cmf));
-        } else {
-            cmf.updateEvents(days);
+    public static void refreshDataForYear(int year, NavigationActivity mainActivity) {
+        for (int i = 1; i <= 12; i++) {
+            YearMonth ym = YearMonth.of(year, i);
+            mFirestoreCalendar.queryEventsForYearMonth(ym, new QueryYMOnCompleteListener(ym, mainActivity));
         }
     }
 
-    private class MonthlyQueryOnComplete implements OnCompleteListener<QuerySnapshot> {
+    private static class QueryYMOnCompleteListener implements OnCompleteListener<QuerySnapshot> {
 
-        private CalendarMonthlyFragment mCmf;
+        private YearMonth mYearMonth;
 
-        MonthlyQueryOnComplete(CalendarMonthlyFragment cmf) {
-            this.mCmf = cmf;
+        // Activity is used here for callback to update calendar fragment.
+        private NavigationActivity mMainActivity;
+
+        QueryYMOnCompleteListener(YearMonth ym, NavigationActivity mainActivity) {
+            mYearMonth = ym;
+            mMainActivity = mainActivity;
         }
 
         @Override
         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            int year = mCmf.getYearMonth().getYear();
-            int month = mCmf.getYearMonth().getMonthValue();
+            int year = mYearMonth.getYear();
+            int month = mYearMonth.getMonthValue();
 
             if (task.isSuccessful()) {
 
@@ -182,8 +201,10 @@ public class ClubCalendar {
                 HashMap<Integer, List<Event>> days = months.get(month);
 
                 for (QueryDocumentSnapshot doc : task.getResult()) {
+                    doc.getId();
                     Map<String, Object> fields = doc.getData();
 
+                    String id = doc.getId();
                     String title = (String) fields.get("title");
                     String description = (String) fields.get("description");
                     Integer lowerAge = ((Long) fields.get("lower_age")).intValue();
@@ -200,13 +221,22 @@ public class ClubCalendar {
                         eventsOnDay = new LinkedList<>();
                     }
 
-                    eventsOnDay.add(new Event(title, description, location, startTimestamp,
-                            endTimestamp, lowerAge, upperAge));
+                    boolean containsEvent = false;
+                    for (Event event : eventsOnDay) {
+                        if (event.getId().equals(id)) {
+                            containsEvent = true;
+                        }
+                    }
+
+                    if (!containsEvent) {
+                        eventsOnDay.add(new Event(id, title, description, location,
+                                startTimestamp, endTimestamp, lowerAge, upperAge));
+                    }
 
                     days.put(day, eventsOnDay);
                 }
 
-                this.mCmf.updateEvents(days);
+                mMainActivity.showFragment(0, CalendarFragment.TAG);
             }
         }
     }
