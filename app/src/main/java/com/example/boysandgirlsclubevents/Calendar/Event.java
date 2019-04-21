@@ -50,8 +50,34 @@ public class Event
         startTime.add(Calendar.MINUTE, duration);
         mEndTime = startTime.getTime();
         mIcon = icon;
-        Color[] colors = Color.values();
-        mColor = colors[new Random().nextInt(colors.length)];
+    }
+
+    private void initializeColor()
+    {
+        if (4 <= mLowerAge && mLowerAge < 6)
+        {
+            mColor = Color.Purple;
+        }
+        else if(6 <= mLowerAge && mLowerAge < 9)
+        {
+            mColor = Color.Yellow;
+        }
+        else if (9 <= mLowerAge && mLowerAge < 11)
+        {
+            mColor = Color.Blue;
+        }
+        else if (11 <= mLowerAge && mLowerAge < 13)
+        {
+            mColor = Color.Red;
+        }
+        else if (13 <= mLowerAge && mLowerAge < 16)
+        {
+            mColor = Color.Green;
+        }
+        else
+        {
+            mColor = Color.Orange;
+        }
     }
 
     public Event setTitle(String newTitle)
@@ -62,6 +88,7 @@ public class Event
 
     public Event setLowerAge(int newAge){
         this.mLowerAge = newAge;
+        initializeColor();
         return this;
     }
 
