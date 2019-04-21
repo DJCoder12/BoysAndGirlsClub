@@ -23,7 +23,7 @@ public class CalendarFragment extends Fragment
 
     private FragmentStatePagerAdapter mPagerAdapter;
     private ViewPager mPager;
-    private TextView mMonthText;
+    private TextView mPagerText;
     private ImageButton mPrev;
     private ImageButton mNext;
 
@@ -45,7 +45,7 @@ public class CalendarFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         setUpPager(view);
-        setUpMonthSwitcher(view);
+        setUpSwitcher(view);
         logic.handleInitialView();
         return view;
     }
@@ -55,18 +55,18 @@ public class CalendarFragment extends Fragment
         mPager = view.findViewById(R.id.vp_calendar);
     }
 
-    private void setUpMonthSwitcher(View view)
+    private void setUpSwitcher(View view)
     {
-        mMonthText = view.findViewById(R.id.tv_monthTitle_calendar);
+        mPagerText = view.findViewById(R.id.tv_monthTitle_calendar);
         mPrev = view.findViewById(R.id.ib_prevMonth_calendar);
         mNext = view.findViewById(R.id.ib_nextMonth_calendar);
         mPrev.setOnClickListener(prevListener);
         mNext.setOnClickListener(nextListener);
-        showMonthTitle(mClubCalendar.getMonth() + ' ' + Integer.toString(mClubCalendar.getYear()));
     }
 
     public void showDailyCalendar()
     {
+        showTitle(mClubCalendar.getMonth() + ' ' + Integer.toString(mClubCalendar.getYear()));
         mPagerAdapter = new DailyPagerAdapter(getFragmentManager(), mClubCalendar);
 
         if (mPager != null)
@@ -78,6 +78,7 @@ public class CalendarFragment extends Fragment
 
     public void showWeeklyCalendar()
     {
+        showTitle(mClubCalendar.getMonth() + ' ' + Integer.toString(mClubCalendar.getYear()));
         mPagerAdapter = new WeeklyPagerAdapter(getFragmentManager(), mClubCalendar);
 
         if (mPager != null)
@@ -90,6 +91,7 @@ public class CalendarFragment extends Fragment
 
     public void showMonthlyCalendar()
     {
+        showTitle(Integer.toString(mClubCalendar.getYear()));
         mPagerAdapter = new MonthlyPagerAdapter(getFragmentManager(), mClubCalendar);
 
         if (mPager != null)
@@ -99,6 +101,7 @@ public class CalendarFragment extends Fragment
         }
     }
 
+    // Input to showDay, showWeek, showMonth must be zero-indexed for the pager.
     public void showDay(int date)
     {
         mPager.setCurrentItem(date);
@@ -109,9 +112,14 @@ public class CalendarFragment extends Fragment
         mPager.setCurrentItem(week);
     }
 
-    public void showMonthTitle(String title)
+    public void showMonth(int month)
     {
-        mMonthText.setText(title);
+        mPager.setCurrentItem(month);
+    }
+
+    public void showTitle(String title)
+    {
+        mPagerText.setText(title);
     }
 
     public void updateAdapter()

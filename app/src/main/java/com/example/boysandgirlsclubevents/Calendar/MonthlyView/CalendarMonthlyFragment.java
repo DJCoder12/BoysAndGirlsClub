@@ -11,29 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.boysandgirlsclubevents.Calendar.ClubCalendarNew;
+import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
+import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
+import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
+import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.example.boysandgirlsclubevents.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.YearMonth;
-import org.threeten.bp.ZoneId;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 public class CalendarMonthlyFragment extends Fragment {
 
     public static final String TAG = "CalendarMonthlyFragment";
 
-    private ClubCalendarNew mClubCalendar;
+    private ClubCalendar mClubCalendar;
     private YearMonth mYearMonth;
-    private boolean mEvents[];
+    private TextView mMonthTitle;
     private ArrayList<ConstraintLayout> mCells = new ArrayList<>();
 
     public static CalendarMonthlyFragment newInstance(YearMonth ym) {
@@ -46,14 +43,11 @@ public class CalendarMonthlyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_monthly_view, container, false);
-
-        // Initialize events array.
-        mEvents = new boolean[mYearMonth.lengthOfMonth() + 1];
-
-        mClubCalendar = ClubCalendarNew.getInstance();
+        mClubCalendar = new ClubCalendar();
         initCells(view);
-        updateCalendarNumbers();
-        mClubCalendar.queryEventsForMonth(mYearMonth, new UpdateCalendarOnComplete());
+        initTitle(view);
+        updateCellNumbers();
+        mClubCalendar.updateViewOnData(this);
         return view;
     }
 
@@ -61,7 +55,12 @@ public class CalendarMonthlyFragment extends Fragment {
         mYearMonth = ym;
     }
 
+    public YearMonth getYearMonth() {
+        return mYearMonth;
+    }
+
     private void initCells(View v) {
+        // Add the seven rows to the list of rows.
         ArrayList<ConstraintLayout> rows = new ArrayList<>();
         rows.add((ConstraintLayout) v.findViewById(R.id.rowOne));
         rows.add((ConstraintLayout) v.findViewById(R.id.rowTwo));
@@ -69,6 +68,8 @@ public class CalendarMonthlyFragment extends Fragment {
         rows.add((ConstraintLayout) v.findViewById(R.id.rowFour));
         rows.add((ConstraintLayout) v.findViewById(R.id.rowFive));
         rows.add((ConstraintLayout) v.findViewById(R.id.rowSix));
+
+        // For each row, add the cells to the list of cells.
         for (int i = 0; i < rows.size(); i++) {
             ConstraintLayout currRow = rows.get(i);
             mCells.add((ConstraintLayout) currRow.findViewById(R.id.dateItemOne));
@@ -81,6 +82,11 @@ public class CalendarMonthlyFragment extends Fragment {
         }
     }
 
+    private void initTitle(View v) {
+        mMonthTitle = v.findViewById(R.id.textViewMonthTitle);
+        mMonthTitle.setText(mYearMonth.getMonth().toString());
+    }
+
     private int getOffset() {
         // Offset is the day of the week that the month starts - 1.
         // For example, if the month starts on a Sunday (0), offset is -1.
@@ -88,7 +94,7 @@ public class CalendarMonthlyFragment extends Fragment {
     }
 
 
-    private void updateCalendarNumbers() {
+    private void updateCellNumbers() {
         int offset = getOffset();
 
         // Add one because of zero index.
@@ -99,20 +105,40 @@ public class CalendarMonthlyFragment extends Fragment {
             ConstraintLayout cell = mCells.get(i);
 
             // This is the actual day of the month we're on.
-            int actual = i - offset;
+            final int actual = i - offset;
 
             // If the day number is valid.
             if (actual > 0 && actual < maxDays) {
                 TextView tv = cell.findViewById(R.id.textViewDate);
                 tv.setText(String.format(getResources().getConfiguration().locale,
                         "%d", actual));
+
+                // Add an on-click listener that opens a new fragment.
+                cell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Link cell to appropriate local date.
+                        LocalDate ld = LocalDate.of(mYearMonth.getYear(), mYearMonth.getMonth(), actual);
+                        ClubCalendar.setLocalDate(ld);
+
+                        // Get CalendarFragment.
+                        CalendarFragment mainCalFrag = (CalendarFragment)
+                                getFragmentManager().findFragmentByTag(CalendarFragment.TAG);
+
+                        // Update CalendarFragment and settings.
+                        CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Daily);
+                        mainCalFrag.showDailyCalendar();
+                        mainCalFrag.showDay(actual - 1);
+
+                    }
+                });
             } else { // If the day number is invalid.
                 cell.setVisibility(View.INVISIBLE);
             }
         }
     }
 
-    private void updateCalendarEvents() {
+    public void updateEvents(HashMap<Integer, List<Event>> events) {
         int offset = getOffset();
 
         // Add one because of zero index.
@@ -127,29 +153,9 @@ public class CalendarMonthlyFragment extends Fragment {
 
             // If the day number is valid.
             if (actual > 0 && actual < maxDays) {
-                if (mEvents[actual]) {
-                    cell.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.eventGreen)));
-                }
-            }
-        }
-    }
-
-    private class UpdateCalendarOnComplete implements OnCompleteListener<QuerySnapshot> {
-        @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot doc : task.getResult()) {
-                    Map<String, Object> fields = doc.getData();
-                    String title = (String) fields.get("title");
-
-                    // Convert timestamp to local date.
-                    Timestamp startTimestamp = (Timestamp) fields.get("start_time");
-                    Long startTime = startTimestamp.toDate().getTime();
-                    LocalDate date = Instant.ofEpochMilli(startTime).atZone(ZoneId.systemDefault()).toLocalDate();
-
-                    mEvents[date.getDayOfMonth()] = true;
-
-                    updateCalendarEvents();
+                List<Event> eventsOnDay = events.get(actual);
+                if (eventsOnDay != null && !eventsOnDay.isEmpty()) {
+                    cell.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.eventRed)));
                 }
             }
         }

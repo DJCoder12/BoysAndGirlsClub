@@ -20,15 +20,18 @@ public class MonthlyPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        int year = ClubCalendar.mLocalDate.getYear();
-        int month = ClubCalendar.mLocalDate.getMonth().getValue();
+        int year = ClubCalendar.getLocalDate().getYear();
+
+        // Month is not zero-indexed so add one.
+        int month = position + 1;
+
         return CalendarMonthlyFragment.newInstance(YearMonth.of(year, month));
     }
 
     @Override
     public int getCount()
     {
-        // The paging between different months is handled by something else.
-        return 1;
+        // There are 12 months in a year.
+        return 12;
     }
 }
