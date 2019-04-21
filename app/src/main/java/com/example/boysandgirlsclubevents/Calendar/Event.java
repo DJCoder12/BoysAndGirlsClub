@@ -17,10 +17,9 @@ public class Event
 
     private String mId;
     private String mTitle;
-    private String mDescription;
     private int mLowerAge;
     private int mUpperAge;
-    private int mIcon;
+    private String mIconUrl;
     private Date mStartTime;
     private Date mEndTime;
 
@@ -55,12 +54,11 @@ public class Event
         Purple
     }
 
-    public Event(String id, String title, String description, Integer location,
+    public Event(String id, String title, String iconUrl, Integer location,
                  Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
                  Integer upperAge) {
         mId = id;
         mTitle = title;
-        mDescription = description;
         mLowerAge = lowerAge;
         mUpperAge = upperAge;
 
@@ -78,18 +76,9 @@ public class Event
         mStartTime = new Date(startTimestamp.toDate().getTime());
         mEndTime = new Date(endTimestamp.toDate().getTime());
 
-        mIcon = R.drawable.football;
-        Color[] colors = Color.values();
-        mColor = colors[new Random().nextInt(colors.length)];
-    }
+        mIconUrl = iconUrl;
 
-    public Event(String title, ClubLocation clubLocation, Calendar startTime, int icon)
-    {
-        mTitle = title;
-        mClubLocation = clubLocation;
-        mStartTime = startTime.getTime();
-        mEndTime = startTime.getTime();
-        mIcon = icon;
+        // TODO: Make colors meaningful.
         Color[] colors = Color.values();
         mColor = colors[new Random().nextInt(colors.length)];
     }
@@ -118,9 +107,9 @@ public class Event
         return this;
     }
 
-    public Event setIcon(int newIcon)
+    public Event setIcon(String newIconUrl)
     {
-        this.mIcon = newIcon;
+        this.mIconUrl = newIconUrl;
         return this;
     }
 
@@ -130,20 +119,9 @@ public class Event
         return this;
     }
 
-    public Event setDescription(String description)
-    {
-        this.mDescription = description;
-        return this;
-    }
-
     public String getId()
     {
         return mId;
-    }
-
-    public String getDescription()
-    {
-        return mDescription;
     }
 
     public String getTitle()
@@ -151,9 +129,9 @@ public class Event
         return mTitle;
     }
 
-    public int getIcon()
+    public String getIconUrl()
     {
-        return mIcon;
+        return mIconUrl;
     }
 
     public String getStartTimeString()
