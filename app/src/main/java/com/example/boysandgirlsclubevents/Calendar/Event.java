@@ -25,9 +25,9 @@ public class Event
 
     public enum ClubLocation
     {
-        WaterStreet,
-        LemonStreet,
-        AnnStreet,
+        Hill,
+        JackWalker,
+        Southeast,
         Columbia
     }
 
@@ -141,5 +141,10 @@ public class Event
     public Color getColor()
     {
         return mColor;
+    }
+
+    public ClubLocation getClubLocation()
+    {
+        return mClubLocation;
     }
 }

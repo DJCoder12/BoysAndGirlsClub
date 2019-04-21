@@ -39,20 +39,20 @@ public class ClubCalendar
     {
         //Make some events
         List<Event> dummyEvents1 = new ArrayList<>();
-        Event event1 = new Event("Basketball", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
+        Event event1 = new Event("Basketball", Event.ClubLocation.Southeast, Calendar.getInstance(), 60, R.drawable.football)
                 .setLowerAge(5).setUpperAge(18);
         Event event2 = new Event("Leadership", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch)
                 .setLowerAge(13).setUpperAge(18);
-        Event event3 = new Event("Study Help", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
+        Event event3 = new Event("Study Help", Event.ClubLocation.Hill, Calendar.getInstance(), 440, R.drawable.homework)
                 .setLowerAge(8).setUpperAge(14);
         dummyEvents1.add(event1);
         dummyEvents1.add(event2);
         dummyEvents1.add(event3);
 
         List<Event> dummyEvents2 = new ArrayList<>();
-        Event event1a = new Event("Football", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
+        Event event1a = new Event("Football", Event.ClubLocation.Southeast, Calendar.getInstance(), 60, R.drawable.football)
                 .setLowerAge(13).setUpperAge(16);
-        Event event3a = new Event("Tutoring", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
+        Event event3a = new Event("Tutoring", Event.ClubLocation.Hill, Calendar.getInstance(), 440, R.drawable.homework)
                 .setLowerAge(10).setUpperAge(14);
         dummyEvents2.add(event1a);
         dummyEvents2.add(event3a);
@@ -176,5 +176,26 @@ public class ClubCalendar
     public void nextMonth()
     {
         mLocalDate = mLocalDate.plusMonths(1);
+    }
+
+    public static List<Event> handleLocationFiltering(List<Event> allEvents)
+    {
+        //Loop though allEvents and only add the events from the current location
+        List<Event> filteredEvents = new ArrayList<>();
+
+        if (allEvents == null)
+        {
+            return filteredEvents;
+        }
+
+        for (Event curEvents : allEvents)
+        {
+            if (curEvents.getClubLocation() == CalendarSettings.getLocation())
+            {
+                filteredEvents.add(curEvents);
+            }
+        }
+
+        return filteredEvents;
     }
 }

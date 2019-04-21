@@ -43,6 +43,6 @@ public class CalendarWeeklyLogic
 
     public List<Event> getEventList(int index)
     {
-        return ClubCalendar.getEventsForDay(mLocalDates[index]);
+        return ClubCalendar.handleLocationFiltering(ClubCalendar.getEventsForDay(mLocalDates[index]));
     }
 }
