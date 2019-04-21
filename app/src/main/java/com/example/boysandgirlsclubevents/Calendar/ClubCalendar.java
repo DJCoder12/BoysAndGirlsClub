@@ -19,6 +19,7 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.WeekFields;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -158,10 +159,17 @@ public class ClubCalendar {
     }
 
     public static void refreshDataForYear(int year, NavigationActivity mainActivity) {
+        mYears.clear();
         for (int i = 1; i <= 12; i++) {
             YearMonth ym = YearMonth.of(year, i);
             mFirestoreCalendar.queryEventsForYearMonth(ym, new QueryYMOnCompleteListener(ym, mainActivity));
         }
+    }
+
+    public static void deleteEvent(Event event) {
+        Date date = event.getStartTime();
+        LocalDate ld = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        mFirestoreCalendar.deleteEvent(ld.getYear(), ld.getMonthValue(), event.getId());
     }
 
     private static class QueryYMOnCompleteListener implements OnCompleteListener<QuerySnapshot> {

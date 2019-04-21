@@ -1,22 +1,30 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.boysandgirlsclubevents.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
 {
+
+    public static final String TAG = "EventAdapter";
+
     private List<Event> mDataSet;
     private Context mContext;
     private Size mSize;
@@ -87,7 +95,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
         if (mDataSet != null)
         {
             //get event at this position and populate with event specific data
-            Event curEvent = mDataSet.get(position);
+            final Event curEvent = mDataSet.get(position);
             holder.titleText.setText(curEvent.getTitle());
 
             String timeString = mContext.getResources().getString(
@@ -133,6 +141,26 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
                     holder.baseView.setBackgroundColor(res.getColor(R.color.eventPurple));
                     break;
             }
+
+            holder.baseView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(mContext)
+                            .setTitle("Delete Event")
+                            .setMessage("Are you sure you want to delete this event?")
+                            .setPositiveButton(R.string.delete_yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                        ClubCalendar.deleteEvent(curEvent);
+                                        Log.d(TAG, "Event deleted.");
+                                    } else {
+                                        Toast.makeText(mContext, "You must be logged in to modify events.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }).setNegativeButton(R.string.delete_no, null).show();
+                    return true;
+                }
+            });
         }
     }
 

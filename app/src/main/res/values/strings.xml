@@ -42,6 +42,10 @@
     <string name="fri_abrv">Fri</string>
     <string name="sat_abrv">Sat</string>
 
+    <!-- Delete Dialog -->
+    <string name="delete_yes">Yes</string>
+    <string name="delete_no">No</string>
+
     <!-- Add Events Activity -->
     <string name="title_add_events_activity">Add Event</string>
     <string name="hint_title">Title</string>

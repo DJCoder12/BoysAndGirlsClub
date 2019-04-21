@@ -47,11 +47,10 @@ public class CalendarMonthlyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_monthly_view, container, false);
-        mClubCalendar = new ClubCalendar();
         initCells(view);
         initTitle(view);
         showCalendarDays();
-        showEvents(mClubCalendar.getEventsForMonth(mYearMonth));
+        showEvents(ClubCalendar.getEventsForMonth(mYearMonth));
         return view;
     }
 

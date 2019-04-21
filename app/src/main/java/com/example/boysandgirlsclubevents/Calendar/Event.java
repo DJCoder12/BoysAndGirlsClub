@@ -134,6 +134,16 @@ public class Event
         return mIconUrl;
     }
 
+    public Date getStartTime()
+    {
+        return mStartTime;
+    }
+
+    public Date getEndTime()
+    {
+        return mEndTime;
+    }
+
     public String getStartTimeString()
     {
         return DATE_FORMAT.format(mStartTime);

@@ -43,6 +43,9 @@ public class NavigationActivity extends AppCompatActivity
         setUpLocationDrawer();
         buildFragmentsList();
         setUpBottomNavView();
+
+        // Refresh calendar on open.
+        ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
     }
 
     private void setUpActionBar()

@@ -114,7 +114,9 @@ public class AddEventsActivity extends AppCompatActivity {
                 mIconUrlField.getText().toString().isEmpty() ||
                 mEventDateField.getText().toString().isEmpty() ||
                 mStartTimeField.getText().toString().isEmpty() ||
-                mEndTimeField.getText().toString().isEmpty();
+                mEndTimeField.getText().toString().isEmpty() ||
+                mUpperAgeField.getText().toString().isEmpty() ||
+                mLowerAgeField.getText().toString().isEmpty();
     }
 
     public boolean isValidAgeRange() {
