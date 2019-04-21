@@ -181,6 +181,8 @@ public class AddEventsActivity extends AppCompatActivity {
         String dayFormatted = mEventDateField.getText().toString();
         String startTimeFormatted = mStartTimeField.getText().toString();
         String endTimeFormatted = mEndTimeField.getText().toString();
+        Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
+        Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
 
         // Determine location number.
         int locNum = -1;
@@ -226,6 +228,8 @@ public class AddEventsActivity extends AppCompatActivity {
         event.put("description", description);
         event.put("start_time", new Timestamp(startDate));
         event.put("end_time", new Timestamp(endDate));
+        event.put("lower_age", lowerAge);
+        event.put("upper_age", upperAge);
 
         // Form Firestore set command.
         String eventType = "non-recurring";
