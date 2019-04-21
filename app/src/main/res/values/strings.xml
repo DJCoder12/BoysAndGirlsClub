@@ -44,7 +44,8 @@
 
     <!-- Add Events Activity -->
     <string name="title_add_events_activity">Add Event</string>
-    <string name="hint_title">Title*</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_icon_url">Icon URL</string>
     <string-array name="clubhouses_selection">
         <item>Select a location</item>
         <item>Columbia</item>
@@ -52,12 +53,11 @@
         <item>Jack Walker</item>
         <item>Southeast</item>
     </string-array>
-    <string name="hint_lower_age">Lower Age*</string>
-    <string name="hint_upper_age">Upper Age*</string>
-    <string name="hint_description">Description</string>
-    <string name="hint_event_date">Event Date*</string>
-    <string name="hint_start_time">Start Time*</string>
-    <string name="hint_end_time">End Time*</string>
+    <string name="hint_lower_age">Lower Age</string>
+    <string name="hint_upper_age">Upper Age</string>
+    <string name="hint_event_date">Event Date</string>
+    <string name="hint_start_time">Start Time</string>
+    <string name="hint_end_time">End Time</string>
     <string name="button_submit">Submit</string>
 
     <!-- Events -->

@@ -47,7 +47,7 @@ public class CalendarMonthlyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_monthly_view, container, false);
-        mClubCalendar = new ClubCalendar(this);
+        mClubCalendar = new ClubCalendar();
         initCells(view);
         initTitle(view);
         showCalendarDays();
@@ -187,8 +187,7 @@ public class CalendarMonthlyFragment extends Fragment {
                     }
 
                     ImageView iconIV = cell.findViewById(R.id.imageViewIcon);
-                    Glide.with(cell).load(firstEvent.getIcon()).into(iconIV);
-
+                    Glide.with(cell).load(firstEvent.getIconUrl()).into(iconIV);
                 }
             }
         }

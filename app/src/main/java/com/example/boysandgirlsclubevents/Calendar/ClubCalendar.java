@@ -199,7 +199,7 @@ public class ClubCalendar {
 
                     String id = doc.getId();
                     String title = (String) fields.get("title");
-                    String description = (String) fields.get("description");
+                    String iconUrl = (String) fields.get("iconUrl");
                     Integer lowerAge = ((Long) fields.get("lower_age")).intValue();
                     Integer upperAge = ((Long) fields.get("upper_age")).intValue();
                     Integer location = ((Long) fields.get("location")).intValue();
@@ -222,7 +222,7 @@ public class ClubCalendar {
                     }
 
                     if (!containsEvent) {
-                        eventsOnDay.add(new Event(id, title, description, location,
+                        eventsOnDay.add(new Event(id, title, iconUrl, location,
                                 startTimestamp, endTimestamp, lowerAge, upperAge));
                     }
 

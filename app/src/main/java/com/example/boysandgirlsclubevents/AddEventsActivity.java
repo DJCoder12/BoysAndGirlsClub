@@ -39,6 +39,7 @@ public class AddEventsActivity extends AppCompatActivity {
 
     // Activity UI elements.
     private EditText mTitleField;
+    private EditText mIconUrlField;
     private Spinner mLocationField;
     private EditText mEventDateField;
     private EditText mStartTimeField;
@@ -70,6 +71,7 @@ public class AddEventsActivity extends AppCompatActivity {
         a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mLocationField.setAdapter(a);
 
+        mIconUrlField = findViewById(R.id.editText_iconUrl);
         mEventDateField = findViewById(R.id.editText_eventDate);
         mStartTimeField = findViewById(R.id.editText_startTime);
         mEndTimeField = findViewById(R.id.editText_endTime);
@@ -109,6 +111,7 @@ public class AddEventsActivity extends AppCompatActivity {
     private boolean emptyFieldExists() {
         return mLocationField.getSelectedItem().toString().equals("Select a location") ||
                 mTitleField.getText().toString().isEmpty() ||
+                mIconUrlField.getText().toString().isEmpty() ||
                 mEventDateField.getText().toString().isEmpty() ||
                 mStartTimeField.getText().toString().isEmpty() ||
                 mEndTimeField.getText().toString().isEmpty();
@@ -174,6 +177,7 @@ public class AddEventsActivity extends AppCompatActivity {
     private void sendToFirestore() {
         // Get basic string data from fields.
         String title = mTitleField.getText().toString();
+        String iconUrl = mIconUrlField.getText().toString();
         String location = mLocationField.getSelectedItem().toString();
         String dayFormatted = mEventDateField.getText().toString();
         String startTimeFormatted = mStartTimeField.getText().toString();
@@ -221,6 +225,7 @@ public class AddEventsActivity extends AppCompatActivity {
         // Create event map to send to Firestore.
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
+        event.put("iconUrl", iconUrl);
         event.put("location", locNum);
         event.put("start_time", new Timestamp(startDate));
         event.put("end_time", new Timestamp(endDate));

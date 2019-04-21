@@ -107,7 +107,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
 
             //Load the image using glide, a library
             Glide.with(holder.baseView)
-                    .load(curEvent.getIcon())
+                    .load(curEvent.getIconUrl())
                     .into(holder.iconImage);
 
             Resources res = mContext.getResources();
