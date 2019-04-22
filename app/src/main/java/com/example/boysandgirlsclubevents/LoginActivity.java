@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEmailField;
     private EditText mPasswordField;
     private Button mLoginButton;
-    private Button mNewEventButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         mEmailField = findViewById(R.id.editText_email);
         mPasswordField = findViewById(R.id.editText_password);
         mLoginButton = findViewById(R.id.button_login);
-        mNewEventButton = findViewById(R.id.button_newEvent);
 
         // Get Firebase instance.
         mAuth = FirebaseAuth.getInstance();
@@ -109,20 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void newEvent(View v) {
-        // Launch add events activity.
-        Intent i = new Intent(this, AddEventsActivity.class);
-        startActivity(i);
-    }
-
     private void updateUI() {
         if (mUser == null) {
             // Enable both fields.
             mEmailField.setEnabled(true);
             mPasswordField.setEnabled(true);
-
-            // Disable new event button.
-            mNewEventButton.setEnabled(false);
 
             // Clear both fields.
             mEmailField.setText("");
@@ -134,9 +123,6 @@ public class LoginActivity extends AppCompatActivity {
             // Disable both fields.
             mEmailField.setEnabled(false);
             mPasswordField.setEnabled(false);
-
-            // Enable new event button.
-            mNewEventButton.setEnabled(true);
 
             // Show the current user's email.
             mEmailField.setText(mUser.getEmail());

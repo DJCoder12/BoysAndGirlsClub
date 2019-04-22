@@ -20,6 +20,7 @@ import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.example.boysandgirlsclubevents.MemberOfMonth.MemberMonthFragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.example.boysandgirlsclubevents.Announcements.AnnouncementsFragment;
 
@@ -132,15 +133,28 @@ public class NavigationActivity extends AppCompatActivity
         // Handle action bar item clicks here
         int id = item.getItemId();
 
-        if (id == R.id.action_settings)
+        Intent i;
+        switch (id)
         {
-            return true;
-        }
-
-        if (id == R.id.action_refresh)
-        {
-            ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
-            Toast.makeText(this, "Refreshing event data...", Toast.LENGTH_SHORT).show();
+            case R.id.action_refresh:
+                ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
+                Toast.makeText(this, "Refreshing event data...", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_sign_in:
+                i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+                break;
+            case R.id.action_new_event:
+                if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                {
+                    i = new Intent(this, AddEventsActivity.class);
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText(this, "You must be signed in to add an event.", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -154,13 +168,7 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
         CalendarFragment calendarFragment = (CalendarFragment) mFragments.get(0);
 
-        if (id == R.id.nav_log_in)
-        {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        else if (id == R.id.nav_hill_clubhouse)
+        if (id == R.id.nav_hill_clubhouse)
         {
             CalendarSettings.switchLocationFilter(Event.ClubLocation.Hill);
         }

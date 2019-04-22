@@ -3,7 +3,8 @@
 
     <!-- Navigation -->
     <string name="action_refresh">Refresh</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_new_event">New Event</string>
     <string name="calendar">Calendar</string>
     <string name="announcements">Announcements</string>
     <string name="members_of_the_month">MotM</string>

@@ -35,9 +35,4 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/nav_log_in"
-        android:icon="@drawable/ic_menu_log_in"
-        android:title="@string/title_login_activity" />
-
 </menu>
