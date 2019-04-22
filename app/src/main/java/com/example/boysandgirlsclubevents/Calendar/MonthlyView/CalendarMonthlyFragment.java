@@ -50,7 +50,7 @@ public class CalendarMonthlyFragment extends Fragment {
         initCells(view);
         initTitle(view);
         showCalendarDays();
-        showEvents(ClubCalendar.getEventsForMonth(mYearMonth));
+        showEvents(ClubCalendar.handleLocationFiltering(ClubCalendar.getEventsForMonth(mYearMonth)));
         return view;
     }
 

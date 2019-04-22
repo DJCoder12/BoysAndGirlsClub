@@ -107,6 +107,31 @@ public class ClubCalendar {
         return null;
     }
 
+    public static HashMap<Integer, List<Event>> handleLocationFiltering(HashMap<Integer, List<Event>> month)
+    {
+        HashMap<Integer, List<Event>> filteredEvents = new HashMap<>();
+
+        if (month == null)
+        {
+            return null;
+        }
+
+        for (Integer key : month.keySet())
+        {
+            filteredEvents.put(key, new LinkedList<Event>());
+            List<Event> events = filteredEvents.get(key);
+            for (Event event : month.get(key))
+            {
+                if (event.getClubLocation() == CalendarSettings.getLocation())
+                {
+                    events.add(event);
+                }
+            }
+        }
+
+        return filteredEvents;
+    }
+
     public int getDate()
     {
         return mLocalDate.getDayOfMonth();
