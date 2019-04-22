@@ -1,7 +1,6 @@
-package com.example.boysandgirlsclubevents;
+package com.example.boysandgirlsclubevents.MemberOfMonth;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.boysandgirlsclubevents.R;
 
 import java.util.List;
 
-public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>
-{
+public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
+
     public MemberMonth member;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -50,8 +49,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(MemberAdapter.ViewHolder viewHolder, int position){
-        viewHolder.memberName.setText(mMembers.get(position).getMemberName());
-        viewHolder.memberClubhouse.setText(mMembers.get(position).getMemberClubhouse());
+        viewHolder.memberName.setText(mMembers.get(position).getName());
+        viewHolder.memberClubhouse.setText(mMembers.get(position).getClubhouse());
     }
 
     @Override

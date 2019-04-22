@@ -19,6 +19,7 @@ import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 import com.example.boysandgirlsclubevents.Calendar.Event;
+import com.example.boysandgirlsclubevents.MemberOfMonth.MemberMonthFragment;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.example.boysandgirlsclubevents.Announcements.AnnouncementsFragment;
 
