@@ -12,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -53,4 +54,7 @@ dependencies {
     //circle imageview
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //Dex fix
+    implementation 'com.android.support:multidex:1.0.3'
 }
