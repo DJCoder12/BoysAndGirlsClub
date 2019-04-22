@@ -5,54 +5,58 @@ import com.google.firebase.Timestamp;
 //Represents an announcement
 public class Announcement
 {
-    private String mTitle;
-    private String mBody;
-    private Timestamp mDate;
-    private String mImage;
+    private String title;
+    private String body;
+    private Timestamp date;
+    private String image;
 
-    public Announcement(String title, String body, String image)
+    public Announcement() {}
+
+    public Announcement(String title, String body, String image, Timestamp date)
     {
-        mTitle = title;
-        mBody = body;
-        mDate = Timestamp.now();
-        mImage = image;
+        this.title = title;
+        this.body = body;
+        this.date = Timestamp.now();
+        this.image = image;
     }
 
     public String getBody()
     {
-        return mBody;
+        return body;
     }
 
     public void setBody(String body)
     {
-        this.mBody = mBody;
+        this.body = body;
     }
 
     public String getTitle()
     {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String title)
     {
-        this.mTitle = mTitle;
+        this.title = title;
     }
 
     public Timestamp getDate()
     {
-        return mDate;
+        return date;
     }
 
     public void setDate(Timestamp date)
     {
-        this.mDate = mDate;
+        this.date = date;
     }
 
-    public String getImage(){
-        return mImage;
+    public String getImage()
+    {
+        return image;
     }
 
-    public void setImage(String newImage){
-        this.mImage = newImage;
+    public void setImage(String newImage)
+    {
+        this.image = newImage;
     }
 }
