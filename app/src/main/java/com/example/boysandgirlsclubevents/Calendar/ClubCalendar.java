@@ -190,7 +190,8 @@ public class ClubCalendar {
         return mLocalDate.getYear();
     }
 
-    public static void refreshDataForYear(int year, NavigationActivity mainActivity) {
+    public static void refreshData(NavigationActivity mainActivity) {
+        int year = mLocalDate.getYear();
         mYears.clear();
         for (int i = 1; i <= 12; i++) {
             YearMonth ym = YearMonth.of(year, i);

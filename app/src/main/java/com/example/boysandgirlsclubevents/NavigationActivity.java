@@ -48,7 +48,7 @@ public class NavigationActivity extends AppCompatActivity
         setUpBottomNavView();
 
         // Refresh calendar on open.
-        ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
+        ClubCalendar.refreshData(this);
     }
 
     private void setUpActionBar()
@@ -137,7 +137,7 @@ public class NavigationActivity extends AppCompatActivity
         switch (id)
         {
             case R.id.action_refresh:
-                ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
+                ClubCalendar.refreshData(this);
                 Toast.makeText(this, "Refreshing event data...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_sign_in:
