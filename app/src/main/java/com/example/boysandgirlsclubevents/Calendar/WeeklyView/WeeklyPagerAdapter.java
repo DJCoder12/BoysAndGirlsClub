@@ -31,8 +31,8 @@ public class WeeklyPagerAdapter extends FragmentStatePagerAdapter
         //Get first sunday of week
         firstDate = firstDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
 
-        //set correct week
-        firstDate = firstDate.plusWeeks(position);
+        //set correct week - 1?
+        firstDate = firstDate.plusWeeks(position - 1);
 
         return CalendarWeeklyFragment.newInstance(firstDate);
     }
