@@ -152,7 +152,7 @@ public class NavigationActivity extends AppCompatActivity
                 }
                 else
                 {
-                    Toast.makeText(this, "You must be signed in to add an event.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You must be logged in to create an event.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
