@@ -41,6 +41,7 @@ public class AddEventsActivity extends AppCompatActivity {
     private EditText mTitleField;
     private EditText mIconUrlField;
     private Spinner mLocationField;
+    private EditText mDescriptionField;
     private EditText mEventDateField;
     private EditText mStartTimeField;
     private EditText mEndTimeField;
@@ -77,6 +78,7 @@ public class AddEventsActivity extends AppCompatActivity {
         mEndTimeField = findViewById(R.id.editText_endTime);
         mLowerAgeField = findViewById(R.id.editText_lowerAge);
         mUpperAgeField = findViewById(R.id.editText_upperAge);
+        mDescriptionField = findViewById(R.id.editText_description);
 
         // Initialize Firestore.
         mFirestore = FirebaseFirestore.getInstance();
@@ -116,7 +118,8 @@ public class AddEventsActivity extends AppCompatActivity {
                 mStartTimeField.getText().toString().isEmpty() ||
                 mEndTimeField.getText().toString().isEmpty() ||
                 mUpperAgeField.getText().toString().isEmpty() ||
-                mLowerAgeField.getText().toString().isEmpty();
+                mLowerAgeField.getText().toString().isEmpty() ||
+                mDescriptionField.getText().toString().isEmpty();
     }
 
     public boolean isValidAgeRange() {
@@ -186,6 +189,7 @@ public class AddEventsActivity extends AppCompatActivity {
         String endTimeFormatted = mEndTimeField.getText().toString();
         Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
         Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
+        String description = mDescriptionField.getText().toString();
 
         // Parse dates into Date objects.
         Date day, startTime, endTime;
@@ -214,12 +218,13 @@ public class AddEventsActivity extends AppCompatActivity {
         // Create event map to send to Firestore.
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
-        event.put("iconUrl", iconUrl);
+        event.put("icon_url", iconUrl);
         event.put("location", location);
         event.put("start_time", new Timestamp(startDate));
         event.put("end_time", new Timestamp(endDate));
         event.put("lower_age", lowerAge);
         event.put("upper_age", upperAge);
+        event.put("description", description);
 
         // Form Firestore set command.
         String eventType = "non-recurring";

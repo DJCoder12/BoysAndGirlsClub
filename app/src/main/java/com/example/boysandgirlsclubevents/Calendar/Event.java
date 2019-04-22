@@ -22,6 +22,7 @@ public class Event
     private String mIconUrl;
     private Date mStartTime;
     private Date mEndTime;
+    private String mDescription;
 
     private ClubLocation mClubLocation;
     private Color mColor;
@@ -46,7 +47,7 @@ public class Event
 
     public Event(String id, String title, String iconUrl, String location,
                  Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
-                 Integer upperAge) {
+                 Integer upperAge, String description) {
         mId = id;
         mTitle = title;
         mLowerAge = lowerAge;
@@ -65,6 +66,7 @@ public class Event
 
         mStartTime = new Date(startTimestamp.toDate().getTime());
         mEndTime = new Date(endTimestamp.toDate().getTime());
+        mDescription = description;
         initializeColor();
         mIconUrl = iconUrl;
     }

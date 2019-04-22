@@ -247,12 +247,13 @@ public class ClubCalendar {
 
                     String id = doc.getId();
                     String title = (String) fields.get("title");
-                    String iconUrl = (String) fields.get("iconUrl");
+                    String iconUrl = (String) fields.get("icon_url");
                     Integer lowerAge = ((Long) fields.get("lower_age")).intValue();
                     Integer upperAge = ((Long) fields.get("upper_age")).intValue();
                     String location = (String) fields.get("location");
                     Timestamp startTimestamp = (Timestamp) fields.get("start_time");
                     Timestamp endTimestamp = (Timestamp) fields.get("end_time");
+                    String description = (String) fields.get("description");
 
                     Integer day = Instant.ofEpochMilli(startTimestamp.toDate().getTime())
                             .atZone(ZoneId.systemDefault()).toLocalDate().getDayOfMonth();
@@ -275,7 +276,7 @@ public class ClubCalendar {
                     if (!containsEvent)
                     {
                         eventsOnDay.add(new Event(id, title, iconUrl, location,
-                                startTimestamp, endTimestamp, lowerAge, upperAge));
+                                startTimestamp, endTimestamp, lowerAge, upperAge, description));
                     }
 
                     days.put(day, eventsOnDay);
