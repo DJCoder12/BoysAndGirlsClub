@@ -210,4 +210,15 @@ public class Event
     {
         return mRecurringDays != null;
     }
+
+    public String getDateString()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("MMMM dd", Locale.US);
+        return dateFormat.format(mStartTime);
+    }
+
+    public String getDescription()
+    {
+        return mDescription;
+    }
 }

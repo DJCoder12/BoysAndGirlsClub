@@ -11,6 +11,7 @@ public class CalendarSettings
 
     private static CalendarType mCalendarType = CalendarType.Daily;
     private static Event.ClubLocation mCurrentLocation = Event.ClubLocation.Hill;
+    private static Event mSelectedEvent;
 
     public static void switchDisplayType(CalendarType type)
     {
@@ -30,5 +31,15 @@ public class CalendarSettings
     public static Event.ClubLocation getLocation()
     {
         return mCurrentLocation;
+    }
+
+    public static Event getSelectedEvent()
+    {
+        return mSelectedEvent;
+    }
+
+    public static void setSelectedEvent(Event event)
+    {
+        mSelectedEvent = event;
     }
 }
