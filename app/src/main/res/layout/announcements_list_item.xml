@@ -25,12 +25,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="48dp"
         android:text="Title"
+        android:textSize="28dp"
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintBottom_toTopOf="@id/Date"
+        />
+
+    <TextView
+        android:id="@+id/Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
+        android:text="Date"
         android:textSize="28dp"
         app:layout_constraintBottom_toBottomOf="@+id/image"
         app:layout_constraintStart_toEndOf="@+id/image"
-        app:layout_constraintTop_toTopOf="@+id/image" />
+        app:layout_constraintTop_toBottomOf="@+id/Title"
+
+        />
 
     <TextView
         android:id="@+id/Body"
@@ -44,7 +59,7 @@
         android:text="Maecenas sed libero volutpat, placerat massa et, rutrum sem. Curabitur rhoncus ultrices nunc vel faucibus. In accumsan purus eu quam ultricies, vitae facilisis est facilisis. Proin vulputate, tortor et tincidunt placerat, velit ligula rhoncus velit, ac accumsan sapien neque id ligula. Morbi id diam ac purus tincidunt venenatis. Integer leo mauris, efficitur sed sapien nec, pharetra pretium orci. Nulla facilisi."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image" />
+        app:layout_constraintTop_toBottomOf="@+id/Date" />
 
 
 </android.support.constraint.ConstraintLayout>

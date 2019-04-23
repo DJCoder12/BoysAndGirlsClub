@@ -43,6 +43,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         Log.d(TAG,"onBindViewHolder: called.");
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
         viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
+        viewHolder.date.setText(allAppAnnouncements.get(i).getDate().toDate().toString());
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -69,6 +70,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         CircleImageView image;
         TextView text;
         TextView title;
+        TextView date;
         View parentLayout;
 
         public ViewHolder(@NonNull View itemView)
@@ -76,6 +78,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
             super(itemView);
             text = itemView.findViewById(R.id.Body);
             title = itemView.findViewById(R.id.Title);
+            date = itemView.findViewById(R.id.Date);
             parentLayout = itemView.findViewById(R.id.parent_layout);
 
         }

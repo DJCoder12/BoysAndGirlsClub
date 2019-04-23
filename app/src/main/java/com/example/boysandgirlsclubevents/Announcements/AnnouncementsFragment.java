@@ -44,6 +44,7 @@ public class AnnouncementsFragment extends Fragment
 
     public void showAnnouncements(List<Announcement> announcements)
     {
+
         AnnouncementsRecyclerViewAdapter adapter = new AnnouncementsRecyclerViewAdapter(announcements, getContext());
         mRecyclerView.setAdapter(adapter);
         Log.d(TAG, "SSS adapter set.");
