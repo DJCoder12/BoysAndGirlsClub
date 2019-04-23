@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A RecyclerView with some commonly used attributes -->
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/parent_layout"
+    android:layout_margin="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bgc_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Title"
+        android:textSize="28dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image"
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toTopOf="@+id/image" />
+
+    <TextView
+        android:id="@+id/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Title"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="20dp"
+        android:text="Maecenas sed libero volutpat, placerat massa et, rutrum sem. Curabitur rhoncus ultrices nunc vel faucibus. In accumsan purus eu quam ultricies, vitae facilisis est facilisis. Proin vulputate, tortor et tincidunt placerat, velit ligula rhoncus velit, ac accumsan sapien neque id ligula. Morbi id diam ac purus tincidunt venenatis. Integer leo mauris, efficitur sed sapien nec, pharetra pretium orci. Nulla facilisi."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
+
+
+</android.support.constraint.ConstraintLayout>

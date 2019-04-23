@@ -50,6 +50,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106060296759:android:1831342ab55d34d6",
+        "android_client_info": {
+          "package_name": "com.teamshark.boysandgirlsclubevents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106060296759-bcbq5nuk541fjifahsv57dh6jsj0kaul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamshark.boysandgirlsclubevents",
+            "certificate_hash": "6962be46f5075f0e58de9d190ed09dba0e9a1725"
+          }
+        },
+        {
+          "client_id": "106060296759-d489aq3ajcvqmm4jtar8j93e0f5igs8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtVV1m3aJ-01Qgi_4H1uJvPFyv__GGGnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106060296759-d489aq3ajcvqmm4jtar8j93e0f5igs8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
