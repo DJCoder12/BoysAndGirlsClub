@@ -1,10 +1,7 @@
 package com.teamshark.boysandgirlsclubevents.Calendar;
 
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 
-import com.teamshark.boysandgirlsclubevents.Calendar.DailyView.CalendarDailyFragment;
-import com.teamshark.boysandgirlsclubevents.Calendar.MonthlyView.CalendarMonthlyFragment;
 import com.teamshark.boysandgirlsclubevents.NavigationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -12,10 +9,10 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.Instant;
 import android.util.Log;
 
-import com.teamshark.boysandgirlsclubevents.R;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.YearMonth;
 import org.threeten.bp.ZoneId;
@@ -58,7 +55,8 @@ public class ClubCalendar
     private static HashMap<Integer, HashMap<Integer, HashMap<Integer, List<Event>>>> mYears = new HashMap<>();
 
     // List containing recurring events.
-    private static ArrayList<LinkedList<Event>> mRecurringEvents = new ArrayList<>();
+    // Initialized after first query.
+    private static ArrayList<LinkedList<Event>> mRecurringEvents;
 
     private static FirestoreCalendar mFirestoreCalendar = FirestoreCalendar.getInstance();
 
@@ -66,84 +64,87 @@ public class ClubCalendar
 
     public static List<Event> getEventsForDay(LocalDate date)
     {
-        if (date != null)
+        if (date == null)
         {
-            HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
-
-            if (curYear == null)
-            {
-                return null;
-            }
-
-            HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonthValue());
-
-            if (curMonth == null)
-            {
-                return null;
-            }
-
-            return curMonth.get(date.getDayOfMonth());
+            return null;
         }
-        return null;
+
+        // Instantiate a new list to hold all events.
+        List<Event> allEvents = new LinkedList<>();
+
+        // Add non-recurring events.
+        HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
+        HashMap<Integer, List<Event>> curMonth = null;
+        if (curYear != null)
+        {
+            curMonth = curYear.get(date.getMonthValue());
+        }
+        List<Event> temp = null;
+        if (curMonth != null)
+        {
+            temp = curMonth.get(date.getDayOfMonth());
+        }
+        if (temp != null)
+        {
+            allEvents.addAll(temp);
+        }
+
+        // Add recurring events.
+        if (mRecurringEvents != null)
+        {
+            int dayOfWeek = convertDayOfWeek(date.getDayOfWeek());
+            temp = mRecurringEvents.get(dayOfWeek);
+            allEvents.addAll(temp);
+        }
+
+        return allEvents;
     }
 
     public static HashMap<Integer, List<Event>> getEventsForMonth(YearMonth ym)
     {
-        if (ym != null)
-        {
-            HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(ym.getYear());
-
-            if (curYear == null)
-            {
-                return null;
-            }
-
-            HashMap<Integer, List<Event>> curMonth = curYear.get(ym.getMonthValue());
-
-            if (curMonth == null)
-            {
-                return null;
-            }
-
-            return curMonth;
-        }
-
-        return null;
-    }
-
-    public ArrayList<LinkedList<Event>> getRecurringEvents()
-    {
-        if (mRecurringEvents == null)
+        if (ym == null)
         {
             return null;
         }
 
-        return mRecurringEvents;
-    }
+        // Instantiate new hashmap to hold all events.
+        HashMap<Integer, List<Event>> allEvents = new HashMap<>();
 
-    public static ArrayList<LinkedList<Event>> handleLocationFiltering(ArrayList<LinkedList<Event>> recurringEvents)
-    {
-        if (recurringEvents == null)
+        // Get non-recurring events.
+        HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(ym.getYear());
+        HashMap<Integer, List<Event>> curMonth = null;
+        if (curYear != null)
         {
-            return null;
+            curMonth = curYear.get(ym.getMonthValue());
         }
-
-        ArrayList<LinkedList<Event>> filteredEvents = new ArrayList<>();
-        for (int i = 0; i < recurringEvents.size(); i++)
+        if (curMonth != null)
         {
-            filteredEvents.add(new LinkedList<Event>());
-            List<Event> newDay = filteredEvents.get(i);
-            List<Event> day = recurringEvents.get(i);
-            for (Event event : day)
+            for (Integer key : curMonth.keySet())
             {
-                if (event.getClubLocation() == CalendarSettings.getLocation())
+                allEvents.put(key, curMonth.get(key));
+            }
+        }
+        // Add recurring events.
+        if (mRecurringEvents != null)
+        {
+            for (int i = 1; i < ym.lengthOfMonth() + 1; i++)
+            {
+                if (!allEvents.containsKey(i))
                 {
-                    newDay.add(event);
+                    allEvents.put(i, new LinkedList<Event>());
                 }
             }
+
+            for (Integer key : allEvents.keySet())
+            {
+                int dayOfWeek = convertDayOfWeek(LocalDate.of(ym.getYear(), ym.getMonth(), key).getDayOfWeek());
+                List<Event> recurringEventsOnDay = mRecurringEvents.get(dayOfWeek);
+                List<Event> allEventsOnDay = allEvents.get(key);
+                allEventsOnDay.addAll(recurringEventsOnDay);
+            }
         }
 
-        return filteredEvents;
+        return allEvents;
     }
 
     public static HashMap<Integer, List<Event>> handleLocationFiltering(HashMap<Integer, List<Event>> month)
@@ -230,11 +231,23 @@ public class ClubCalendar
     }
 
     public static void refreshData(NavigationActivity mainActivity) {
+
+        // Refresh non-recurring events.
         int year = mLocalDate.getYear();
         mYears.clear();
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= 12; i++)
+        {
             YearMonth ym = YearMonth.of(year, i);
             mFirestoreCalendar.queryEventsForYearMonth(ym, new QueryYMOnCompleteListener(ym, null));
+        }
+
+        // Refresh recurring events.
+        if (mRecurringEvents != null)
+        {
+            for (int i = 0; i < mRecurringEvents.size(); i++)
+            {
+                mRecurringEvents.get(i).clear();
+            }
         }
         mFirestoreCalendar.queryRecurringEvents(new QueryRecurringOnCompleteListener(mainActivity));
     }
@@ -242,7 +255,14 @@ public class ClubCalendar
     public static void deleteEvent(Event event) {
         Date date = event.getStartTime();
         LocalDate ld = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-        mFirestoreCalendar.deleteEvent(ld.getYear(), ld.getMonthValue(), event.getId());
+        if (event.isRecurring())
+        {
+            mFirestoreCalendar.deleteRecurringEvent(event.getId());
+        }
+        else
+        {
+            mFirestoreCalendar.deleteNonRecurringEvent(ld.getYear(), ld.getMonthValue(), event.getId());
+        }
     }
 
     private static class QueryRecurringOnCompleteListener implements OnCompleteListener<QuerySnapshot>
@@ -265,7 +285,7 @@ public class ClubCalendar
                 if (mRecurringEvents == null)
                 {
                     mRecurringEvents = new ArrayList<>();
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 7; i++)
                     {
                         mRecurringEvents.add(new LinkedList<Event>());
                     }
@@ -286,12 +306,17 @@ public class ClubCalendar
                     String description = (String) fields.get("description");
                     ArrayList<Boolean> recurringDays = (ArrayList<Boolean>) fields.get("recurring_days");
 
-                    for (int i = 0; i < mRecurringEvents.size(); i++)
+                    for (int i = 0; i < recurringDays.size(); i++)
                     {
                         List<Event> day = mRecurringEvents.get(i);
-                        day.add(new Event(id, title, iconUrl, location,
-                                startTimestamp, endTimestamp, lowerAge, upperAge, description,
-                                recurringDays));
+
+                        // If it recurs on this day according to the array.
+                        if (recurringDays.get(i))
+                        {
+                            day.add(new Event(id, title, iconUrl, location,
+                                    startTimestamp, endTimestamp, lowerAge, upperAge, description,
+                                    recurringDays));
+                        }
                     }
                 }
 
@@ -407,5 +432,31 @@ public class ClubCalendar
         }
 
         return filteredEvents;
+    }
+
+    // LocalDate has some weird values for the start of the week.
+    //
+    // This is a utility method that allows us to convert the day of the week to something
+    // more familiar i.e. Sunday is the first day of the week and the values are zero indexed.
+    public static int convertDayOfWeek(DayOfWeek dayOfWeek)
+    {
+        switch (dayOfWeek)
+        {
+            case SUNDAY:
+                return 0;
+            case MONDAY:
+                return 1;
+            case TUESDAY:
+                return 2;
+            case WEDNESDAY:
+                return 3;
+            case THURSDAY:
+                return 4;
+            case FRIDAY:
+                return 5;
+            case SATURDAY:
+                return 6;
+        }
+        return -1;
     }
 }

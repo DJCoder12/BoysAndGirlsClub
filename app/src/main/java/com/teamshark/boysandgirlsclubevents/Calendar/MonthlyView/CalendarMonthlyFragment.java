@@ -49,7 +49,7 @@ public class CalendarMonthlyFragment extends Fragment {
         initCells(view);
         initTitle(view);
         showCalendarDays();
-        showNonRecurringEvents(ClubCalendar.handleLocationFiltering(ClubCalendar.getEventsForMonth(mYearMonth)));
+        showEvents(ClubCalendar.handleLocationFiltering(ClubCalendar.getEventsForMonth(mYearMonth)));
         return view;
     }
 
@@ -98,7 +98,7 @@ public class CalendarMonthlyFragment extends Fragment {
     private void showCalendarDays() {
         int offset = getOffset();
 
-        // Add one because of zero index.
+        // Add one because of one index.
         int maxDays = mYearMonth.lengthOfMonth() + 1;
 
         for (int i = 0; i < mCells.size(); i++) {
@@ -139,59 +139,7 @@ public class CalendarMonthlyFragment extends Fragment {
         }
     }
 
-    public void showRecurringEvents(HashMap<Integer, List<Event>> events) {
-        if (events == null) {
-            return;
-        }
-
-        int offset = getOffset();
-
-        // Add one because of zero index.
-        int maxDays = mYearMonth.lengthOfMonth() + 1;
-
-        for (int i = 0; i < mCells.size(); i++) {
-            // Get the cell.
-            ConstraintLayout cell = mCells.get(i);
-
-            // This is the actual day of the month we're on.
-            int actual = i - offset;
-
-            // If the day number is valid.
-            if (actual > 0 && actual < maxDays) {
-                List<Event> eventsOnDay = events.get(actual);
-                if (eventsOnDay != null && !eventsOnDay.isEmpty()) {
-                    Event firstEvent = eventsOnDay.get(0);
-
-                    Resources res = getResources();
-                    switch (firstEvent.getColor()) {
-                        case Red:
-                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventRed)));
-                            break;
-                        case Green:
-                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventGreen)));
-                            break;
-                        case Yellow:
-                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventYellow)));
-                            break;
-                        case Blue:
-                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventBlue)));
-                            break;
-                        case Orange:
-                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventOrange)));
-                            break;
-                        case Purple:
-                            cell.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.eventPurple)));
-                            break;
-                    }
-
-                    ImageView iconIV = cell.findViewById(R.id.imageViewIcon);
-                    Glide.with(cell).load(firstEvent.getIconUrl()).into(iconIV);
-                }
-            }
-        }
-    }
-
-    public void showNonRecurringEvents(HashMap<Integer, List<Event>> events) {
+    public void showEvents(HashMap<Integer, List<Event>> events) {
         if (events == null) {
             return;
         }

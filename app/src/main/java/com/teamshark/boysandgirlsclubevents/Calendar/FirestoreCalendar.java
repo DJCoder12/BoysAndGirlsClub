@@ -25,10 +25,13 @@ public class FirestoreCalendar {
         mFirestore = FirebaseFirestore.getInstance();
     }
 
-    public void deleteEvent(int year, int month, String id) {
-        String eventType = "non-recurring";
+    public void deleteRecurringEvent(String id) {
+        mFirestore.collection("events").document("recurring")
+                .collection("events").document(id).delete();
+    }
 
-        mFirestore.collection("events").document(eventType)
+    public void deleteNonRecurringEvent(int year, int month, String id) {
+        mFirestore.collection("events").document("non-recurring")
                 .collection("years").document(Integer.toString(year))
                 .collection("months").document(Integer.toString(month))
                 .collection("events").document(id).delete();
