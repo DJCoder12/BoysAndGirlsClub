@@ -30,7 +30,7 @@
     <string name="button_login">Log In</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
-    
+
     <!-- Calendar Date -->
     <string name="view_daily_time">%1$s to %2$s</string>
     <string name="button_logout">Log Out</string>
@@ -64,6 +64,19 @@
     <string name="hint_end_time">End Time</string>
     <string name="hint_description">Description</string>
     <string name="button_submit">Submit</string>
+    <string name="checkbox_event_recurs">This event recurs.</string>
+    <string name="button_select_days">Select Days</string>
+
+    <!-- Recurring Dialog -->
+    <string name="recurring_positive">Confirm</string>
+    <string name="recurring_negative">Cancel</string>
+    <string name="first_day">Sunday</string>
+    <string name="second_day">Monday</string>
+    <string name="third_day">Tuesday</string>
+    <string name="fourth_day">Wednesday</string>
+    <string name="fifth_day">Thursday</string>
+    <string name="sixth_day">Friday</string>
+    <string name="seventh_day">Saturday</string>
 
     <!-- Events -->
     <string name="event_age_group">Ages: %1d to %2d</string>
