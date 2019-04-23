@@ -26,14 +26,14 @@
     <string name="view_monthly">Monthly</string>
 
     <!-- Strings related to login -->
-    <string name="title_login_activity">Log In</string>
+    <string name="title_login_activity">Authentication</string>
+    <string name="button_logout">Log Out</string>
     <string name="button_login">Log In</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
 
     <!-- Calendar Date -->
     <string name="view_daily_time">%1$s to %2$s</string>
-    <string name="button_logout">Log Out</string>
     <string name="sun_abrv">Sun</string>
     <string name="mon_abrv">Mon</string>
     <string name="tue_abrv">Tue</string>

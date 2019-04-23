@@ -131,5 +131,6 @@ public class LoginActivity extends AppCompatActivity {
             // Update login button text.
             mLoginButton.setText(getResources().getString(R.string.button_logout));
         }
+        invalidateOptionsMenu();
     }
 }
