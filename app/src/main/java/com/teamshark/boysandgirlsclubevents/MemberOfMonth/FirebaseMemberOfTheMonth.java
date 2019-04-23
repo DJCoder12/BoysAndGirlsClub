@@ -80,6 +80,21 @@ public class FirebaseMemberOfTheMonth extends Observable
 
     public void updateData() {
 
+        db.collection(PATH).document()
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+        /*
         for(int h = 0; h < mMembersOfMonth.size(); h++){
             db.collection(PATH).document()
                     .delete()
@@ -97,6 +112,7 @@ public class FirebaseMemberOfTheMonth extends Observable
                     });
             mMembersOfMonth.remove(h);
         }
+        */
     }
 
 

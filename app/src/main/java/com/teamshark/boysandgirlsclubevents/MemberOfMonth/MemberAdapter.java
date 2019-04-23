@@ -2,13 +2,17 @@ package com.teamshark.boysandgirlsclubevents.MemberOfMonth;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.*;
 import com.google.firebase.*;
 
@@ -45,8 +49,9 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            mListener.onClick(v, getAdapterPosition());
+
         }
+
     }
 
     public List<MemberMonth> mMembers;
@@ -68,7 +73,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(MemberAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(MemberAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.memberName.setText(mMembers.get(position).getName());
         viewHolder.memberClubhouse.setText(mMembers.get(position).getClubhouse());
     }
@@ -78,19 +83,15 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         return mMembers.size();
     }
 
+    public void removeItem(int position){
+        MemberMonth deletedItem = mMembers.get(position);
+        int deletedPosition = position;
+        mMembers.remove(position);
+        notifyItemRemoved(position);
+    }
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    /*
-    public int getItemViewType(int position){
-        return (position == mMembers.size()) ? R.layout.fragment_member_month.u
-    }
-
-    @Override
-    public int getItemViewType(int position){
-        return (position == mMembers.size())
-    }
-    */
 }

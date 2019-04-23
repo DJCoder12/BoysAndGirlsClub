@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,6 @@ public class MemberMonthFragment extends Fragment
     {
         mRecyclerView = view.findViewById(R.id.newRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
@@ -64,14 +64,17 @@ public class MemberMonthFragment extends Fragment
             }
         };
         MemberAdapter memberAdapter = new MemberAdapter(memberList, listener);
-        memberAdapter.notifyDataSetChanged();
+        //memberAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(memberAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ItemTouchHelper itemTouchHelper =new ItemTouchHelper(new SwipeToDelete(memberAdapter));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
-
+    /*
     public void updateAllData(View view){
         mLogic.updateNewData();
     }
+    */
 
 }
