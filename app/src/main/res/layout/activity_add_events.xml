@@ -13,7 +13,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/hint_title"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_bias="0.10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -104,15 +104,23 @@
         app:layout_constraintStart_toEndOf="@id/editText_lowerAge"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <EditText
+        android:id="@+id/editText_description"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:lines="6"
+        android:hint="@string/hint_description"
+        app:layout_constraintTop_toBottomOf="@id/editText_upperAge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_submit"
-        android:layout_marginTop="50dp"
         android:onClick="submit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_lowerAge" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_description" />
 
 </android.support.constraint.ConstraintLayout>
