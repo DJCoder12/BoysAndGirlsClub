@@ -31,7 +31,6 @@ public class CalendarMonthlyFragment extends Fragment {
 
     public static final String TAG = "CalendarMonthlyFragment";
 
-    private ClubCalendar mClubCalendar;
     private YearMonth mYearMonth;
     private TextView mMonthTitle;
     private ArrayList<ConstraintLayout> mCells = new ArrayList<>();
