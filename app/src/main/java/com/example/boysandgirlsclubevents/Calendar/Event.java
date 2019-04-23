@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -23,6 +24,7 @@ public class Event
     private Date mStartTime;
     private Date mEndTime;
     private String mDescription;
+    private ArrayList<Boolean> mRecurringDays;
 
     private ClubLocation mClubLocation;
     private Color mColor;
@@ -47,13 +49,15 @@ public class Event
 
     public Event(String id, String title, String iconUrl, String location,
                  Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
-                 Integer upperAge, String description) {
+                 Integer upperAge, String description)
+    {
         mId = id;
         mTitle = title;
         mLowerAge = lowerAge;
         mUpperAge = upperAge;
 
-        switch (location) {
+        switch (location)
+        {
             case ("Columbia"): mClubLocation = Event.ClubLocation.Columbia;
                 break;
             case ("Hill"): mClubLocation = Event.ClubLocation.Hill;
@@ -69,6 +73,18 @@ public class Event
         mDescription = description;
         initializeColor();
         mIconUrl = iconUrl;
+
+        mRecurringDays = null;
+    }
+
+    public Event(String id, String title, String iconUrl, String location,
+                 Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
+                 Integer upperAge, String description, ArrayList<Boolean> recurringDays)
+    {
+        this(id, title, iconUrl, location, startTimestamp, endTimestamp, lowerAge, upperAge,
+                description);
+
+        this.mRecurringDays = recurringDays;
     }
 
     private void initializeColor()
@@ -188,5 +204,10 @@ public class Event
     public ClubLocation getClubLocation()
     {
         return mClubLocation;
+    }
+
+    public boolean isRecurring()
+    {
+        return mRecurringDays != null;
     }
 }

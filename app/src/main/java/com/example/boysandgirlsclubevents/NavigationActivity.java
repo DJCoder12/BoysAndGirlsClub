@@ -235,6 +235,6 @@ public class NavigationActivity extends AppCompatActivity
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_fragmentHolder_main, getFragment(pos), tag)
-                .commit();
+                .commitAllowingStateLoss();
     }
 }

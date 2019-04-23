@@ -56,6 +56,9 @@ public class ClubCalendar {
     // (k, v) = (years, months) -> (k, v) = (months, days) -> (k, v) = (days, events)
     private static HashMap<Integer, HashMap<Integer, HashMap<Integer, List<Event>>>> mYears = new HashMap<>();
 
+    // List containing recurring events.
+    private static ArrayList<LinkedList<Event>> mRecurringEvents = new ArrayList<>();
+
     private static FirestoreCalendar mFirestoreCalendar = FirestoreCalendar.getInstance();
 
     public ClubCalendar() {}
@@ -105,6 +108,41 @@ public class ClubCalendar {
         }
 
         return null;
+    }
+
+    public ArrayList<LinkedList<Event>> getRecurringEvents()
+    {
+        if (mRecurringEvents == null)
+        {
+            return null;
+        }
+
+        return mRecurringEvents;
+    }
+
+    public static ArrayList<LinkedList<Event>> handleLocationFiltering(ArrayList<LinkedList<Event>> recurringEvents)
+    {
+        if (recurringEvents == null)
+        {
+            return null;
+        }
+
+        ArrayList<LinkedList<Event>> filteredEvents = new ArrayList<>();
+        for (int i = 0; i < recurringEvents.size(); i++)
+        {
+            filteredEvents.add(new LinkedList<Event>());
+            List<Event> newDay = filteredEvents.get(i);
+            List<Event> day = recurringEvents.get(i);
+            for (Event event : day)
+            {
+                if (event.getClubLocation() == CalendarSettings.getLocation())
+                {
+                    newDay.add(event);
+                }
+            }
+        }
+
+        return filteredEvents;
     }
 
     public static HashMap<Integer, List<Event>> handleLocationFiltering(HashMap<Integer, List<Event>> month)
@@ -195,14 +233,74 @@ public class ClubCalendar {
         mYears.clear();
         for (int i = 1; i <= 12; i++) {
             YearMonth ym = YearMonth.of(year, i);
-            mFirestoreCalendar.queryEventsForYearMonth(ym, new QueryYMOnCompleteListener(ym, mainActivity));
+            mFirestoreCalendar.queryEventsForYearMonth(ym, new QueryYMOnCompleteListener(ym, null));
         }
+        mFirestoreCalendar.queryRecurringEvents(new QueryRecurringOnCompleteListener(mainActivity));
     }
 
     public static void deleteEvent(Event event) {
         Date date = event.getStartTime();
         LocalDate ld = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         mFirestoreCalendar.deleteEvent(ld.getYear(), ld.getMonthValue(), event.getId());
+    }
+
+    private static class QueryRecurringOnCompleteListener implements OnCompleteListener<QuerySnapshot>
+    {
+
+        // Activity is used here for callback to update calendar fragment.
+        private NavigationActivity mMainActivity;
+
+        QueryRecurringOnCompleteListener(NavigationActivity mainActivity)
+        {
+            mMainActivity = mainActivity;
+        }
+
+
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task)
+        {
+            if (task.isSuccessful())
+            {
+                if (mRecurringEvents == null)
+                {
+                    mRecurringEvents = new ArrayList<>();
+                    for (int i = 0; i < 6; i++)
+                    {
+                        mRecurringEvents.add(new LinkedList<Event>());
+                    }
+                }
+
+                for (QueryDocumentSnapshot doc : task.getResult())
+                {
+                    Map<String, Object> fields = doc.getData();
+
+                    String id = doc.getId();
+                    String title = (String) fields.get("title");
+                    String iconUrl = (String) fields.get("icon_url");
+                    Integer lowerAge = ((Long) fields.get("lower_age")).intValue();
+                    Integer upperAge = ((Long) fields.get("upper_age")).intValue();
+                    String location = (String) fields.get("location");
+                    Timestamp startTimestamp = (Timestamp) fields.get("start_time");
+                    Timestamp endTimestamp = (Timestamp) fields.get("end_time");
+                    String description = (String) fields.get("description");
+                    ArrayList<Boolean> recurringDays = (ArrayList<Boolean>) fields.get("recurring_days");
+
+                    for (int i = 0; i < mRecurringEvents.size(); i++)
+                    {
+                        List<Event> day = mRecurringEvents.get(i);
+                        day.add(new Event(id, title, iconUrl, location,
+                                startTimestamp, endTimestamp, lowerAge, upperAge, description,
+                                recurringDays));
+                    }
+                }
+
+                // Can supply a null activity if callback should not occur.
+                if (mMainActivity != null)
+                {
+                    mMainActivity.showFragment(0, CalendarFragment.TAG);
+                }
+            }
+        }
     }
 
     private static class QueryYMOnCompleteListener implements OnCompleteListener<QuerySnapshot>
@@ -242,7 +340,6 @@ public class ClubCalendar {
 
                 for (QueryDocumentSnapshot doc : task.getResult())
                 {
-                    doc.getId();
                     Map<String, Object> fields = doc.getData();
 
                     String id = doc.getId();
@@ -282,7 +379,10 @@ public class ClubCalendar {
                     days.put(day, eventsOnDay);
                 }
 
-                mMainActivity.showFragment(0, CalendarFragment.TAG);
+                if (mMainActivity != null)
+                {
+                    mMainActivity.showFragment(0, CalendarFragment.TAG);
+                }
             }
         }
     }

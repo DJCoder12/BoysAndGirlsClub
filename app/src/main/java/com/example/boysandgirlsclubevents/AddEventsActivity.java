@@ -4,21 +4,24 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.boysandgirlsclubevents.Calendar.Event;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -26,6 +29,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -47,6 +51,11 @@ public class AddEventsActivity extends AppCompatActivity {
     private EditText mEndTimeField;
     private EditText mLowerAgeField;
     private EditText mUpperAgeField;
+    private CheckBox mEventRecursBox;
+    private Button mRecurringDaysButton;
+
+    // Recurring event checkboxes.
+    private ArrayList<Boolean> boxIsChecked = new ArrayList<>(7);
 
     // Formats based on locales.
     public static java.text.DateFormat mDateFormat =
@@ -79,6 +88,14 @@ public class AddEventsActivity extends AppCompatActivity {
         mLowerAgeField = findViewById(R.id.editText_lowerAge);
         mUpperAgeField = findViewById(R.id.editText_upperAge);
         mDescriptionField = findViewById(R.id.editText_description);
+
+        // Initialize checkboxes.
+        mEventRecursBox = findViewById(R.id.checkBox_recurring);
+        mRecurringDaysButton = findViewById(R.id.button_recurring);
+        mRecurringDaysButton.setEnabled(false);
+        for (int i = 0; i < 7; i++) {
+            boxIsChecked.add(false);
+        }
 
         // Initialize Firestore.
         mFirestore = FirebaseFirestore.getInstance();
@@ -180,59 +197,71 @@ public class AddEventsActivity extends AppCompatActivity {
     }
 
     private void sendToFirestore() {
-        // Get basic string data from fields.
-        String title = mTitleField.getText().toString();
-        String iconUrl = mIconUrlField.getText().toString();
-        String location = mLocationField.getSelectedItem().toString();
-        String dayFormatted = mEventDateField.getText().toString();
-        String startTimeFormatted = mStartTimeField.getText().toString();
-        String endTimeFormatted = mEndTimeField.getText().toString();
-        Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
-        Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
-        String description = mDescriptionField.getText().toString();
+        if (mEventRecursBox.isChecked()) {
+            sendRecurringEvent();
+        } else {
+            sendNonRecurringEvent();
+        }
+    }
 
-        // Parse dates into Date objects.
-        Date day, startTime, endTime;
+    private Date parseDateTimeStrings(String dayFormatted, String timeFormatted) {
+        // Parse the strings.
+        Date day, time, result;
         try {
             day = mDateFormat.parse(dayFormatted);
-            startTime = mTimeFormat.parse(startTimeFormatted);
-            endTime = mTimeFormat.parse(endTimeFormatted);
+            time = mTimeFormat.parse(timeFormatted);
         } catch (ParseException pe) {
             Log.d(TAG, "Field parse failed.");
-            return;
+            return null;
         }
 
         // Create the offset value to convert from UTC to local.
         TimeZone tz = mDateFormat.getTimeZone();
         int offset = tz.getRawOffset();
 
-        // Finally create date objects for use with timestamps.
-        Date startDate = new Date();
-        startDate.setTime(day.getTime() + startTime.getTime() + offset);
-        Date endDate = new Date();
-        endDate.setTime(day.getTime() + endTime.getTime() + offset);
+        // Create date to return by combining day and time.
+        result = new Date();
+        result.setTime(day.getTime() + time.getTime() + offset);
+
+        return result;
+    }
+
+    private void sendNonRecurringEvent() {
+        // Get basic string data from fields.
+        String title = mTitleField.getText().toString();
+        String iconUrl = mIconUrlField.getText().toString();
+        String location = mLocationField.getSelectedItem().toString();
+        Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
+        Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
+        String description = mDescriptionField.getText().toString();
+
+        String dayFormatted = mEventDateField.getText().toString();
+        String startTimeFormatted = mStartTimeField.getText().toString();
+        String endTimeFormatted = mEndTimeField.getText().toString();
+
+        Date startTime = parseDateTimeStrings(dayFormatted, startTimeFormatted);
+        Date endTime = parseDateTimeStrings(dayFormatted, endTimeFormatted);
 
         Calendar c = new GregorianCalendar();
-        c.setTimeInMillis(startDate.getTime());
+        c.setTimeInMillis(startTime.getTime());
 
         // Create event map to send to Firestore.
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
         event.put("icon_url", iconUrl);
         event.put("location", location);
-        event.put("start_time", new Timestamp(startDate));
-        event.put("end_time", new Timestamp(endDate));
+        event.put("start_time", new Timestamp(startTime));
+        event.put("end_time", new Timestamp(endTime));
         event.put("lower_age", lowerAge);
         event.put("upper_age", upperAge);
         event.put("description", description);
 
         // Form Firestore set command.
-        String eventType = "non-recurring";
         String year = Integer.toString(c.get(Calendar.YEAR));
         String month = Integer.toString(c.get(Calendar.MONTH) + 1);
 
         // Add to Firestore.
-        mFirestore.collection("events").document(eventType)
+        mFirestore.collection("events").document("non-recurring")
                 .collection("years").document(year)
                 .collection("months").document(month)
                 .collection("events").add(event)
@@ -250,6 +279,65 @@ public class AddEventsActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void sendRecurringEvent() {
+        // Get basic string data from fields.
+        String title = mTitleField.getText().toString();
+        String iconUrl = mIconUrlField.getText().toString();
+        String location = mLocationField.getSelectedItem().toString();
+        Integer lowerAge = Integer.parseInt(mLowerAgeField.getText().toString());
+        Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
+        String description = mDescriptionField.getText().toString();
+
+        // Since we have no event date, we just zero it all out.
+        Calendar startOfEpoch = new GregorianCalendar(0, 0, 0, 0,
+                0, 0);
+        
+        String startTimeFormatted = mStartTimeField.getText().toString();
+        String endTimeFormatted = mEndTimeField.getText().toString();
+
+        Date startTime = parseDateTimeStrings(mDateFormat.format(startOfEpoch.getTime()),
+                startTimeFormatted);
+        Date endTime = parseDateTimeStrings(mDateFormat.format(startOfEpoch.getTime()),
+                endTimeFormatted);
+
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(startTime.getTime());
+
+        // Create event map to send to Firestore.
+        Map<String, Object> event = new HashMap<>();
+        event.put("title", title);
+        event.put("icon_url", iconUrl);
+        event.put("location", location);
+        event.put("start_time", new Timestamp(startTime));
+        event.put("end_time", new Timestamp(endTime));
+        event.put("lower_age", lowerAge);
+        event.put("upper_age", upperAge);
+        event.put("description", description);
+        event.put("recurring_days", boxIsChecked);
+
+        // Form Firestore set command.
+        String year = Integer.toString(c.get(Calendar.YEAR));
+        String month = Integer.toString(c.get(Calendar.MONTH) + 1);
+
+        // Add to Firestore.
+        mFirestore.collection("events").document("recurring")
+                .collection("events").add(event)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Event created successfully.",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Failed to create event.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Subclass for creating the DatePicker dialog.
@@ -337,6 +425,55 @@ public class AddEventsActivity extends AppCompatActivity {
 
             // Update the EditText to reflect the time chosen.
             et.setText(mTimeFormat.format(c.getTime()));
+        }
+    }
+
+    public void showRecurringDialog(View v) {
+        final View checkBoxes = View.inflate(this, R.layout.new_event_recurring_dialog, null);
+
+        // Restore values.
+        final CheckBox firstDay = checkBoxes.findViewById(R.id.checkBox_firstDay);
+        firstDay.setChecked(boxIsChecked.get(0));
+        final CheckBox secondDay = checkBoxes.findViewById(R.id.checkBox_secondDay);
+        secondDay.setChecked(boxIsChecked.get(1));
+        final CheckBox thirdDay = checkBoxes.findViewById(R.id.checkBox_thirdDay);
+        thirdDay.setChecked(boxIsChecked.get(2));
+        final CheckBox fourthDay = checkBoxes.findViewById(R.id.checkBox_fourthDay);
+        fourthDay.setChecked(boxIsChecked.get(3));
+        final CheckBox fifthDay = checkBoxes.findViewById(R.id.checkBox_fifthDay);
+        fifthDay.setChecked(boxIsChecked.get(4));
+        final CheckBox sixthDay = checkBoxes.findViewById(R.id.checkBox_sixthDay);
+        sixthDay.setChecked(boxIsChecked.get(5));
+        final CheckBox seventhDay = checkBoxes.findViewById(R.id.checkBox_seventhDay);
+        seventhDay.setChecked(boxIsChecked.get(6));
+
+        (new AlertDialog.Builder(this)).setTitle("Recurring Event")
+                .setView(checkBoxes)
+                .setCancelable(true)
+                .setNegativeButton(R.string.recurring_negative, null)
+                .setPositiveButton(R.string.recurring_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        boxIsChecked.set(0, firstDay.isChecked());
+                        boxIsChecked.set(1, secondDay.isChecked());
+                        boxIsChecked.set(2, thirdDay.isChecked());
+                        boxIsChecked.set(3, fourthDay.isChecked());
+                        boxIsChecked.set(4, fifthDay.isChecked());
+                        boxIsChecked.set(5, sixthDay.isChecked());
+                        boxIsChecked.set(6, seventhDay.isChecked());
+                    }
+                }).show();
+    }
+
+    public void onClickEventRecurs(View v) {
+        if (mEventRecursBox.isChecked()) {
+            mEventDateField.setEnabled(false);
+            mEventDateField.setText("N/A");
+            mRecurringDaysButton.setEnabled(true);
+        } else {
+            mEventDateField.setEnabled(true);
+            mEventDateField.setText("");
+            mRecurringDaysButton.setEnabled(false);
         }
     }
 }

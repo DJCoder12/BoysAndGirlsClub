@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="25dp"
+    android:paddingEnd="0dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <CheckBox
+        android:id="@+id/checkBox_firstDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/first_day"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_secondDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/second_day"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_firstDay"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_thirdDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/third_day"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_secondDay"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_fourthDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/fourth_day"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_thirdDay"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_fifthDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/fifth_day"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_fourthDay"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_sixthDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/sixth_day"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_fifthDay"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_seventhDay"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/seventh_day"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_sixthDay"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
