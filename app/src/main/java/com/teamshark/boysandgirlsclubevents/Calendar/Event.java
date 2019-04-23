@@ -189,4 +189,15 @@ public class Event
     {
         return mClubLocation;
     }
+
+    public String getDateString()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("MMMM dd", Locale.US);
+        return dateFormat.format(mStartTime);
+    }
+
+    public String getDescription()
+    {
+        return mDescription;
+    }
 }

@@ -3,6 +3,7 @@ package com.teamshark.boysandgirlsclubevents.Calendar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,7 +19,6 @@ import com.teamshark.boysandgirlsclubevents.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
 {
@@ -141,6 +141,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
                     holder.baseView.setBackgroundColor(res.getColor(R.color.eventPurple));
                     break;
             }
+
+            holder.baseView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    CalendarSettings.setSelectedEvent(curEvent);
+                    Intent detailIntent = new Intent(mContext, EventDetailActivity.class);
+                    mContext.startActivity(detailIntent);
+                }
+            });
 
             holder.baseView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
