@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xlmns="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MemberOfMonth.AddMemberActivity">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
-        android:id="@+id/card_view">
+        android:id="@+id/newCardView">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,23 +21,25 @@
             android:background="@color/white"
             android:padding="16dp">
 
-            <TextView
+            <EditText
+                android:id="@+id/newMemberClubhouse"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/memberClubhouse"
-                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:text="newText"
-                android:textSize="20dp"
                 android:gravity="center"
-                />
+                android:hint="Enter the name of the clubhouse"
+                android:inputType="text"
+                android:textSize="20dp" />
 
-            <TextView
+            <EditText
+                android:id="@+id/newMemberName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/memberName"
-                android:layout_below="@id/memberClubhouse"
-                android:gravity="center"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/newMemberClubhouse"
+                android:gravity="center"
+                android:hint="Enter the member of the month"
+                android:inputType="text" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -1,5 +1,8 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
+import com.example.boysandgirlsclubevents.R;
+import com.google.firebase.Timestamp;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,11 +15,11 @@ public class Event
     private final String STR_DATE_FORMAT = "h:mm a";
     private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
 
+    private String mId;
     private String mTitle;
     private int mLowerAge;
     private int mUpperAge;
-    private int mIcon;
-    private int mDuration; //Measured in minutes
+    private String mIconUrl;
     private Date mStartTime;
     private Date mEndTime;
 
@@ -25,9 +28,9 @@ public class Event
 
     public enum ClubLocation
     {
-        WaterStreet,
-        LemonStreet,
-        AnnStreet,
+        Hill,
+        JackWalker,
+        Southeast,
         Columbia
     }
 
@@ -41,17 +44,63 @@ public class Event
         Purple
     }
 
-    public Event(String title, ClubLocation clubLocation, Calendar startTime, int duration, int icon)
-    {
+    public Event(String id, String title, String iconUrl, String location,
+                 Timestamp startTimestamp, Timestamp endTimestamp, Integer lowerAge,
+                 Integer upperAge) {
+        mId = id;
         mTitle = title;
-        mClubLocation = clubLocation;
-        mDuration = duration;
-        mStartTime = startTime.getTime();
-        startTime.add(Calendar.MINUTE, duration);
-        mEndTime = startTime.getTime();
-        mIcon = icon;
-        Color[] colors = Color.values();
-        mColor = colors[new Random().nextInt(colors.length)];
+        mLowerAge = lowerAge;
+        mUpperAge = upperAge;
+
+        switch (location) {
+            case ("Columbia"): mClubLocation = Event.ClubLocation.Columbia;
+                break;
+            case ("Hill"): mClubLocation = Event.ClubLocation.Hill;
+                break;
+            case ("Jack Walker"): mClubLocation = Event.ClubLocation.JackWalker;
+                break;
+            case ("Southeast"): mClubLocation = Event.ClubLocation.Southeast;
+                break;
+        }
+
+        mStartTime = new Date(startTimestamp.toDate().getTime());
+        mEndTime = new Date(endTimestamp.toDate().getTime());
+        initializeColor();
+        mIconUrl = iconUrl;
+    }
+
+    private void initializeColor()
+    {
+        if (4 <= mLowerAge && mLowerAge < 6)
+        {
+            mColor = Color.Purple;
+        }
+        else if(6 <= mLowerAge && mLowerAge < 9)
+        {
+            mColor = Color.Yellow;
+        }
+        else if (9 <= mLowerAge && mLowerAge < 11)
+        {
+            mColor = Color.Blue;
+        }
+        else if (11 <= mLowerAge && mLowerAge < 13)
+        {
+            mColor = Color.Red;
+        }
+        else if (13 <= mLowerAge && mLowerAge < 16)
+        {
+            mColor = Color.Green;
+        }
+        else
+        {
+            mColor = Color.Orange;
+        }
+    }
+
+    public Event setId(String id)
+    {
+        this.mId = id;
+        return this;
     }
 
     public Event setTitle(String newTitle)
@@ -60,18 +109,21 @@ public class Event
         return this;
     }
 
-    public Event setLowerAge(int newAge){
+    public Event setLowerAge(int newAge)
+    {
         this.mLowerAge = newAge;
         return this;
     }
 
-    public Event setUpperAge(int newAge){
+    public Event setUpperAge(int newAge)
+    {
         this.mUpperAge = newAge;
         return this;
     }
 
-    public Event setIcon(int newIcon){
-        this.mIcon = newIcon;
+    public Event setIcon(String newIconUrl)
+    {
+        this.mIconUrl = newIconUrl;
         return this;
     }
 
@@ -81,14 +133,29 @@ public class Event
         return this;
     }
 
+    public String getId()
+    {
+        return mId;
+    }
+
     public String getTitle()
     {
         return mTitle;
     }
 
-    public int getIcon()
+    public String getIconUrl()
     {
-        return mIcon;
+        return mIconUrl;
+    }
+
+    public Date getStartTime()
+    {
+        return mStartTime;
+    }
+
+    public Date getEndTime()
+    {
+        return mEndTime;
     }
 
     public String getStartTimeString()
@@ -114,5 +181,10 @@ public class Event
     public Color getColor()
     {
         return mColor;
+    }
+
+    public ClubLocation getClubLocation()
+    {
+        return mClubLocation;
     }
 }

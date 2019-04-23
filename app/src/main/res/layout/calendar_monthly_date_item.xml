@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="50dp"
     android:layout_height="65dp"
-    android:background="@drawable/event_bg"
-    android:backgroundTint="@android:color/holo_blue_dark">
+    android:backgroundTint="@color/nearWhite"
+    android:background="@drawable/event_bg">
 
     <TextView
         android:id="@+id/textViewDate"
@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/imageViewIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="5dp"

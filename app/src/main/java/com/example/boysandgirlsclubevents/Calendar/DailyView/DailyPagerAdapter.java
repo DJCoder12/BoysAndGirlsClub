@@ -23,7 +23,7 @@ public class DailyPagerAdapter extends FragmentStatePagerAdapter
     {
         //The pager is 0 indexed so to convert to date, add 1
         int date = position + 1;
-        LocalDate localDate = ClubCalendar.mLocalDate.withDayOfMonth(date);
+        LocalDate localDate = ClubCalendar.getLocalDate().withDayOfMonth(date);
 
         return CalendarDailyFragment.newInstance(localDate);
     }

@@ -7,26 +7,31 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
 
+import org.threeten.bp.YearMonth;
+
 public class MonthlyPagerAdapter extends FragmentStatePagerAdapter
 {
-    private ClubCalendar mClubCalendar;
 
     public MonthlyPagerAdapter(FragmentManager fragmentManager, ClubCalendar clubCalendar)
     {
         super(fragmentManager);
-        mClubCalendar = clubCalendar;
     }
 
     @Override
     public Fragment getItem(int position)
     {
-        return CalendarMonthlyFragment.newInstance(position, "April");
+        int year = ClubCalendar.getLocalDate().getYear();
+
+        // Month is not zero-indexed so add one.
+        int month = position + 1;
+
+        return CalendarMonthlyFragment.newInstance(YearMonth.of(year, month));
     }
 
     @Override
     public int getCount()
     {
-        //TODO: implement
-        return 1;
+        // There are 12 months in a year.
+        return 12;
     }
 }

@@ -1,19 +1,36 @@
 package com.example.boysandgirlsclubevents.Calendar;
 
-import com.example.boysandgirlsclubevents.R;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
+import com.example.boysandgirlsclubevents.Calendar.DailyView.CalendarDailyFragment;
+import com.example.boysandgirlsclubevents.Calendar.MonthlyView.CalendarMonthlyFragment;
+import com.example.boysandgirlsclubevents.NavigationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.threeten.bp.Instant;
+import android.util.Log;
+
+import com.example.boysandgirlsclubevents.R;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.YearMonth;
+import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.WeekFields;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
-public class ClubCalendar
-{
+public class ClubCalendar {
     private final static String TAG = "ClubCalendar";
 
     public static final String SUN_ABRV = "Sun";
@@ -24,117 +41,95 @@ public class ClubCalendar
     public static final String FRI_ABRV = "Fri";
     public static final String SAT_ABRV = "Sat";
 
-    public static LocalDate mLocalDate = LocalDate.now();
-    private static HashMap<Integer, HashMap<String, HashMap<Integer, List<Event>>>> mYears = new HashMap<>();
+    private static LocalDate mLocalDate = LocalDate.now();
 
-    public ClubCalendar()
+    public static LocalDate getLocalDate()
     {
-        initEvents();
+        return mLocalDate;
     }
 
-    //TODO: Delete when this is connected to the db
-    private void initEvents()
+    public static void setLocalDate(LocalDate ld)
     {
-        //Make some events
-        List<Event> dummyEvents1 = new ArrayList<>();
-        Event event1 = new Event("Basketball", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
-                .setLowerAge(5).setUpperAge(18);
-        Event event2 = new Event("Leadership", Event.ClubLocation.Columbia, Calendar.getInstance(), 180, R.drawable.torch)
-                .setLowerAge(13).setUpperAge(18);
-        Event event3 = new Event("Study Help", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
-                .setLowerAge(8).setUpperAge(14);
-        dummyEvents1.add(event1);
-        dummyEvents1.add(event2);
-        dummyEvents1.add(event3);
-
-        List<Event> dummyEvents2 = new ArrayList<>();
-        Event event1a = new Event("Football", Event.ClubLocation.AnnStreet, Calendar.getInstance(), 60, R.drawable.football)
-                .setLowerAge(13).setUpperAge(16);
-        Event event3a = new Event("Tutoring", Event.ClubLocation.WaterStreet, Calendar.getInstance(), 440, R.drawable.homework)
-                .setLowerAge(10).setUpperAge(14);
-        dummyEvents2.add(event1a);
-        dummyEvents2.add(event3a);
-
-        //populate some days with dummy events
-        HashMap<Integer, List<Event>> april = new HashMap<>();
-        april.put(8, dummyEvents2);
-        april.put(10, dummyEvents1);
-
-        HashMap<String, HashMap<Integer, List<Event>>> y2019 = new HashMap<>();
-        y2019.put("April", april);
-
-        mYears.put(2019, y2019);
+        mLocalDate = ld;
     }
 
-    /*//Creates an event object and adds the event to the month ArrayList. Also sets up mMonths if first time being used
-    protected void addEvent(Event newEvent, LocalDate date)
-    {
-        int year = date.getYear();
-        String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.US);
-        int dateOfMonth = date.getDayOfMonth();
+    // (k, v) = (years, months) -> (k, v) = (months, days) -> (k, v) = (days, events)
+    private static HashMap<Integer, HashMap<Integer, HashMap<Integer, List<Event>>>> mYears = new HashMap<>();
 
-        if(!mYears.containsKey(year))
-        {
-            HashMap<Integer, List<Event>> monthMap = new HashMap<>();
-            List<Event> events = new ArrayList<>();
-            events.add(newEvent);
-            monthMap.put(dateOfMonth, events);
-            HashMap<String, HashMap<Integer, List<Event>>> yearMap = new HashMap<>();
-            yearMap.put(month, monthMap);
-            mYears.put(year, yearMap);
-        }
-        else
-        {
-            HashMap<String, HashMap<Integer, List<Event>>> yearMap = mYears.get(year);
-        }
+    private static FirestoreCalendar mFirestoreCalendar = FirestoreCalendar.getInstance();
 
-        ArrayList eventsOftheMonth = mMonths.get(month);
-        eventsOftheMonth.add(newEvent);
-    }*/
-
-    //Gets the event of interest and alters the values for each event field based on what the user passes.
-    /*protected void editEvent(Event event, String Title, String Date, String Age, Event.ClubLocation Location, int Icon, String month, String year){
-        HashMap yearOfInterest = mYears.get(year);
-        ArrayList<Event> monthEvents = mMonths.get(month);
-        int indexOfEvent = monthEvents.indexOf(event);
-        Event eventToEdit = monthEvents.get(indexOfEvent);
-        eventToEdit.setTitle(Title);
-        eventToEdit.setIcon(Icon);
-        eventToEdit.setAge(Age);
-        eventToEdit.setLocation(Location);
-    }
-
-    // Removes the event from the event list for the month
-    protected void deleteEvent(Event event, String month, String year){
-        HashMap yearOfInterest = mYears.get(year);
-        ArrayList<Event> monthEvents = mMonths.get(month);
-        monthEvents.remove(event);
-
-    }*/
+    public ClubCalendar() {}
 
     public static List<Event> getEventsForDay(LocalDate date)
     {
         if (date != null)
         {
-            HashMap<String, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
+            HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
 
             if (curYear == null)
             {
                 return null;
             }
 
-            HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonth().getDisplayName(TextStyle.FULL, Locale.US));
+            HashMap<Integer, List<Event>> curMonth = curYear.get(date.getMonthValue());
 
             if (curMonth == null)
             {
                 return null;
             }
 
-            List<Event> events = curMonth.get(date.getDayOfMonth());
-            return events;
+            return curMonth.get(date.getDayOfMonth());
+        }
+        return null;
+    }
+
+    public static HashMap<Integer, List<Event>> getEventsForMonth(YearMonth ym)
+    {
+        if (ym != null)
+        {
+            HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(ym.getYear());
+
+            if (curYear == null)
+            {
+                return null;
+            }
+
+            HashMap<Integer, List<Event>> curMonth = curYear.get(ym.getMonthValue());
+
+            if (curMonth == null)
+            {
+                return null;
+            }
+
+            return curMonth;
         }
 
         return null;
+    }
+
+    public static HashMap<Integer, List<Event>> handleLocationFiltering(HashMap<Integer, List<Event>> month)
+    {
+        HashMap<Integer, List<Event>> filteredEvents = new HashMap<>();
+
+        if (month == null)
+        {
+            return null;
+        }
+
+        for (Integer key : month.keySet())
+        {
+            filteredEvents.put(key, new LinkedList<Event>());
+            List<Event> events = filteredEvents.get(key);
+            for (Event event : month.get(key))
+            {
+                if (event.getClubLocation() == CalendarSettings.getLocation())
+                {
+                    events.add(event);
+                }
+            }
+        }
+
+        return filteredEvents;
     }
 
     public int getDate()
@@ -150,7 +145,10 @@ public class ClubCalendar
     public int getWeeksInMonth()
     {
         LocalDate lastDayOfMonth = mLocalDate.withDayOfMonth(mLocalDate.lengthOfMonth());
-        return lastDayOfMonth.get(WeekFields.ISO.weekOfMonth());
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int weekNumber = lastDayOfMonth.get(weekFields.weekOfMonth());
+        Log.d(TAG, "getWeeksInMonth: " + weekNumber);
+        return weekNumber;
     }
 
     public int getWeekOfMonth()
@@ -163,6 +161,21 @@ public class ClubCalendar
         return mLocalDate.getMonth().getDisplayName(TextStyle.FULL, Locale.US);
     }
 
+    public int getMonthValue()
+    {
+        return mLocalDate.getMonthValue();
+    }
+
+    public void nextYear()
+    {
+        mLocalDate = mLocalDate.plusYears(1);
+    }
+
+    public void prevYear()
+    {
+        mLocalDate = mLocalDate.minusYears(1);
+    }
+
     public void prevMonth()
     {
         mLocalDate = mLocalDate.minusMonths(1);
@@ -171,5 +184,125 @@ public class ClubCalendar
     public void nextMonth()
     {
         mLocalDate = mLocalDate.plusMonths(1);
+    }
+
+    public int getYear() {
+        return mLocalDate.getYear();
+    }
+
+    public static void refreshDataForYear(int year, NavigationActivity mainActivity) {
+        mYears.clear();
+        for (int i = 1; i <= 12; i++) {
+            YearMonth ym = YearMonth.of(year, i);
+            mFirestoreCalendar.queryEventsForYearMonth(ym, new QueryYMOnCompleteListener(ym, mainActivity));
+        }
+    }
+
+    public static void deleteEvent(Event event) {
+        Date date = event.getStartTime();
+        LocalDate ld = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        mFirestoreCalendar.deleteEvent(ld.getYear(), ld.getMonthValue(), event.getId());
+    }
+
+    private static class QueryYMOnCompleteListener implements OnCompleteListener<QuerySnapshot>
+    {
+
+        private YearMonth mYearMonth;
+
+        // Activity is used here for callback to update calendar fragment.
+        private NavigationActivity mMainActivity;
+
+        QueryYMOnCompleteListener(YearMonth ym, NavigationActivity mainActivity)
+        {
+            mYearMonth = ym;
+            mMainActivity = mainActivity;
+        }
+
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task)
+        {
+            int year = mYearMonth.getYear();
+            int month = mYearMonth.getMonthValue();
+
+            if (task.isSuccessful())
+            {
+
+                if (!mYears.containsKey(year))
+                {
+                    mYears.put(year, new HashMap<Integer, HashMap<Integer, List<Event>>>());
+                }
+                HashMap<Integer, HashMap<Integer, List<Event>>> months = mYears.get(year);
+
+                if (!months.containsKey(month))
+                {
+                    months.put(month, new HashMap<Integer, List<Event>>());
+                }
+                HashMap<Integer, List<Event>> days = months.get(month);
+
+                for (QueryDocumentSnapshot doc : task.getResult())
+                {
+                    doc.getId();
+                    Map<String, Object> fields = doc.getData();
+
+                    String id = doc.getId();
+                    String title = (String) fields.get("title");
+                    String iconUrl = (String) fields.get("iconUrl");
+                    Integer lowerAge = ((Long) fields.get("lower_age")).intValue();
+                    Integer upperAge = ((Long) fields.get("upper_age")).intValue();
+                    String location = (String) fields.get("location");
+                    Timestamp startTimestamp = (Timestamp) fields.get("start_time");
+                    Timestamp endTimestamp = (Timestamp) fields.get("end_time");
+
+                    Integer day = Instant.ofEpochMilli(startTimestamp.toDate().getTime())
+                            .atZone(ZoneId.systemDefault()).toLocalDate().getDayOfMonth();
+
+                    List<Event> eventsOnDay = days.get(day);
+                    if (eventsOnDay == null)
+                    {
+                        eventsOnDay = new LinkedList<>();
+                    }
+
+                    boolean containsEvent = false;
+                    for (Event event : eventsOnDay)
+                    {
+                        if (event.getId().equals(id))
+                        {
+                            containsEvent = true;
+                        }
+                    }
+
+                    if (!containsEvent)
+                    {
+                        eventsOnDay.add(new Event(id, title, iconUrl, location,
+                                startTimestamp, endTimestamp, lowerAge, upperAge));
+                    }
+
+                    days.put(day, eventsOnDay);
+                }
+
+                mMainActivity.showFragment(0, CalendarFragment.TAG);
+            }
+        }
+    }
+
+    public static List<Event> handleLocationFiltering(List<Event> allEvents)
+    {
+        //Loop though allEvents and only add the events from the current location
+        List<Event> filteredEvents = new ArrayList<>();
+
+        if (allEvents == null)
+        {
+            return filteredEvents;
+        }
+
+        for (Event curEvents : allEvents)
+        {
+            if (curEvents.getClubLocation() == CalendarSettings.getLocation())
+            {
+                filteredEvents.add(curEvents);
+            }
+        }
+
+        return filteredEvents;
     }
 }

@@ -27,7 +27,7 @@ public class CalendarDailyLogic
     {
         if (mDate != null)
         {
-            mEvents = ClubCalendar.getEventsForDay(mDate);
+            mEvents = ClubCalendar.handleLocationFiltering(ClubCalendar.getEventsForDay(mDate));
 
             //Set events to an empty list to avoid errors
             if (mEvents == null)

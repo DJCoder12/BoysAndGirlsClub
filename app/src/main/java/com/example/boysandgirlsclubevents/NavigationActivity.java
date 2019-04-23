@@ -13,9 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.example.boysandgirlsclubevents.Calendar.CalendarSettings;
+import com.example.boysandgirlsclubevents.Calendar.ClubCalendar;
+import com.example.boysandgirlsclubevents.Calendar.Event;
+import com.example.boysandgirlsclubevents.MemberOfMonth.MemberMonthFragment;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.example.boysandgirlsclubevents.Announcements.AnnouncementsFragment;
 
@@ -41,6 +45,9 @@ public class NavigationActivity extends AppCompatActivity
         setUpLocationDrawer();
         buildFragmentsList();
         setUpBottomNavView();
+
+        // Refresh calendar on open.
+        ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
     }
 
     private void setUpActionBar()
@@ -130,6 +137,12 @@ public class NavigationActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.action_refresh)
+        {
+            ClubCalendar.refreshDataForYear(ClubCalendar.getLocalDate().getYear(), this);
+            Toast.makeText(this, "Refreshing event data...", Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -145,40 +158,38 @@ public class NavigationActivity extends AppCompatActivity
         {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            return true;
         }
-        else if (id == R.id.nav_ann_street)
+        else if (id == R.id.nav_hill_clubhouse)
         {
-
-
+            CalendarSettings.switchLocationFilter(Event.ClubLocation.Hill);
         }
-        else if (id == R.id.nav_water_street)
+        else if (id == R.id.nav_jackWalker_clubhouse)
         {
-
+            CalendarSettings.switchLocationFilter(Event.ClubLocation.JackWalker);
         }
-        else if (id == R.id.nav_lemon_street)
+        else if (id == R.id.nav_columbia_clubhouse)
         {
-
+            CalendarSettings.switchLocationFilter(Event.ClubLocation.Columbia);
         }
-        else if (id == R.id.nav_columbia)
+        else if (id == R.id.nav_southeast_clubhouse)
         {
-
+            CalendarSettings.switchLocationFilter(Event.ClubLocation.Southeast);
         }
         else if (id == R.id.nav_view_daily)
         {
             CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Daily);
-            showFragment(0, CalendarFragment.TAG);
         }
         else if (id == R.id.nav_view_weekly)
         {
             CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Weekly);
-            showFragment(0, CalendarFragment.TAG);
         }
         else if (id == R.id.nav_view_monthly)
         {
             CalendarSettings.switchDisplayType(CalendarSettings.CalendarType.Monthly);
-            showFragment(0, CalendarFragment.TAG);
         }
 
+        showFragment(0, CalendarFragment.TAG);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -211,7 +222,7 @@ public class NavigationActivity extends AppCompatActivity
         }
     }
 
-    private void showFragment(int pos, String tag)
+    public void showFragment(int pos, String tag)
     {
         getSupportFragmentManager()
                 .beginTransaction()
