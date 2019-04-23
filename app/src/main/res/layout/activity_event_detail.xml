@@ -50,7 +50,11 @@
         android:id="@+id/tv_description_eventDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent diam libero, facilisis sit amet gravida eu, aliquet at sapien. Curabitur dignissim nulla vel sem facilisis pretium. Aliquam placerat ultricies risus sit amet eleifend. Etiam feugiat justo non ultrices dapibus. Vivamus faucibus quam ligula, sed sagittis massa molestie a. Donec a vulputate mi. "
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent diam libero,
+         facilisis sit amet gravida eu, aliquet at sapien. Curabitur dignissim nulla vel sem
+         facilisis pretium. Aliquam placerat ultricies risus sit amet eleifend. Etiam feugiat justo
+          non ultrices dapibus. Vivamus faucibus quam ligula, sed sagittis massa molestie a. Donec
+           a vulputate mi. "
         app:layout_constraintTop_toBottomOf="@id/tv_time_eventDetail"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
