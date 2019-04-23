@@ -21,6 +21,10 @@
             android:label="@string/title_add_events_activity">
         </activity>
         <activity
+            android:name=".AddAnnouncementActivity"
+            android:screenOrientation="portrait"
+            android:label="New Announcement"></activity>
+        <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_login_activity"></activity>

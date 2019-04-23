@@ -20,4 +20,10 @@
         android:orderInCategory="3"
         android:title="@string/action_new_event"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_new_announement"
+        android:orderInCategory="3"
+        android:title="New Announcement"
+        app:showAsAction="never" />
 </menu>

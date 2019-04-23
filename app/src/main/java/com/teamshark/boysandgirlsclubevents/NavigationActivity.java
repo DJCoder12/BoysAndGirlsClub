@@ -151,6 +151,12 @@ public class NavigationActivity extends AppCompatActivity
                     i = new Intent(this, AddEventsActivity.class);
                     startActivity(i);
                 }
+            case R.id.action_new_announement:
+                if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                {
+                    i = new Intent (this,AddAnnouncementActivity.class);
+                    startActivity(i);
+                }
                 else
                 {
                     Toast.makeText(this, "You must be logged in to create an event.", Toast.LENGTH_SHORT).show();
