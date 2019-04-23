@@ -7,16 +7,16 @@ public class Announcement
 {
     private String title;
     private String body;
-    private Timestamp date;
+    private String date;
     private String image;
 
     public Announcement() {}
 
-    public Announcement(String title, String body, String image, Timestamp date)
+    public Announcement(String title, String body, String image, String date)
     {
         this.title = title;
         this.body = body;
-        this.date = Timestamp.now();
+        this.date = date;
         this.image = image;
     }
 
@@ -40,12 +40,12 @@ public class Announcement
         this.title = title;
     }
 
-    public Timestamp getDate()
+    public String getDate()
     {
         return date;
     }
 
-    public void setDate(Timestamp date)
+    public void setDate(String date)
     {
         this.date = date;
     }

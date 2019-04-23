@@ -38,6 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/Body"
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="Submit"
+        android:onClick="sendAnnouncement"
         />
 
 

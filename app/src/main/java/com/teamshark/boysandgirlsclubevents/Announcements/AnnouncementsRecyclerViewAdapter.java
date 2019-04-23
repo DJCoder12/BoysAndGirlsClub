@@ -43,7 +43,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         Log.d(TAG,"onBindViewHolder: called.");
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
         viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
-        viewHolder.date.setText(allAppAnnouncements.get(i).getDate().toDate().toString());
+        viewHolder.date.setText(allAppAnnouncements.get(i).getDate());
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
