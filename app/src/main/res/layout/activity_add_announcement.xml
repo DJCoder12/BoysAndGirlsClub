@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Title"
         android:id="@+id/Title"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="234dp"
+        android:layout_height="51dp"
+        android:layout_marginLeft="96dp"
+        android:hint="Title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.241" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Body"
         android:id="@+id/Body"
-        app:layout_constraintTop_toBottomOf="@+id/Title"
+        android:layout_width="255dp"
+        android:layout_height="145dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="68dp"
+        android:hint="Body"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/Body"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="Submit"
+        android:layout_marginLeft="168dp"
+        android:layout_marginTop="104dp"
         android:onClick="sendAnnouncement"
-        />
+        android:text="Submit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Body" />
 
 
 </android.support.constraint.ConstraintLayout>

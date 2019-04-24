@@ -57,7 +57,7 @@ public class FirebaseAnnouncements extends Observable
                     }
                     Collections.sort(mAnnouncements);
                     Collections.reverse(mAnnouncements);
-                    notifyObservers(MessageCode.finishedLoadingAnnouncements.toString()); 
+                    notifyObservers(MessageCode.finishedLoadingAnnouncements.toString());
                 }
             })
             .addOnFailureListener(new OnFailureListener()
