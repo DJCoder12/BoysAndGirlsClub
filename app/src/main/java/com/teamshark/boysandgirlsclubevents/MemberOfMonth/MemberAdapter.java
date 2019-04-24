@@ -37,7 +37,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public MemberAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.list_item, parent, false);
+        View contactView = inflater.inflate(R.layout.member_month_list_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
