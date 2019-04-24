@@ -43,6 +43,7 @@ public class FirebaseAnnouncements extends Observable
 
     public void loadAnnouncements()
     {
+        mAnnouncements.clear();
         mDB.collection(ANNOUNCEMENT_PATH).get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
             {

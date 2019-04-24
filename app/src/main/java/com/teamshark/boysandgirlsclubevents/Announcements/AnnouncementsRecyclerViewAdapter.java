@@ -12,8 +12,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.teamshark.boysandgirlsclubevents.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,8 +50,10 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         Log.d(TAG,"onBindViewHolder: called.");
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
         viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
-        String s = allAppAnnouncements.get(i).getDate().toDate().toString();
-        viewHolder.date.setText(s.substring(0, s.length() - 12));
+        Date s = allAppAnnouncements.get(i).getDate().toDate();
+        Date d = new Date((long)1481723817*1000);
+        DateFormat f = new SimpleDateFormat("MM-dd-yyyy");
+        viewHolder.date.setText(f.format(s));
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
     }
 
