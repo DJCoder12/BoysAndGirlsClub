@@ -58,6 +58,12 @@ public class ClubCalendar
     // Initialized after first query.
     private static ArrayList<LinkedList<Event>> mRecurringEvents;
 
+    // Date formats.
+    public static java.text.DateFormat mDateFormat =
+            java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM);
+    public static java.text.DateFormat mTimeFormat =
+            java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT);
+
     private static FirestoreCalendar mFirestoreCalendar = FirestoreCalendar.getInstance();
 
     public ClubCalendar() {}
@@ -94,7 +100,20 @@ public class ClubCalendar
         {
             int dayOfWeek = convertDayOfWeek(date.getDayOfWeek());
             temp = mRecurringEvents.get(dayOfWeek);
-            allEvents.addAll(temp);
+            for (Event event : temp)
+            {
+                // Calculate new dates. (Only needed for daily view because event details can be seen here.)
+                int offset = mDateFormat.getTimeZone().getRawOffset();
+                long epochMillis = date.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000;
+                Date newStartDate = new Date(epochMillis + event.getStartTime().getTime() + offset);
+                Date newEndDate = new Date(epochMillis + event.getEndTime().getTime() + offset);
+
+                Event copiedEvent = new Event(event.getId(), event.getTitle(), event.getIconUrl(),
+                        event.getClubLocationString(), new Timestamp(newStartDate),
+                        new Timestamp(newEndDate), event.getLowerAge(),
+                        event.getUpperAge(), event.getDescription(), event.getRecurringDays());
+                allEvents.add(copiedEvent);
+            }
         }
 
         return allEvents;
@@ -124,6 +143,7 @@ public class ClubCalendar
                 allEvents.put(key, curMonth.get(key));
             }
         }
+
         // Add recurring events.
         if (mRecurringEvents != null)
         {

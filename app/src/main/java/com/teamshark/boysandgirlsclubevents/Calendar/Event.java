@@ -151,6 +151,18 @@ public class Event
         return this;
     }
 
+    public Date setStartTime(Date newDate)
+    {
+        mStartTime = newDate;
+        return mStartTime;
+    }
+
+    public Date setEndTime(Date newDate)
+    {
+        mEndTime = newDate;
+        return mEndTime;
+    }
+
     public String getId()
     {
         return mId;
@@ -196,6 +208,11 @@ public class Event
         return mUpperAge;
     }
 
+    public ArrayList<Boolean> getRecurringDays()
+    {
+        return mRecurringDays;
+    }
+
     public Color getColor()
     {
         return mColor;
@@ -204,6 +221,26 @@ public class Event
     public ClubLocation getClubLocation()
     {
         return mClubLocation;
+    }
+
+    public String getClubLocationString()
+    {
+        if (mClubLocation == ClubLocation.Columbia)
+        {
+            return "Columbia";
+        }
+        else if (mClubLocation == ClubLocation.Hill)
+        {
+            return "Hill";
+        }
+        else if (mClubLocation == ClubLocation.JackWalker)
+        {
+            return "Jack Walker";
+        }
+        else
+        {
+            return "Southeast";
+        }
     }
 
     public boolean isRecurring()

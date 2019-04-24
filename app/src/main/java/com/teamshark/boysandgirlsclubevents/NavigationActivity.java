@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.teamshark.boysandgirlsclubevents.R;
 import com.teamshark.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.teamshark.boysandgirlsclubevents.Calendar.CalendarSettings;
 import com.teamshark.boysandgirlsclubevents.Calendar.ClubCalendar;
@@ -121,6 +120,22 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem logInMenu = menu.findItem(R.id.action_log_in);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            logInMenu.setTitle(getResources().getString(R.string.button_login));
+        }
+        else
+        {
+            logInMenu.setTitle(getResources().getString(R.string.button_logout));
+        }
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -141,7 +156,7 @@ public class NavigationActivity extends AppCompatActivity
                 ClubCalendar.refreshData(this);
                 Toast.makeText(this, "Refreshing event data...", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_sign_in:
+            case R.id.action_log_in:
                 i = new Intent(this, LoginActivity.class);
                 startActivity(i);
                 break;

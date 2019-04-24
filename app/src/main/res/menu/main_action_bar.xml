@@ -10,7 +10,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_sign_in"
+        android:id="@+id/action_log_in"
         android:orderInCategory="2"
         android:title="@string/action_log_in"
         app:showAsAction="never" />

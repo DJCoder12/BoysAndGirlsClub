@@ -290,17 +290,12 @@ public class AddEventsActivity extends AppCompatActivity {
         Integer upperAge = Integer.parseInt(mUpperAgeField.getText().toString());
         String description = mDescriptionField.getText().toString();
 
-        // Since we have no event date, we just zero it all out.
-        Calendar startOfEpoch = new GregorianCalendar(0, 0, 0, 0,
-                0, 0);
-        
         String startTimeFormatted = mStartTimeField.getText().toString();
         String endTimeFormatted = mEndTimeField.getText().toString();
 
-        Date startTime = parseDateTimeStrings(mDateFormat.format(startOfEpoch.getTime()),
-                startTimeFormatted);
-        Date endTime = parseDateTimeStrings(mDateFormat.format(startOfEpoch.getTime()),
-                endTimeFormatted);
+        // Supply the start of epoch time in place of the start date.
+        Date startTime = parseDateTimeStrings("Jan 1, 1970", startTimeFormatted);
+        Date endTime = parseDateTimeStrings("Jan 1, 1970", endTimeFormatted);
 
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(startTime.getTime());
