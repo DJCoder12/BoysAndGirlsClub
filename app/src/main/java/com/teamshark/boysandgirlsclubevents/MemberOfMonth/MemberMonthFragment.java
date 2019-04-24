@@ -1,13 +1,17 @@
 package com.teamshark.boysandgirlsclubevents.MemberOfMonth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 
 import com.teamshark.boysandgirlsclubevents.R;
 import java.util.List;
@@ -19,12 +23,12 @@ public class MemberMonthFragment extends Fragment
     private RecyclerView mRecyclerView;
     private MemberOfMonthLogic mLogic;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         mLogic = new MemberOfMonthLogic(this);
-        mLogic.handleLoadingData();
     }
 
     @Nullable
@@ -47,5 +51,22 @@ public class MemberMonthFragment extends Fragment
     {
         MemberAdapter memberAdapter = new MemberAdapter(memberList);
         mRecyclerView.setAdapter(memberAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        memberAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        MemberAdapter adapter = (MemberAdapter) mRecyclerView.getAdapter();
+
+        if (adapter != null)
+        {
+            adapter.clear();
+        }
+
+        mLogic.handleLoadingData();
     }
 }

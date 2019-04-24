@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xlmns="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -14,29 +13,32 @@
         app:cardUseCompatPadding="true"
         android:id="@+id/card_view">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/memberName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/memberClubhouse"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:text="newText"
                 android:textSize="20dp"
-                android:gravity="center"
-                />
+                android:gravity="center" />
 
             <TextView
+                android:id="@+id/memberClubhouse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/memberName"
-                android:layout_below="@id/memberClubhouse"
-                android:gravity="center"/>
-        </RelativeLayout>
+                app:layout_constraintTop_toBottomOf="@id/memberName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:gravity="center"
+                android:text="Clubhouse"/>
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

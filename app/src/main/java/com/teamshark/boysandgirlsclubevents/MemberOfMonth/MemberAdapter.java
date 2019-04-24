@@ -14,14 +14,18 @@ import java.util.List;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
 
-    public MemberMonth member;
+    public List<MemberMonth> mMembers;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        CardView cardView;
+    public MemberAdapter(List<MemberMonth> members) {
+        mMembers = members;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        public CardView cardView;
         public TextView memberName;
         public TextView memberClubhouse;
 
-        public ViewHolder(View itemLayoutView){
+        public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             cardView = itemLayoutView.findViewById(R.id.card_view);
             memberClubhouse = itemLayoutView.findViewById(R.id.memberClubhouse);
@@ -29,18 +33,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         }
     }
 
-    public List<MemberMonth> mMembers;
-
-    public MemberAdapter(List<MemberMonth> members){
-        mMembers = members;
-    }
-
     @Override
-    public MemberAdapter.ViewHolder onCreateViewHolder (ViewGroup parent, int viewType){
+    public MemberAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        View contactView = inflater.inflate(R.layout.list_item, parent, false);
+        View contactView = inflater.inflate(R.layout.member_month_list_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
@@ -48,7 +45,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(MemberAdapter.ViewHolder viewHolder, int position){
+    public void onBindViewHolder(MemberAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.memberName.setText(mMembers.get(position).getName());
         viewHolder.memberClubhouse.setText(mMembers.get(position).getClubhouse());
     }
@@ -58,8 +55,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         return mMembers.size();
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView){
-        super.onAttachedToRecyclerView(recyclerView);
+    public void clear()
+    {
+        final int size = mMembers.size();
+        mMembers.clear();
+        notifyItemRangeRemoved(0, size);
     }
+
 }

@@ -31,4 +31,12 @@ public class MemberOfMonthLogic implements Observer
     {
         mFirestoreDB.loadMembersOfMonth();
     }
+
+
+    /*
+    public void updateNewData(){
+        mFirestoreDB.updateData();
+    }
+    */
+
 }

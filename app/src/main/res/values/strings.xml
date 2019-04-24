@@ -5,6 +5,7 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_log_in">Log In</string>
     <string name="action_new_event">New Event</string>
+    <string name="action_new_member">New MotM</string>
     <string name="calendar">Calendar</string>
     <string name="announcements">Announcements</string>
     <string name="members_of_the_month">MotM</string>
@@ -89,4 +90,10 @@
         who are role models and mentors to our members.</string>
     <string name="joinClub_english_app">English Application</string>
     <string name="joinClub_spanish_app">Spanish Application</string>
+
+    <!-- Add Member of the month -->
+    <string name="addMemberMonth_hint">Enter a member of the month</string>
+    <string name="addMemberMonth_errorMessage">Looks like you missed a member!</string>
+    <string name="addMemberMonth_successMessage">Submitted successfully</string>
+    <string name="title_add_member_activity">Add Members of the Month</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.teamshark.boysandgirlsclubevents.MemberOfMonth;
 
+import com.teamshark.boysandgirlsclubevents.Calendar.Event;
+
 public class MemberMonth
 {
 
@@ -8,10 +10,10 @@ public class MemberMonth
 
     public MemberMonth() {}
 
-    public MemberMonth(String studentName, String studentClubhouse)
+    public MemberMonth(String studentClubhouse, String studentName)
     {
-        name = studentName;
         clubhouse = studentClubhouse;
+        name = studentName;
     }
 
     public String getClubhouse()

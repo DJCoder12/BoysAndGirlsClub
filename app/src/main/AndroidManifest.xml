@@ -21,6 +21,10 @@
             android:label="@string/title_add_events_activity"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".MemberOfMonth.AddMemberActivity"
+            android:label="@string/title_add_member_activity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_login_activity"
             android:screenOrientation="portrait" />

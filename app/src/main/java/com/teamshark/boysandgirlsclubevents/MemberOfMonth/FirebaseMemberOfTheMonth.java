@@ -6,13 +6,21 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.teamshark.boysandgirlsclubevents.Util.Observable;
+import com.google.android.gms.tasks.OnCompleteListener;
+
+import com.teamshark.boysandgirlsclubevents.Util.Observable;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +31,7 @@ public class FirebaseMemberOfTheMonth extends Observable
 {
     private static final String TAG = "FirebaseMemberMonth";
     private static FirebaseMemberOfTheMonth instance;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String CLUBHOUSE_KEY = "clubhouse";
     private static final String NAME_KEY = "name";
     private static final String PATH = "member of the month";
@@ -32,7 +40,8 @@ public class FirebaseMemberOfTheMonth extends Observable
 
     public enum MessageCode
     {
-        finishedLoadingWords
+        finishedLoadingWords,
+        finishedAddingMembers
     }
 
     private FirebaseMemberOfTheMonth() {}
@@ -47,31 +56,46 @@ public class FirebaseMemberOfTheMonth extends Observable
         return instance;
     }
 
-    public void addMemberOfTheMonth(MemberMonth memberMonth)
+    public void addMembersOfTheMonth(HashMap<String, MemberMonth> members)
     {
+        // Get a new write batch (set a whole bunch of values at once)
+        WriteBatch batch = db.batch();
 
-        Map<String, Object> dataToSave = new HashMap<>();
-        dataToSave.put(CLUBHOUSE_KEY, memberMonth.getClubhouse());
-        dataToSave.put(NAME_KEY, memberMonth.getName());
+        // Set the values of each member
+        List<String> memberKeys = new ArrayList<>(members.keySet());
+        for (String curKey : memberKeys)
+        {
+            MemberMonth curMember = members.get(curKey);
+            DocumentReference curRef = db.collection(PATH).document(curKey);
+            batch.set(curRef, curMember);
+        }
 
-        db.collection("member of the month")
-                .add(dataToSave)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+        // Commit the batch
+        batch.commit().addOnSuccessListener(new OnSuccessListener<Void>()
+        {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+                Log.d(TAG, "addMembersOfTheMonth -> onSuccess: Successfully wrote members" +
+                        "to database.");
+                notifyObservers(MessageCode.finishedAddingMembers.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                Log.e(TAG, "addMembersOfTheMonth -> onFailure: Failed to write members to" +
+                        "database");
+            }
+        });
+
     }
 
     public void loadMembersOfMonth()
     {
+        mMembersOfMonth = new ArrayList<>(); //clear members of month
+
         CollectionReference docRef = db.collection(PATH);
         docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()

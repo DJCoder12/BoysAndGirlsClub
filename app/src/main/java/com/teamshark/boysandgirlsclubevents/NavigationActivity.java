@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.teamshark.boysandgirlsclubevents.MemberOfMonth.AddMemberActivity;
+import com.teamshark.boysandgirlsclubevents.R;
 import com.teamshark.boysandgirlsclubevents.Calendar.CalendarFragment;
 import com.teamshark.boysandgirlsclubevents.Calendar.CalendarSettings;
 import com.teamshark.boysandgirlsclubevents.Calendar.ClubCalendar;
@@ -166,9 +168,15 @@ public class NavigationActivity extends AppCompatActivity
                     i = new Intent(this, AddEventsActivity.class);
                     startActivity(i);
                 }
+            case R.id.action_add_member:
+                if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                {
+                    i = new Intent(this, AddMemberActivity.class);
+                    startActivity(i);
+                }
                 else
                 {
-                    Toast.makeText(this, "You must be logged in to create an event.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You must be logged in to create an event or add a new MotM.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
