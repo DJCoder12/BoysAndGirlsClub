@@ -52,7 +52,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
         Date s = allAppAnnouncements.get(i).getDate().toDate();
         Date d = new Date((long)1481723817*1000);
-        DateFormat f = new SimpleDateFormat("MM-dd-yyyy");
+        DateFormat f = new SimpleDateFormat("MMMM dd yyyy");
         viewHolder.date.setText(f.format(s));
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
     }
