@@ -20,6 +20,8 @@ import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.WeekFields;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -76,7 +78,7 @@ public class ClubCalendar
         }
 
         // Instantiate a new list to hold all events.
-        List<Event> allEvents = new LinkedList<>();
+        List<Event> allEvents = new ArrayList<>();
 
         // Add non-recurring events.
         HashMap<Integer, HashMap<Integer, List<Event>>> curYear = mYears.get(date.getYear());
@@ -115,6 +117,8 @@ public class ClubCalendar
                 allEvents.add(copiedEvent);
             }
         }
+
+        Collections.sort(allEvents);
 
         return allEvents;
     }

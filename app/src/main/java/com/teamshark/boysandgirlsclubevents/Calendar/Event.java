@@ -1,5 +1,7 @@
 package com.teamshark.boysandgirlsclubevents.Calendar;
 
+import android.support.annotation.NonNull;
+
 import com.teamshark.boysandgirlsclubevents.R;
 import com.google.firebase.Timestamp;
 
@@ -11,7 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-public class Event
+public class Event implements Comparable<Event>
 {
     private final String STR_DATE_FORMAT = "h:mm a";
     private final DateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_FORMAT, Locale.US);
@@ -257,5 +259,11 @@ public class Event
     public String getDescription()
     {
         return mDescription;
+    }
+
+    @Override
+    public int compareTo(@NonNull Event event)
+    {
+        return this.getStartTime().compareTo(event.getStartTime());
     }
 }
