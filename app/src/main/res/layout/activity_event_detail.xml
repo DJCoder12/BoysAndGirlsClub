@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Calendar.EventDetailActivity">
+
+    <ImageView
+        android:id="@+id/iv_icon_eventDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_title_eventDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        app:layout_constraintTop_toBottomOf="@id/iv_icon_eventDetail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingTop="8dp"
+        android:textSize="35sp"/>
+
+    <TextView
+        android:id="@+id/tv_date_eventDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_eventDetail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tv_time_eventDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        app:layout_constraintTop_toBottomOf="@id/tv_date_eventDetail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tv_description_eventDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent diam libero,
+         facilisis sit amet gravida eu, aliquet at sapien. Curabitur dignissim nulla vel sem
+         facilisis pretium. Aliquam placerat ultricies risus sit amet eleifend. Etiam feugiat justo
+          non ultrices dapibus. Vivamus faucibus quam ligula, sed sagittis massa molestie a. Donec
+           a vulputate mi. "
+        app:layout_constraintTop_toBottomOf="@id/tv_time_eventDetail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:padding="16dp"/>
+
+</android.support.constraint.ConstraintLayout>
