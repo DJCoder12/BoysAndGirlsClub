@@ -11,13 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.teamshark.boysandgirlsclubevents.R;
-
-import java.util.ArrayList;
-
+import android.widget.Adapter;
 
 import com.teamshark.boysandgirlsclubevents.R;
 import java.util.List;
@@ -35,7 +29,6 @@ public class MemberMonthFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         mLogic = new MemberOfMonthLogic(this);
-        mLogic.handleLoadingData();
     }
 
     @Nullable
@@ -56,25 +49,26 @@ public class MemberMonthFragment extends Fragment
 
     public void showData(List<MemberMonth> memberList)
     {
-        RecyclerViewClickListener listener = new RecyclerViewClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
-                //updateAllData(view);
-            }
-        };
-        MemberAdapter memberAdapter = new MemberAdapter(memberList, listener);
-        //memberAdapter.notifyDataSetChanged();
+        MemberAdapter memberAdapter = new MemberAdapter(memberList);
         mRecyclerView.setAdapter(memberAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ItemTouchHelper itemTouchHelper =new ItemTouchHelper(new SwipeToDelete(memberAdapter));
+        memberAdapter.notifyDataSetChanged();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDelete(memberAdapter));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
-    /*
-    public void updateAllData(View view){
-        mLogic.updateNewData();
-    }
-    */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
 
+        MemberAdapter adapter = (MemberAdapter) mRecyclerView.getAdapter();
+
+        if (adapter != null)
+        {
+            adapter.clear();
+        }
+
+        mLogic.handleLoadingData();
+    }
 }
