@@ -27,8 +27,6 @@ public class AddMemberActivity extends AppCompatActivity {
 
         setTitle("Add a New Member of the Month");
 
-        editTextClubhouse = findViewById(R.id.newMemberClubhouse);
-        editTextName = findViewById(R.id.newMemberName);
     }
 
     private void saveCard() {

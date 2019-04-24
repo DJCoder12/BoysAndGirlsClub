@@ -77,4 +77,7 @@
         who are role models and mentors to our members.</string>
     <string name="joinClub_english_app">English Application</string>
     <string name="joinClub_spanish_app">Spanish Application</string>
+
+    <!-- Add Member of the month -->
+    <string name="addMemberMonth_hint">Enter a member of the month</string>
 </resources>

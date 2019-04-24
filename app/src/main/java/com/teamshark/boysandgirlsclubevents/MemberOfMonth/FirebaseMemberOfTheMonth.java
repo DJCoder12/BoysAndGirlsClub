@@ -37,11 +37,11 @@ public class FirebaseMemberOfTheMonth extends Observable
     private static final String PATH = "member of the month";
 
     private List<MemberMonth> mMembersOfMonth = new ArrayList<>();
-    //public MemberMonth memberMonth = new MemberMonth("Placeholder", "Placeholder");
 
     public enum MessageCode
     {
-        finishedLoadingWords
+        finishedLoadingWords,
+        finishedAddingMembers
     }
 
     private FirebaseMemberOfTheMonth() {}
@@ -56,65 +56,41 @@ public class FirebaseMemberOfTheMonth extends Observable
         return instance;
     }
 
-    public void addMemberOfTheMonth(MemberMonth newMember)
+    public void addMembersOfTheMonth(HashMap<String, MemberMonth> members)
     {
+        // Get a new write batch (set a whole bunch of values at once)
+        WriteBatch batch = db.batch();
 
-        Map<String, Object> dataToSave = new HashMap<>();
-        dataToSave.put(CLUBHOUSE_KEY, newMember.getClubhouse());
-        dataToSave.put(NAME_KEY, newMember.getName());
+        // Set the values of each member
+        List<String> memberKeys = new ArrayList<>(members.keySet());
+        for (String curKey : memberKeys)
+        {
+            MemberMonth curMember = members.get(curKey);
+            DocumentReference curRef = db.collection(PATH).document(curKey);
+            batch.set(curRef, curMember);
+        }
 
-        db.collection(PATH).add(dataToSave)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        // Commit the batch
+        batch.commit().addOnSuccessListener(new OnSuccessListener<Void>()
+        {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error adding document", e);
+            public void onSuccess(Void aVoid)
+            {
+                Log.d(TAG, "addMembersOfTheMonth -> onSuccess: Successfully wrote members" +
+                        "to database.");
+                notifyObservers(MessageCode.finishedAddingMembers.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                Log.e(TAG, "addMembersOfTheMonth -> onFailure: Failed to write members to" +
+                        "database");
             }
         });
 
     }
-
-    public void updateData() {
-
-        db.collection(PATH).document()
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
-        /*
-        for(int h = 0; h < mMembersOfMonth.size(); h++){
-            db.collection(PATH).document()
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-            mMembersOfMonth.remove(h);
-        }
-        */
-    }
-
 
     public void loadMembersOfMonth()
     {
