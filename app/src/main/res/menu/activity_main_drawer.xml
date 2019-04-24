@@ -37,12 +37,4 @@
         </menu>
     </item>
 
-    <item android:title="Logged In User">
-        <menu>
-            <item
-                android:id="@+id/nav_User_Page"
-                android:title="User Page"/>
-        </menu>
-    </item>
-
 </menu>

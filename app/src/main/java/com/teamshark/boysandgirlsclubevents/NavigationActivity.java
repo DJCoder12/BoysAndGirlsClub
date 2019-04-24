@@ -168,6 +168,11 @@ public class NavigationActivity extends AppCompatActivity
                     i = new Intent(this, AddEventsActivity.class);
                     startActivity(i);
                 }
+                else
+                {
+                    Toast.makeText(this, "You must be logged in to create an event or add a new event.", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
             case R.id.action_add_member:
                 if (FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -175,6 +180,11 @@ public class NavigationActivity extends AppCompatActivity
                     i = new Intent(this, AddMemberActivity.class);
                     startActivity(i);
                 }
+                else
+                {
+                    Toast.makeText(this, "You must be logged in to create an event or add a new MotM.", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.action_new_announement:
                 if (FirebaseAuth.getInstance().getCurrentUser() != null)
                 {
@@ -183,7 +193,7 @@ public class NavigationActivity extends AppCompatActivity
                 }
                 else
                 {
-                    Toast.makeText(this, "You must be logged in to create an event or add a new MotM.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You must be logged in to create an event or add a new announcement.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
