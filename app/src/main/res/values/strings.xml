@@ -52,9 +52,9 @@
     <string name="hint_icon_url">Icon URL</string>
     <string-array name="clubhouses_selection">
         <item>Select a location</item>
-        <item>Columbia</item>
         <item>Hill</item>
         <item>Jack Walker</item>
+        <item>Columbia</item>
         <item>Southeast</item>
     </string-array>
     <string name="hint_lower_age">Lower Age</string>
