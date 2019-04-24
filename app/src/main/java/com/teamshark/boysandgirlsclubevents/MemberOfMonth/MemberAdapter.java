@@ -55,15 +55,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         return mMembers.size();
     }
 
-    public void removeItem(int position){
-        mMembers.remove(position);
-        notifyItemRemoved(position);
-    }
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
     public void clear()
     {
         final int size = mMembers.size();

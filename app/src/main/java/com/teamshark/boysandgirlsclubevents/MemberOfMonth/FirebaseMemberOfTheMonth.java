@@ -94,6 +94,8 @@ public class FirebaseMemberOfTheMonth extends Observable
 
     public void loadMembersOfMonth()
     {
+        mMembersOfMonth = new ArrayList<>(); //clear members of month
+
         CollectionReference docRef = db.collection(PATH);
         docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()

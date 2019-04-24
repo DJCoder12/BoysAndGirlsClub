@@ -53,8 +53,6 @@ public class MemberMonthFragment extends Fragment
         mRecyclerView.setAdapter(memberAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         memberAdapter.notifyDataSetChanged();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDelete(memberAdapter));
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
