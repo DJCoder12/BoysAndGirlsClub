@@ -43,20 +43,9 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         Log.d(TAG,"onBindViewHolder: called.");
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
         viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
-        viewHolder.date.setText(allAppAnnouncements.get(i).getDate());
-        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG,"onClick: clicked on some text");
-                Glide.with(appContext)
-                        .asBitmap()
-                        .load(allAppAnnouncements.get(i).getImage())
-                        .into(viewHolder.image);
-                viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
-                    }
-                });
+        String s = allAppAnnouncements.get(i).getDate().toDate().toString();
+        viewHolder.date.setText(s.substring(0, s.length() - 12));
+        viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
     }
 
     @Override

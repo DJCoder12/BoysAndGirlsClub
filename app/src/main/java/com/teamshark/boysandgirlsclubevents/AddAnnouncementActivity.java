@@ -29,19 +29,16 @@ public class AddAnnouncementActivity extends Activity {
     public void sendAnnouncement(View v){
 
         EditText titlev = findViewById(R.id.Title);
-        EditText datev = findViewById(R.id.Date);
         EditText bodyv = findViewById(R.id.Body);
 
         String title = titlev.getText().toString();
-        String date = datev.getText().toString();
         String body = bodyv.getText().toString();
 
-        Announcement newAnnouncement = new Announcement(title, body,"stuff", date );
+        Announcement newAnnouncement = new Announcement(title, body,"logo");
         mDB.collection(ANNOUNCEMENT_PATH).add(newAnnouncement);
 
         Intent i = new Intent(this,NavigationActivity.class);
         startActivity(i);
-        
 
     }
 }

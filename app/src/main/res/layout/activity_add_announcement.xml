@@ -8,7 +8,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:hint="Title"
         android:id="@+id/Title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,18 +17,9 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:id="@+id/Date"
-        app:layout_constraintTop_toBottomOf="@+id/Title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Body"
+        android:hint="Body"
         android:id="@+id/Body"
-        app:layout_constraintTop_toBottomOf="@+id/Date"
+        app:layout_constraintTop_toBottomOf="@+id/Title"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 

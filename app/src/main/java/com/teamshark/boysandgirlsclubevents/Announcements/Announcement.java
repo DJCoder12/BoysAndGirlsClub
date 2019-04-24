@@ -1,23 +1,29 @@
 package com.teamshark.boysandgirlsclubevents.Announcements;
 
+import android.os.health.TimerStat;
+
 import com.google.firebase.Timestamp;
 
+import java.sql.Time;
+
 //Represents an announcement
-public class Announcement
+public class Announcement implements Comparable<Announcement>
 {
     private String title;
     private String body;
-    private String date;
+    private Timestamp date;
     private String image;
+    private Timestamp createdAt;
 
     public Announcement() {}
 
-    public Announcement(String title, String body, String image, String date)
+    public Announcement(String title, String body, String image)
     {
         this.title = title;
         this.body = body;
-        this.date = date;
+        this.date = Timestamp.now();
         this.image = image;
+        this.createdAt = Timestamp.now();
     }
 
     public String getBody()
@@ -40,15 +46,12 @@ public class Announcement
         this.title = title;
     }
 
-    public String getDate()
+    public Timestamp getDate()
     {
         return date;
     }
 
-    public void setDate(String date)
-    {
-        this.date = date;
-    }
+
 
     public String getImage()
     {
@@ -58,5 +61,13 @@ public class Announcement
     public void setImage(String newImage)
     {
         this.image = newImage;
+    }
+
+
+
+
+    @Override
+    public int compareTo(Announcement o) {
+        return date.compareTo(o.date);
     }
 }
