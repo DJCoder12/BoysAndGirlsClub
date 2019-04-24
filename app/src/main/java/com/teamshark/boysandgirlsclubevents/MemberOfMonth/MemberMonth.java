@@ -1,5 +1,7 @@
 package com.teamshark.boysandgirlsclubevents.MemberOfMonth;
 
+import com.teamshark.boysandgirlsclubevents.Calendar.Event;
+
 public class MemberMonth
 {
 

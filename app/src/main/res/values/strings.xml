@@ -80,4 +80,6 @@
 
     <!-- Add Member of the month -->
     <string name="addMemberMonth_hint">Enter a member of the month</string>
+    <string name="addMemberMonth_errorMessage">Looks like you missed a member!</string>
+    <string name="addMemberMonth_successMessage">Submitted successfully</string>
 </resources>

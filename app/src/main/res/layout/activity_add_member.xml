@@ -41,7 +41,8 @@
                 android:id="@+id/til_hill1_addMember"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/et_hill1_addMember"
@@ -204,7 +205,7 @@
                     android:layout_height="wrap_content">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_hill12_addMember"
+                        android:id="@+id/et_southEast2_addMember"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/addMemberMonth_hint" />
