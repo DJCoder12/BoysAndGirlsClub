@@ -12,8 +12,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.teamshark.boysandgirlsclubevents.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,19 +50,11 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         Log.d(TAG,"onBindViewHolder: called.");
         viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
         viewHolder.title.setText(allAppAnnouncements.get(i).getTitle());
-        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG,"onClick: clicked on some text");
-                Glide.with(appContext)
-                        .asBitmap()
-                        .load(allAppAnnouncements.get(i).getImage())
-                        .into(viewHolder.image);
-                viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
-                    }
-                });
+        Date s = allAppAnnouncements.get(i).getDate().toDate();
+        Date d = new Date((long)1481723817*1000);
+        DateFormat f = new SimpleDateFormat("MMMM dd yyyy");
+        viewHolder.date.setText(f.format(s));
+        viewHolder.text.setText(allAppAnnouncements.get(i).getBody());
     }
 
     @Override
@@ -69,6 +68,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         CircleImageView image;
         TextView text;
         TextView title;
+        TextView date;
         View parentLayout;
 
         public ViewHolder(@NonNull View itemView)
@@ -76,6 +76,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
             super(itemView);
             text = itemView.findViewById(R.id.Body);
             title = itemView.findViewById(R.id.Title);
+            date = itemView.findViewById(R.id.Date);
             parentLayout = itemView.findViewById(R.id.parent_layout);
 
         }

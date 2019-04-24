@@ -25,6 +25,10 @@
             android:label="@string/title_add_member_activity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".AddAnnouncementActivity"
+            android:screenOrientation="portrait"
+            android:label="New Announcement"></activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_login_activity"
             android:screenOrientation="portrait" />

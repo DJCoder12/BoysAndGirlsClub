@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FirebaseAnnouncements extends Observable
@@ -20,7 +21,7 @@ public class FirebaseAnnouncements extends Observable
     private static FirebaseAnnouncements instance;
     private final String ANNOUNCEMENT_PATH = "announcements";
     private FirebaseFirestore mDB = FirebaseFirestore.getInstance();
-    private List<Announcement> mAnnouncements = new ArrayList<>();
+    private ArrayList<Announcement> mAnnouncements = new ArrayList<Announcement>();
 
     public enum MessageCode
     {
@@ -42,6 +43,7 @@ public class FirebaseAnnouncements extends Observable
 
     public void loadAnnouncements()
     {
+        mAnnouncements.clear();
         mDB.collection(ANNOUNCEMENT_PATH).get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
             {
@@ -54,7 +56,8 @@ public class FirebaseAnnouncements extends Observable
                         Log.d(TAG, "onSuccess: " + announcement.getTitle());
                         mAnnouncements.add(announcement);
                     }
-
+                    Collections.sort(mAnnouncements);
+                    Collections.reverse(mAnnouncements);
                     notifyObservers(MessageCode.finishedLoadingAnnouncements.toString());
                 }
             })
